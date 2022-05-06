@@ -6,20 +6,25 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("houses", require("../../public/tiles/houses.png");
-    this.load.image("outside", require("../../public/tiles/outside.png"))
-    this.load.tilemapTiledJSON("overworld", "tiles/overworld.json");
+    this.load.image("houses", require("../../public/tiles/houses.png"));
+    this.load.image("outside", require("../../public/tiles/outside.png"));
+    this.load.tilemapTiledJSON(
+      "overworld",
+      require("../../public/tiles/overworld.json")
+    );
   }
 
   create() {
     // let houses = this.add.image(10, 10, "houses");
-    // houses.setDisplaySize(1000, 1000)
-    // .setOrigin(0.5, 0.5);
+    // houses.setDisplaySize(1000, 1000).setOrigin(0.5, 0.5);
 
     const map = this.make.tilemap({ key: "overworld" });
-    const housetileset = map.addTilesetImage("houses", "outside");
 
-    // map.createStaticLayer("Ground", housetileset);
+    const outsideTileSet = map.addTilesetImage("Ground", "outside");
+
+    // const houseTileSet = map.addTilesetImage("overworld", "houses");
+
+    map.createLayer("Ground", outsideTileSet);
     //map.create
   }
 }
