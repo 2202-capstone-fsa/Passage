@@ -18,38 +18,58 @@ export default class Game extends Phaser.Scene {
 
   create() {
     const map = this.make.tilemap({ key: "overworld" });
-
     const townTileSet = map.addTilesetImage("Town", "outside");
     const houseTileSet = map.addTilesetImage("Houses", "houses");
-    const player = this.add.sprite(10, 20, "player", "Male1.png");
+
+    map.createLayer("Ground", townTileSet);
+    map.createLayer("Houses", houseTileSet);
+    map.createLayer("Walls", townTileSet);
+
+    const player = this.add.sprite(800, 1100, "player", "green-walk-down-0");
     this.anims.create({
       key: "player-idle-down",
-      frames: [{ key: "player", frame: "green-walk-side-0000.png" }],
+      frames: [{ key: "player", frame: "green-walk-down-0" }],
     });
 
-    player.anims.play("Male1.png");
     this.anims.create({
-      key: "",
+      key: "player-walk-down",
       frames: this.anims.generateFrameNames("player", {
-        start: 1,
-        end: 8,
-        prefix: "run-down-",
-        suffix: ".png",
+        start: 0,
+        end: 7,
+        prefix: "green-walk-down-",
       }),
       repeat: -1,
       frameRate: 15,
     });
 
+    player.anims.play("player-walk-down");
+
     // const houseTileSet = map.addTilesetImage("overworld", "houses");
 
-    map.createLayer("Ground", townTileSet);
-    map.createLayer("Houses", houseTileSet);
-    map.createLayer("Walls", townTileSet);
     //map.create
 
     const housesLayer = map.createLayer("Houses", houseTileSet);
     const wallsLayer = map.createLayer("Walls", townTileSet);
     wallsLayer.setCollisionByProperty({ collides: true });
     housesLayer.setCollisionByProperty({ collides: true });
+  }
+
+  update() {
+    this.processPlayerInput();
+  }
+
+  processPlayerInput() {
+    /** @type {Phaser.Physics.Arcade.StaticBody} */
+    const player = this.player.body;
+
+    if (this.cursors.up.isDown) {
+      this.player.y -= 2;
+      player.updateFromGameObject();
+    } else if (this.cursors.left.isDown) {
+      this.player.x -= 10;
+      player.updateFromGameObject();
+    } else if (this.cursors.right.isDown) {
+      this.player.x += 10;
+    }
   }
 }
