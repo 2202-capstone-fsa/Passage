@@ -34,10 +34,26 @@ export default class Game extends Phaser.Scene {
     const townTileSet = map.addTilesetImage("Town", "outside");
     const houseTileSet = map.addTilesetImage("Houses", "houses");
 
+<<<<<<< HEAD
     //Create ground layer first using tile set data.
+=======
+<<<<<<< HEAD
+    const overworld = map.addTilesetImage("overworld", "Ground");
+=======
+>>>>>>> c7d2086fca22137682463dc0e0aed67a4c6c1b39
     const groundLayer = map.createLayer("Ground", townTileSet);
+>>>>>>> 73e20381515b69c3f91dd9b8d218202a26c8f8cf
 
+<<<<<<< HEAD
     //Add Player sprite to the game.
+=======
+    const debugGraphics = this.add.graphics().setAlpha(0.7);
+
+<<<<<<< HEAD
+    map.createLayer("Ground", overworld);
+    //map.create
+=======
+>>>>>>> c7d2086fca22137682463dc0e0aed67a4c6c1b39
     this.player = this.physics.add.sprite(
       800,
       800,
@@ -150,8 +166,12 @@ export default class Game extends Phaser.Scene {
       this.player.play(parts.join("-"));
       this.player.setVelocity(0, 0);
     }
+<<<<<<< HEAD
 
     // this.cameras.main.scrollX = this.player.x - 400;
     // this.cameras.main.scrollY = this.player.y - 300;
+=======
+>>>>>>> 73e20381515b69c3f91dd9b8d218202a26c8f8cf
+>>>>>>> c7d2086fca22137682463dc0e0aed67a4c6c1b39
   }
 }
