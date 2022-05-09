@@ -16,6 +16,6 @@ export default new Phaser.Game({
   },
   scene: [Game],
   scale: {
-    zoom: 2,
+    zoom: 3,
   },
 });

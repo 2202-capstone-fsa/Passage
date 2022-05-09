@@ -11,6 +11,7 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
+    //Load graphics for houses, outside, and player.
     this.load.image("houses", "tiles/houses.png");
     this.load.image("outside", "tiles/outside.png");
     this.load.atlas(
@@ -18,44 +19,49 @@ export default class Game extends Phaser.Scene {
       "NPC_Characters_v1/Male1.png",
       "NPC_Characters_v1/Male1Sprites.json"
     );
+
+    //Load data (collisions, etc) for the map.
     this.load.tilemapTiledJSON("overworld", "tiles/overworld.json");
 
+    //Load keyboard for player to use.
     this.cursors = this.input.keyboard.createCursorKeys();
   }
 
   create() {
+    //Create tile sets so that we can access Tiled data later on.
     const map = this.make.tilemap({ key: "overworld" });
+    const debugGraphics = this.add.graphics().setAlpha(0.7);
     const townTileSet = map.addTilesetImage("Town", "outside");
     const houseTileSet = map.addTilesetImage("Houses", "houses");
 
+    //Create ground layer first using tile set data.
     const groundLayer = map.createLayer("Ground", townTileSet);
 
-    const debugGraphics = this.add.graphics().setAlpha(0.7);
-
+    //Add Player sprite to the game.
     this.player = this.physics.add.sprite(
-      200,
-      200,
+      800,
+      800,
       "player",
       "green-walk-down-0"
     );
-
     this.player.body.setSize(this.player.width * 1, this.player.height * 1);
+    this.player.setCollideWorldBounds(true);
 
+    //Create idle animations for direction player is facing.
     this.anims.create({
       key: "player-idle-down",
       frames: [{ key: "player", frame: "green-walk-down-0" }],
     });
-
     this.anims.create({
       key: "player-idle-side",
       frames: [{ key: "player", frame: "green-walk-side-0" }],
     });
-
     this.anims.create({
       key: "player-idle-up",
       frames: [{ key: "player", frame: "green-walk-up-0" }],
     });
 
+    //Create animations for player motions.
     this.anims.create({
       key: "player-walk-down",
       frames: this.anims.generateFrameNames("player", {
@@ -89,13 +95,12 @@ export default class Game extends Phaser.Scene {
       frameRate: 15,
     });
 
-    this.player.anims.play("player-walk-down", true);
-    this.player.setCollideWorldBounds(true);
-
+    //Create houses and walls in this world, over the Ground and Player.
     const housesLayer = map.createLayer("Houses", houseTileSet);
     const wallsLayer = map.createLayer("Walls", townTileSet);
 
     this.cameras.main.startFollow(this.player, true);
+    this.cameras.main.setBounds(0, 0, 1600, 1600);
 
     wallsLayer.renderDebug(debugGraphics, {
       tileColor: null,
@@ -103,6 +108,7 @@ export default class Game extends Phaser.Scene {
       faceColor: new Phaser.Display.Color(40, 39, 37, 255),
     });
 
+    //Set walls and houses to collide with Player.
     wallsLayer.setCollisionByProperty({ collides: true });
     housesLayer.setCollisionByProperty({ collides: true });
     this.physics.add.collider(this.player, wallsLayer);
@@ -144,5 +150,8 @@ export default class Game extends Phaser.Scene {
       this.player.play(parts.join("-"));
       this.player.setVelocity(0, 0);
     }
+
+    // this.cameras.main.scrollX = this.player.x - 400;
+    // this.cameras.main.scrollY = this.player.y - 300;
   }
 }
