@@ -1,22 +1,21 @@
 import Phaser from "phaser";
 
-import Preloader from "./scenes/Preloader";
 import Game from "./scenes/Game";
-import GameUI from "./scenes/GameUI";
+//import GameUI from "./scenes/GameUI";
 
 export default new Phaser.Game({
   type: Phaser.AUTO,
-  width: 400,
-  height: 250,
+  width: 1600,
+  height: 1600,
   physics: {
     default: "arcade",
     arcade: {
       gravity: { y: 0 },
-      debug: false,
+      debug: true,
     },
   },
-  scene: [Preloader, Game, GameUI],
+  scene: [Game],
   scale: {
-    zoom: 2,
+    zoom: 8,
   },
 });
