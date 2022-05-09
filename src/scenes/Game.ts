@@ -12,7 +12,8 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
-    //Load graphics for houses, outside, and player.
+    //Load graphics for hous
+
     this.load.image("houses", "tiles/houses.png");
     this.load.image("outside", "tiles/outside.png");
     this.load.atlas(
@@ -20,6 +21,8 @@ export default class Game extends Phaser.Scene {
       "NPC_Characters_v1/Male4.png",
       "NPC_Characters_v1/MaleSprites.json"
     );
+    //load audio
+    this.load.audio("music", ["music/2.mp3"]);
 
     //Load data (collisions, etc) for the map.
     this.load.tilemapTiledJSON("overworld", "tiles/overworld.json");
@@ -35,6 +38,7 @@ export default class Game extends Phaser.Scene {
     const houseTileSet = map.addTilesetImage("Houses", "houses");
 
     //Create ground layer first using tile set data.
+    const overworld = map.addTilesetImage("overworld", "Ground");
     const groundLayer = map.createLayer("Ground", townTileSet);
 
     /* Add Player sprite to the game.
@@ -44,6 +48,8 @@ export default class Game extends Phaser.Scene {
       the third set is called "brown"
       and the fourth set is called "doc"
     */
+    //map.create
+
     this.player = this.physics.add.sprite(
       800,
       800,
@@ -52,6 +58,20 @@ export default class Game extends Phaser.Scene {
     );
     this.player.body.setSize(this.player.width * 1, this.player.height * 1);
     this.player.setCollideWorldBounds(true);
+
+    //adds and configs music
+    let music = this.sound.add("music");
+    let musicConfig = {
+      mute: false,
+      volume: 0.5,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: true,
+      delay: 0,
+    };
+
+    music.play(musicConfig);
 
     //Create idle animations for direction player is facing.
     this.anims.create({
