@@ -20,11 +20,11 @@ export default class Game extends Phaser.Scene {
 
     const map = this.make.tilemap({ key: "overworld" });
 
-    const outsideTileSet = map.addTilesetImage("Ground", "outside");
+    const overworld = map.addTilesetImage("overworld", "Ground");
 
     // const houseTileSet = map.addTilesetImage("overworld", "houses");
 
-    map.createLayer("Ground", outsideTileSet);
+    map.createLayer("Ground", overworld);
     //map.create
   }
 }
