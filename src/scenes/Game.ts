@@ -11,7 +11,8 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
-    //Load graphics for houses, outside, and player.
+    //Load graphics for hous
+
     this.load.image("houses", "tiles/houses.png");
     this.load.image("outside", "tiles/outside.png");
     this.load.atlas(
@@ -19,6 +20,8 @@ export default class Game extends Phaser.Scene {
       "NPC_Characters_v1/Male1.png",
       "NPC_Characters_v1/Male1Sprites.json"
     );
+    //load audio
+    this.load.audio("music", ["music/2.mp3"]);
 
     //Load data (collisions, etc) for the map.
     this.load.tilemapTiledJSON("overworld", "tiles/overworld.json");
@@ -34,26 +37,15 @@ export default class Game extends Phaser.Scene {
     const townTileSet = map.addTilesetImage("Town", "outside");
     const houseTileSet = map.addTilesetImage("Houses", "houses");
 
-<<<<<<< HEAD
     //Create ground layer first using tile set data.
-=======
-<<<<<<< HEAD
     const overworld = map.addTilesetImage("overworld", "Ground");
-=======
->>>>>>> c7d2086fca22137682463dc0e0aed67a4c6c1b39
     const groundLayer = map.createLayer("Ground", townTileSet);
->>>>>>> 73e20381515b69c3f91dd9b8d218202a26c8f8cf
 
-<<<<<<< HEAD
     //Add Player sprite to the game.
-=======
-    const debugGraphics = this.add.graphics().setAlpha(0.7);
 
-<<<<<<< HEAD
     map.createLayer("Ground", overworld);
     //map.create
-=======
->>>>>>> c7d2086fca22137682463dc0e0aed67a4c6c1b39
+
     this.player = this.physics.add.sprite(
       800,
       800,
@@ -62,6 +54,20 @@ export default class Game extends Phaser.Scene {
     );
     this.player.body.setSize(this.player.width * 1, this.player.height * 1);
     this.player.setCollideWorldBounds(true);
+
+    //adds and configs music
+    let music = this.sound.add("music");
+    let musicConfig = {
+      mute: false,
+      volume: 0.5,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: true,
+      delay: 0,
+    };
+
+    music.play(musicConfig);
 
     //Create idle animations for direction player is facing.
     this.anims.create({
@@ -166,12 +172,5 @@ export default class Game extends Phaser.Scene {
       this.player.play(parts.join("-"));
       this.player.setVelocity(0, 0);
     }
-<<<<<<< HEAD
-
-    // this.cameras.main.scrollX = this.player.x - 400;
-    // this.cameras.main.scrollY = this.player.y - 300;
-=======
->>>>>>> 73e20381515b69c3f91dd9b8d218202a26c8f8cf
->>>>>>> c7d2086fca22137682463dc0e0aed67a4c6c1b39
   }
 }
