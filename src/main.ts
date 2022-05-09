@@ -5,17 +5,17 @@ import Game from "./scenes/Game";
 
 export default new Phaser.Game({
   type: Phaser.AUTO,
-  width: 1000,
-  height: 1000,
+  width: 1600,
+  height: 1600,
   physics: {
     default: "arcade",
     arcade: {
       gravity: { y: 0 },
-      debug: false,
+      debug: true,
     },
   },
   scene: [Game],
   scale: {
-    zoom: 1,
+    zoom: 2,
   },
 });
