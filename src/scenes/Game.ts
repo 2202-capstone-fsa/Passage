@@ -13,13 +13,6 @@ export default class Game extends Phaser.Scene {
 
   preload() {
     //Load graphics for houses, outside, and player.
-    /*
-      In the sprite json file, for any png of sprites,
-      the first sprite is called "green"
-      the second sprite is called "teal"
-      the third sprite is called "brown"
-      and the fourth sprite is called "doc"
-    */
     this.load.image("houses", "tiles/houses.png");
     this.load.image("outside", "tiles/outside.png");
     this.load.atlas(
@@ -44,7 +37,13 @@ export default class Game extends Phaser.Scene {
     //Create ground layer first using tile set data.
     const groundLayer = map.createLayer("Ground", townTileSet);
 
-    //Add Player sprite to the game.
+    /* Add Player sprite to the game.
+      In the sprite json file, for any png of sprites,
+      the first set of sprites is called "green"
+      the second set is called "teal"
+      the third set is called "brown"
+      and the fourth set is called "doc"
+    */
     this.player = this.physics.add.sprite(
       800,
       800,
