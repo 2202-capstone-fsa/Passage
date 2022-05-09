@@ -40,6 +40,7 @@ export default class Game extends Phaser.Scene {
     //Create ground layer first using tile set data.
     const overworld = map.addTilesetImage("overworld", "Ground");
     const groundLayer = map.createLayer("Ground", townTileSet);
+<<<<<<< HEAD
 
     /* Add Player sprite to the game.
       In the sprite json file, for any png of sprites,
@@ -48,6 +49,12 @@ export default class Game extends Phaser.Scene {
       the third set is called "brown"
       and the fourth set is called "doc"
     */
+=======
+
+    //Add Player sprite to the game.
+
+    map.createLayer("Ground", overworld);
+>>>>>>> 0e01e5e33a757499d6189b441dc59123deb9831f
     //map.create
 
     this.player = this.physics.add.sprite(
