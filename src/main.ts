@@ -2,6 +2,9 @@ import Phaser from "phaser";
 
 //import Preloader from "./scenes/Preloader";
 import Game from "./scenes/Game";
+import Maze from "./scenes/Maze";
+import Shop from "./scenes/Shop";
+
 // import GameUI from "./scenes/GameUI";
 
 export default new Phaser.Game({
@@ -15,7 +18,7 @@ export default new Phaser.Game({
   //     debug: false,
   //   },
   // },
-  scene: [Game],
+  scene: [Shop, Maze, Game ],
   // scale: {
   //   zoom: 2,
   // },
