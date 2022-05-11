@@ -20,6 +20,7 @@ export default new Phaser.Game({
   },
   scene: [Shop, Maze,Game],
   scale: {
-    zoom: 8,
+    zoom: 2
+    ,
   },
 });
