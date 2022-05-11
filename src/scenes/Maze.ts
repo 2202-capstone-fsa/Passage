@@ -1,4 +1,6 @@
 import Phaser from "phaser"
+import { debugDraw } from "../utils/debug";
+
 
 export default class Maze extends Phaser.Scene {
     private parry!: "string";
@@ -18,10 +20,10 @@ export default class Maze extends Phaser.Scene {
           "NPC_Characters_v1/MaleSprites.json"
         );
         //load audio
-        this.load.audio("music", ["music/2.mp3"]);
+        this.load.audio("music", ["music/Chopin-Maze.mp3"]);
     
         //Load data (collisions, etc) for the map.
-        this.load.tilemapTiledJSON("overworld", "tiles/maze.json");
+        this.load.tilemapTiledJSON("maze", "tiles/maze.json");
     
         //Load keyboard for player to use.
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -29,14 +31,16 @@ export default class Maze extends Phaser.Scene {
     
       create() {
         //Create tile sets so that we can access Tiled data later on.
-        const map = this.make.tilemap({ key: "overworld" });
-        const townTileSet = map.addTilesetImage("Town", "outside");
-        const houseTileSet = map.addTilesetImage("Houses", "houses");
+        const map = this.make.tilemap({ key: "maze" });
+        
+        const mazeTileSet = map.addTilesetImage("house", "shop");
+        const propsTileSet = map.addTilesetImage("props", "props");
     
         //Create ground layer first using tile set data.
-        const overworld = map.addTilesetImage("overworld", "Ground");
-        const groundLayer = map.createLayer("Ground", townTileSet);
-    
+        map.createLayer("subground", [mazeTileSet, propsTileSet]);
+        const groundLayer = map.createLayer("ground", [mazeTileSet, propsTileSet]);
+        
+        
         /* Add Player sprite to the game.
           In the sprite json file, for any png of sprites,
           the first set of sprites is called "green"
@@ -47,27 +51,15 @@ export default class Maze extends Phaser.Scene {
         //map.create
     
         this.player = this.physics.add.sprite(
-          800,
-          800,
+          350,
+          600,
           "player",
           "doc-walk-down-0"
         );
-        this.player.body.setSize(this.player.width * 1, this.player.height * 1);
+        this.player.body.setSize(this.player.width * .1, this.player.height * .1);
         this.player.setCollideWorldBounds(true);
     
-        //adds and configs music
-        let music = this.sound.add("music");
-        let musicConfig = {
-          mute: false,
-          volume: 0.5,
-          rate: 1,
-          detune: 0,
-          seek: 0,
-          loop: true,
-          delay: 0,
-        };
-    
-        music.play(musicConfig);
+
     
         //Create idle animations for direction player is facing.
         this.anims.create({
@@ -116,20 +108,32 @@ export default class Maze extends Phaser.Scene {
           repeat: -1,
           frameRate: 6,
         });
-    
-        //Create houses and walls in this world, over the Ground and Player.
-        const housesLayer = map.createLayer("Houses", houseTileSet);
-        const wallsLayer = map.createLayer("Walls", townTileSet);
-    
-        // this.cameras.main.startFollow(this.player, true);
+
+                // this.cameras.main.startFollow(this.player, true);
         // this.cameras.main.setBounds(0, 0, 1600, 1600);
         // this.cameras.main.centerOn(600, 600);
     
+        //Create houses and walls in this world, over the Ground and Player.
+        const wallsLayer =  map.createLayer("walls", [mazeTileSet, propsTileSet]);
+    
         //Set walls and houses to collide with Player.
         wallsLayer.setCollisionByProperty({ collides: true });
-        housesLayer.setCollisionByProperty({ collides: true });
+        groundLayer.setCollisionByProperty({ collides: true });
         this.physics.add.collider(this.player, wallsLayer);
-        this.physics.add.collider(this.player, housesLayer);
+
+        //adds and configs music
+        let music = this.sound.add("music");
+        let musicConfig = {
+          mute: false,
+          volume: 0.5,
+          rate: 1,
+          detune: 0,
+          seek: 0,
+          loop: true,
+          delay: 0,
+        };
+    
+        music.play(musicConfig);
     
         debugDraw(wallsLayer, this);
       }
@@ -139,8 +143,8 @@ export default class Maze extends Phaser.Scene {
           return;
         }
     
-        this.cameras.main.scrollX = this.player.x - 400;
-        this.cameras.main.scrollY = this.player.y - 300;
+        this.cameras.main.scrollX = this.player.x - 120;
+        this.cameras.main.scrollY = this.player.y - 70;
     
         const speed = 120;
     

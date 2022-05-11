@@ -1,4 +1,6 @@
 import Phaser from "phaser"
+import { debugDraw } from "../utils/debug";
+
 
 export default class Shop extends Phaser.Scene {
    private parry!: "string";
