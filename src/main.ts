@@ -2,6 +2,7 @@ import Phaser from "phaser";
 
 import Game from "./scenes/Game";
 import Preloader from "./scenes/Preloader";
+import Hospital from "./scenes/Hospital";
 
 export default new Phaser.Game({
   type: Phaser.AUTO,
@@ -11,10 +12,10 @@ export default new Phaser.Game({
     default: "arcade",
     arcade: {
       gravity: { y: 0 },
-      debug: false,
+      debug: true,
     },
   },
-  scene: [Preloader, Game],
+  scene: [Preloader, Game, Hospital],
   scale: {
     zoom: 8,
   },
