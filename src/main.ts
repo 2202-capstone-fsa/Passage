@@ -3,8 +3,6 @@ import Phaser from "phaser";
 import Game from "./scenes/Game";
 import Preloader from "./scenes/Preloader";
 
-//import GameUI from "./scenes/GameUI";
-
 export default new Phaser.Game({
   type: Phaser.AUTO,
   width: 1600,
