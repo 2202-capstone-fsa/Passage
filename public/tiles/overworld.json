@@ -1,4 +1,3 @@
-
 { "compressionlevel":-1,
  "height":100,
  "infinite":false,
@@ -102518,5 +102517,9 @@
  "type":"map",
  "version":"1.8",
  "width":100
+<<<<<<< HEAD
 }
 
+=======
+}
+>>>>>>> b3e3b8164c9b1b46581c3cbab095de0a3e8147ee
