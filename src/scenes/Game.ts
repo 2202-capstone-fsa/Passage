@@ -1,6 +1,7 @@
 import Phaser from "phaser";
-import { isSpreadElement } from "typescript";
 import { debugDraw } from "../utils/debug";
+import testhouse from "./Buildings/testhouse";
+import data from "../../public/tiles/overworld.json";
 
 export default class Game extends Phaser.Scene {
   private parry!: "string";
@@ -9,6 +10,7 @@ export default class Game extends Phaser.Scene {
 
   constructor() {
     super("game");
+    console.log(data);
   }
 
   preload() {
@@ -135,7 +137,45 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.player, wallsLayer);
     this.physics.add.collider(this.player, housesLayer);
 
-    debugDraw(wallsLayer, this);
+    // text demo that changes on spacebar press
+    const message = this.add.text(800, 750, "", {
+      color: "white",
+      backgroundColor: "black",
+      fontSize: "12px",
+      align: "center",
+      baselineX: 0,
+      baselineY: 0,
+      wordWrap: { width: 250 },
+    });
+
+    this.cursors.space.on("down", () => {
+      let x = this.player.x;
+      let y = this.player.y;
+      console.log(x);
+      console.log(y);
+      if (message.text) {
+        message.text = "";
+        message.y = y + 160;
+        message.x = x;
+      } else if (x > 509 && x < 522 && y > 857 && y < 935) {
+        // lamp
+        message.y = y + 160;
+        message.x = x;
+        message.text =
+          "This lamp is glowing faintly. Theres's no flame and no bulb. It's an empty, indecernable light source";
+      } else if (x > 170 && x < 195 && y > 620 && y < 634) {
+        // enter house 1
+        this.scene.start(new testhouse());
+        // this.scene.transition({
+        //   target: "testhouse",
+        //   duration: 1000,
+        // });
+      } else {
+        console.log("test");
+      }
+    });
+
+    // debugDraw(wallsLayer, this);
   }
 
   update(t: number, dt: number) {
@@ -143,11 +183,22 @@ export default class Game extends Phaser.Scene {
       return;
     }
 
+    let x = this.player.x;
+    let y = this.player.y;
+    if (x > 170 && x < 195 && y > 620 && y < 634) {
+      // enter house 1
+      this.scene.start(new testhouse());
+      // this.scene.transition({
+      //   target: "testhouse",
+      //   duration: 1000,
+      // });
+    }
+
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;
 
+    // movement
     const speed = 120;
-
     if (this.cursors.left?.isDown) {
       this.player.anims.play("player-walk-side", true);
       this.player.setVelocity(-speed, 0);
