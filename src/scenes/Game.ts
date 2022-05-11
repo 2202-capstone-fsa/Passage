@@ -1,6 +1,6 @@
 import Phaser from "phaser";
-import { isSpreadElement, isWhiteSpaceLike } from "typescript";
 import { debugDraw } from "../utils/debug";
+import testhouse from "./Buildings/testhouse";
 
 export default class Game extends Phaser.Scene {
   private parry!: "string";
@@ -156,10 +156,18 @@ export default class Game extends Phaser.Scene {
         message.y = y + 160;
         message.x = x;
       } else if (x > 509 && x < 522 && y > 857 && y < 935) {
+        // lamp
         message.y = y + 160;
         message.x = x;
         message.text =
           "This lamp is glowing faintly. Theres's no flame and no bulb. It's an empty, indecernable light source";
+      } else if (x > 170 && x < 195 && y > 620 && y < 634) {
+        // enter house 1
+        this.scene.start(new testhouse());
+        // this.scene.transition({
+        //   target: "testhouse",
+        //   duration: 1000,
+        // });
       } else {
         console.log("test");
       }
@@ -171,6 +179,17 @@ export default class Game extends Phaser.Scene {
   update(t: number, dt: number) {
     if (!this.cursors || !this.player) {
       return;
+    }
+
+    let x = this.player.x;
+    let y = this.player.y;
+    if (x > 170 && x < 195 && y > 620 && y < 634) {
+      // enter house 1
+      this.scene.start(new testhouse());
+      // this.scene.transition({
+      //   target: "testhouse",
+      //   duration: 1000,
+      // });
     }
 
     this.cameras.main.scrollX = this.player.x - 400;
