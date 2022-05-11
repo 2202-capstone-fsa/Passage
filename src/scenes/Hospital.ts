@@ -39,8 +39,8 @@ export default class Game extends Phaser.Scene {
     );
 
     this.player = this.physics.add.sprite(
-      800,
-      800,
+      105,
+      550,
       "player",
       "doc-walk-down-0"
     );
