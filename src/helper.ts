@@ -1,31 +1,25 @@
 //load data from json
 
-export function interactItem(player) {
-  let x = player.x;
-  let y = player.y;
-}
-
-export function enterScene(player) {
-  let x = player.x;
-  let y = player.y;
-
-  // example doors from .JSON
-  let doors = [
+// checks if player is close any obj in target arr. Returns the obj
+export function isItClose(
+  player,
+  targets = [
     { x: 3, y: 4, name: "house1" },
     { x: 3, y: 4, name: "house2" },
     { x: 3, y: 4, name: "house3" },
-  ];
+  ]
+) {
+  let x = player.x;
+  let y = player.y;
 
   // check if within 5% of door. If yes, return name.
-  for (let i = 0; i < doors.length; i++) {
-    let doorX = doors[i].x;
-    let doorY = doors[i].y;
+  for (let i = 0; i < targets.length; i++) {
+    let doorX = targets[i].x;
+    let doorY = targets[i].y;
     let percentX = Math.abs(1 - (doorX - x) / doorX);
     let percentY = Math.abs(1 - (doorY - y) / doorY);
     if (percentX <= 0.05 && percentY <= 0.05) {
-      return doors[i].name;
+      return targets[i] || null; // returns target object
     }
   }
 }
-
-export function displayInventory() {}

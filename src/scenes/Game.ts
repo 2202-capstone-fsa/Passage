@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { debugDraw } from "../utils/debug";
 import testhouse from "./Buildings/testhouse";
+import data from "../../public/tiles/overworld.json";
 
 export default class Game extends Phaser.Scene {
   private parry!: "string";
@@ -9,6 +10,7 @@ export default class Game extends Phaser.Scene {
 
   constructor() {
     super("game");
+    console.log(data);
   }
 
   preload() {
