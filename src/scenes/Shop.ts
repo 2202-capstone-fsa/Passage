@@ -27,7 +27,6 @@ export default class Shop extends Phaser.Scene {
     this.load.tilemapTiledJSON('craftsman', 'tiles/craftsman.json');
     //Load keyboard for player to use.
     this.cursors = this.input.keyboard.createCursorKeys();
-
   }
 
   create() {
