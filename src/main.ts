@@ -1,7 +1,11 @@
 import Phaser from "phaser";
 
+//import Preloader from "./scenes/Preloader";
 import Game from "./scenes/Game";
-//import GameUI from "./scenes/GameUI";
+import Maze from "./scenes/Maze";
+import Shop from "./scenes/Shop";
+
+// import GameUI from "./scenes/GameUI";
 
 export default new Phaser.Game({
   type: Phaser.AUTO,
@@ -11,11 +15,12 @@ export default new Phaser.Game({
     default: "arcade",
     arcade: {
       gravity: { y: 0 },
-      debug: false,
+      debug: true,
     },
   },
-  scene: [Game],
+  scene: [Game, Shop, Maze,],
   scale: {
-    zoom: 8,
+    zoom: 1
+    ,
   },
 });

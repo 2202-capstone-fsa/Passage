@@ -10,9 +10,11 @@ export default class Game extends Phaser.Scene {
   private player!: Phaser.Physics.Arcade.Sprite;
 
   constructor() {
-    super("game");
-    console.log(data);
+
+    super("game")
+
   }
+
 
   preload() {
     //Load graphics
@@ -81,7 +83,7 @@ export default class Game extends Phaser.Scene {
       "player",
       "doc-walk-down-0"
     );
-    this.player.body.setSize(this.player.width * 1, this.player.height * 1);
+    this.player.body.setSize(this.player.width * .1, this.player.height * .1);
     this.player.setCollideWorldBounds(true);
 
     //adds and configs music
@@ -213,17 +215,17 @@ export default class Game extends Phaser.Scene {
       }
     });
 
-    // debugDraw(wallsLayer, this);
+    debugDraw(wallsLayer, this);
   }
 
   update(t: number, dt: number) {
     if (!this.cursors || !this.player) {
       return;
     }
-    let aboutToEnter = isItClose(this.player, data.layers);
+    let aboutToEnter = isItClose(this.player, [{ x: 330, y: 1217, name:'testhouse' },]);
     // Walking, check for entering scene
     if (aboutToEnter) {
-      this.scene.start(aboutToEnter.name);
+      this.scene.start('shop');
     }
 
     // let x = this.player.x;
