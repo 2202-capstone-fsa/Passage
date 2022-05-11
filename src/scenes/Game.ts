@@ -223,8 +223,7 @@ export default class Game extends Phaser.Scene {
     let aboutToEnter = isItClose(this.player, data.layers);
     // Walking, check for entering scene
     if (aboutToEnter) {
-      let targetScene = aboutToEnter.name;
-      this.scene.start(targetScene);
+      this.scene.start(aboutToEnter.name);
     }
 
     // let x = this.player.x;
