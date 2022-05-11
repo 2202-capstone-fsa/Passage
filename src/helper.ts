@@ -1,18 +1,22 @@
 //load data from json
 
-export function interactItem() {}
+export function interactItem(player) {
+  let x = player.x;
+  let y = player.y;
+}
 
 export function enterScene(player) {
   let x = player.x;
   let y = player.y;
-  //check if you're within 10% of every door
-  // get the object of 'doors'
-  // 'objects' array includes every door instance
+
+  // example doors from .JSON
   let doors = [
     { x: 3, y: 4, name: "house1" },
     { x: 3, y: 4, name: "house2" },
     { x: 3, y: 4, name: "house3" },
   ];
+
+  // check if within 5% of door. If yes, return name.
   for (let i = 0; i < doors.length; i++) {
     let doorX = doors[i].x;
     let doorY = doors[i].y;
