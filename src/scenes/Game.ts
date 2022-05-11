@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { isSpreadElement } from "typescript";
+import { isSpreadElement, isWhiteSpaceLike } from "typescript";
 import { debugDraw } from "../utils/debug";
 
 export default class Game extends Phaser.Scene {
@@ -135,7 +135,37 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.player, wallsLayer);
     this.physics.add.collider(this.player, housesLayer);
 
-    debugDraw(wallsLayer, this);
+    // text demo that changes on spacebar press
+    const message = this.add.text(800, 750, "", {
+      color: "white",
+      backgroundColor: "black",
+      fontSize: "12px",
+      align: "center",
+      baselineX: 0,
+      baselineY: 0,
+      wordWrap: { width: 250 },
+    });
+
+    this.cursors.space.on("down", () => {
+      let x = this.player.x;
+      let y = this.player.y;
+      console.log(x);
+      console.log(y);
+      if (message.text) {
+        message.text = "";
+        message.y = y + 160;
+        message.x = x;
+      } else if (x > 509 && x < 522 && y > 857 && y < 935) {
+        message.y = y + 160;
+        message.x = x;
+        message.text =
+          "This lamp is glowing faintly. Theres's no flame and no bulb. It's an empty, indecernable light source";
+      } else {
+        console.log("test");
+      }
+    });
+
+    // debugDraw(wallsLayer, this);
   }
 
   update(t: number, dt: number) {
@@ -146,8 +176,8 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;
 
+    // movement
     const speed = 120;
-
     if (this.cursors.left?.isDown) {
       this.player.anims.play("player-walk-side", true);
       this.player.setVelocity(-speed, 0);
