@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import { debugDraw } from "../utils/debug";
 import testhouse from "./Buildings/testhouse";
 import data from "../../public/tiles/overworld.json";
+import { isItClose } from "../helper";
 
 export default class Game extends Phaser.Scene {
   private parry!: "string";
@@ -219,17 +220,19 @@ export default class Game extends Phaser.Scene {
     if (!this.cursors || !this.player) {
       return;
     }
-
-    let x = this.player.x;
-    let y = this.player.y;
-    if (x > 170 && x < 195 && y > 620 && y < 634) {
-      // enter house 1
-      this.scene.start(new testhouse());
-      // this.scene.transition({
-      //   target: "testhouse",
-      //   duration: 1000,
-      // });
+    let aboutToEnter = isItClose(this.player, data.layers);
+    // Walking, check for entering scene
+    if (aboutToEnter) {
+      let targetScene = aboutToEnter.name;
+      this.scene.start(targetScene);
     }
+
+    // let x = this.player.x;
+    // let y = this.player.y;
+    // if (x > 170 && x < 195 && y > 620 && y < 634) {
+    //   // enter house 1
+    //   this.scene.start(new testhouse());
+    // }
 
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;
