@@ -44,7 +44,8 @@ export default class Game extends Phaser.Scene {
       "player",
       "doc-walk-down-0"
     );
-    this.player.body.setSize(this.player.width * 1, this.player.height * 1);
+    this.player.body.setSize(this.player.width * 0.3, this.player.height * 0.2);
+    this.player.body.setOffset(6.5, 30)
     this.player.setCollideWorldBounds(true);
 
     //Create idle animations for direction player is facing.
@@ -119,20 +120,20 @@ export default class Game extends Phaser.Scene {
       this.player.anims.play("player-walk-side", true);
       this.player.setVelocity(-speed, 0);
       this.player.scaleX = 1;
-      this.player.body.offset.x = 0;
+      this.player.body.offset.x = 5;
     } else if (this.cursors.right?.isDown) {
       this.player.anims.play("player-walk-side", true);
       this.player.setVelocity(speed, 0);
       this.player.scaleX = -1;
-      this.player.body.offset.x = 16;
+      this.player.body.offset.x = 10;
     } else if (this.cursors.down?.isDown) {
       this.player.anims.play("player-walk-down", true);
       this.player.setVelocity(0, speed);
-      this.player.body.offset.y = 0;
+      this.player.body.offset.y = 25;
     } else if (this.cursors.up?.isDown) {
       this.player.anims.play("player-walk-up", true);
       this.player.setVelocity(0, -speed);
-      this.player.body.offset.y = 0;
+      this.player.body.offset.y = 25;
     } else {
       if (!this.player.anims.currentAnim) return;
       const parts = this.player.anims.currentAnim.key.split("-");
