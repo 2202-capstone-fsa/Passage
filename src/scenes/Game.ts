@@ -12,16 +12,21 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
-    //Load graphics for hous
+    //Load graphics
+    this.load.image("houses", "tiles/overworld/houses.png");
+    this.load.image("outside", "tiles/overworld/outside.png");
+    this.load.image("jungle", "tiles/overworld/jungle.png");
+    this.load.image("beach", "tiles/overworld/beach.png");
+    this.load.image("clouds", "tiles/overworld/clouds.png");
 
-    this.load.image("houses", "tiles/houses.png");
-    this.load.image("outside", "tiles/outside.png");
+    //Load player
     this.load.atlas(
       "player",
       "NPC_Characters_v1/Male4.png",
       "NPC_Characters_v1/MaleSprites.json"
     );
-    //load audio
+
+    //Load audio
     this.load.audio("music", ["music/2.mp3"]);
 
     //Load data (collisions, etc) for the map.
@@ -36,10 +41,27 @@ export default class Game extends Phaser.Scene {
     const map = this.make.tilemap({ key: "overworld" });
     const townTileSet = map.addTilesetImage("Town", "outside");
     const houseTileSet = map.addTilesetImage("Houses", "houses");
+    const jungleTileSet = map.addTilesetImage("Jungle", "jungle");
+    const beachTileSet = map.addTilesetImage("Beach", "beach");
+    const cloudsTileSet = map.addTilesetImage("Clouds", "clouds");
 
     //Create ground layer first using tile set data.
     const overworld = map.addTilesetImage("overworld", "Ground");
-    const groundLayer = map.createLayer("Ground", townTileSet);
+    const groundLayer = map.createLayer("Ground", [
+      houseTileSet,
+      townTileSet,
+      beachTileSet,
+      jungleTileSet,
+      cloudsTileSet,
+    ]);
+
+    const waterfallLayer = map.createLayer("Waterfall", [
+      houseTileSet,
+      townTileSet,
+      beachTileSet,
+      jungleTileSet,
+      cloudsTileSet,
+    ]);
 
     /* Add Player sprite to the game.
       In the sprite json file, for any png of sprites,
@@ -122,8 +144,20 @@ export default class Game extends Phaser.Scene {
     });
 
     //Create houses and walls in this world, over the Ground and Player.
-    const housesLayer = map.createLayer("Houses", houseTileSet);
-    const wallsLayer = map.createLayer("Walls", townTileSet);
+    const housesLayer = map.createLayer("Houses", [
+      houseTileSet,
+      townTileSet,
+      beachTileSet,
+      jungleTileSet,
+      cloudsTileSet,
+    ]);
+    const wallsLayer = map.createLayer("Walls", [
+      houseTileSet,
+      townTileSet,
+      beachTileSet,
+      jungleTileSet,
+      cloudsTileSet,
+    ]);
 
     // this.cameras.main.startFollow(this.player, true);
     // this.cameras.main.setBounds(0, 0, 1600, 1600);
@@ -132,8 +166,11 @@ export default class Game extends Phaser.Scene {
     //Set walls and houses to collide with Player.
     wallsLayer.setCollisionByProperty({ collides: true });
     housesLayer.setCollisionByProperty({ collides: true });
+    waterfallLayer.setCollisionByProperty({ collides: true });
+
     this.physics.add.collider(this.player, wallsLayer);
     this.physics.add.collider(this.player, housesLayer);
+    this.physics.add.collider(this.player, waterfallLayer);
 
     // text demo that changes on spacebar press
     const message = this.add.text(800, 750, "", {
