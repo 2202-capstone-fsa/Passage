@@ -15,10 +15,10 @@ export default new Phaser.Game({
     default: "arcade",
     arcade: {
       gravity: { y: 0 },
-      debug: false,
+      debug: true,
     },
   },
-  scene: [Game, Maze, Shop],
+  scene: [Game, Shop, Maze,],
   scale: {
     zoom: 1
     ,

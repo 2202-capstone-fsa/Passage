@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import { debugDraw } from "../utils/debug";
 import testhouse from "./Buildings/testhouse";
-import data from "../../public/tiles/overworld.json";
+//import data from "../../public/tiles/overworld.json";
 
 export default class Game extends Phaser.Scene {
   private parry!: "string";
@@ -82,7 +82,7 @@ export default class Game extends Phaser.Scene {
       "player",
       "doc-walk-down-0"
     );
-    this.player.body.setSize(this.player.width * 1, this.player.height * 1);
+    this.player.body.setSize(this.player.width * .1, this.player.height * .1);
     this.player.setCollideWorldBounds(true);
 
     //adds and configs music
@@ -214,7 +214,7 @@ export default class Game extends Phaser.Scene {
       }
     });
 
-    // debugDraw(wallsLayer, this);
+    debugDraw(wallsLayer, this);
   }
 
   update(t: number, dt: number) {
