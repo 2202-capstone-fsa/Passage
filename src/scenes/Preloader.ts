@@ -15,9 +15,6 @@ export default class Preloader extends Phaser.Scene {
       "NPC_Characters_v1/Male4.png",
       "NPC_Characters_v1/MaleSprites.json"
     );
-
-    //Load keyboard for player to use.
-    this.cursors = this.input.keyboard.createCursorKeys();
   }
 
   create() {

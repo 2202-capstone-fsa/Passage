@@ -22,13 +22,6 @@ export default class Game extends Phaser.Scene {
     this.load.image("beach", "tiles/overworld/beach.png");
     this.load.image("clouds", "tiles/overworld/clouds.png");
 
-    //Load player
-    this.load.atlas(
-      "player",
-      "NPC_Characters_v1/Male4.png",
-      "NPC_Characters_v1/MaleSprites.json"
-    );
-
     //Load audio
     this.load.audio("music", ["music/2.mp3"]);
 
