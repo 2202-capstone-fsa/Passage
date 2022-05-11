@@ -1,7 +1,6 @@
-
 import Phaser from "phaser";
-import { isSpreadElement } from "typescript";
 import { debugDraw } from "../utils/debug";
+import testhouse from "./Buildings/testhouse";
 
 export default class Game extends Phaser.Scene {
   private parry!: "string";
@@ -14,16 +13,21 @@ export default class Game extends Phaser.Scene {
 
 
   preload() {
-    //Load graphics for hous
+    //Load graphics
+    this.load.image("houses", "tiles/overworld/houses.png");
+    this.load.image("outside", "tiles/overworld/outside.png");
+    this.load.image("jungle", "tiles/overworld/jungle.png");
+    this.load.image("beach", "tiles/overworld/beach.png");
+    this.load.image("clouds", "tiles/overworld/clouds.png");
 
-    this.load.image("houses", "tiles/houses.png");
-    this.load.image("outside", "tiles/outside.png");
+    //Load player
     this.load.atlas(
       "player",
       "NPC_Characters_v1/Male4.png",
       "NPC_Characters_v1/MaleSprites.json"
     );
-    //load audio
+
+    //Load audio
     this.load.audio("music", ["music/2.mp3"]);
 
     //Load data (collisions, etc) for the map.
@@ -38,10 +42,27 @@ export default class Game extends Phaser.Scene {
     const map = this.make.tilemap({ key: "overworld" });
     const townTileSet = map.addTilesetImage("Town", "outside");
     const houseTileSet = map.addTilesetImage("Houses", "houses");
+    const jungleTileSet = map.addTilesetImage("Jungle", "jungle");
+    const beachTileSet = map.addTilesetImage("Beach", "beach");
+    const cloudsTileSet = map.addTilesetImage("Clouds", "clouds");
 
     //Create ground layer first using tile set data.
     const overworld = map.addTilesetImage("overworld", "Ground");
-    const groundLayer = map.createLayer("Ground", townTileSet);
+    const groundLayer = map.createLayer("Ground", [
+      houseTileSet,
+      townTileSet,
+      beachTileSet,
+      jungleTileSet,
+      cloudsTileSet,
+    ]);
+
+    const waterfallLayer = map.createLayer("Waterfall", [
+      houseTileSet,
+      townTileSet,
+      beachTileSet,
+      jungleTileSet,
+      cloudsTileSet,
+    ]);
 
     /* Add Player sprite to the game.
       In the sprite json file, for any png of sprites,
@@ -124,8 +145,20 @@ export default class Game extends Phaser.Scene {
     });
 
     //Create houses and walls in this world, over the Ground and Player.
-    const housesLayer = map.createLayer("Houses", houseTileSet);
-    const wallsLayer = map.createLayer("Walls", townTileSet);
+    const housesLayer = map.createLayer("Houses", [
+      houseTileSet,
+      townTileSet,
+      beachTileSet,
+      jungleTileSet,
+      cloudsTileSet,
+    ]);
+    const wallsLayer = map.createLayer("Walls", [
+      houseTileSet,
+      townTileSet,
+      beachTileSet,
+      jungleTileSet,
+      cloudsTileSet,
+    ]);
 
     // this.cameras.main.startFollow(this.player, true);
     // this.cameras.main.setBounds(0, 0, 1600, 1600);
@@ -134,10 +167,51 @@ export default class Game extends Phaser.Scene {
     //Set walls and houses to collide with Player.
     wallsLayer.setCollisionByProperty({ collides: true });
     housesLayer.setCollisionByProperty({ collides: true });
+    waterfallLayer.setCollisionByProperty({ collides: true });
+
     this.physics.add.collider(this.player, wallsLayer);
     this.physics.add.collider(this.player, housesLayer);
+    this.physics.add.collider(this.player, waterfallLayer);
 
-    debugDraw(wallsLayer, this);
+    // text demo that changes on spacebar press
+    const message = this.add.text(800, 750, "", {
+      color: "white",
+      backgroundColor: "black",
+      fontSize: "12px",
+      align: "center",
+      baselineX: 0,
+      baselineY: 0,
+      wordWrap: { width: 250 },
+    });
+
+    this.cursors.space.on("down", () => {
+      let x = this.player.x;
+      let y = this.player.y;
+      console.log(x);
+      console.log(y);
+      if (message.text) {
+        message.text = "";
+        message.y = y + 160;
+        message.x = x;
+      } else if (x > 509 && x < 522 && y > 857 && y < 935) {
+        // lamp
+        message.y = y + 160;
+        message.x = x;
+        message.text =
+          "This lamp is glowing faintly. Theres's no flame and no bulb. It's an empty, indecernable light source";
+      } else if (x > 170 && x < 195 && y > 620 && y < 634) {
+        // enter house 1
+        this.scene.start(new testhouse());
+        // this.scene.transition({
+        //   target: "testhouse",
+        //   duration: 1000,
+        // });
+      } else {
+        console.log("test");
+      }
+    });
+
+    // debugDraw(wallsLayer, this);
   }
 
   update(t: number, dt: number) {
@@ -145,11 +219,22 @@ export default class Game extends Phaser.Scene {
       return;
     }
 
+    let x = this.player.x;
+    let y = this.player.y;
+    if (x > 170 && x < 195 && y > 620 && y < 634) {
+      // enter house 1
+      this.scene.start(new testhouse());
+      // this.scene.transition({
+      //   target: "testhouse",
+      //   duration: 1000,
+      // });
+    }
+
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;
 
+    // movement
     const speed = 120;
-
     if (this.cursors.left?.isDown) {
       this.player.anims.play("player-walk-side", true);
       this.player.setVelocity(-speed, 0);
