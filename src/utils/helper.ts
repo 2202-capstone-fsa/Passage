@@ -30,7 +30,7 @@ export function isItClose(
   }
 }
 
-export function updateText(player, target, message = { x: 0, y: 0, text: "" }) {
+export function updateText(player, target, message) {
   message.x = player.x + 20;
   message.y = player.y + 100;
   message.text = target.text;
@@ -65,9 +65,31 @@ export function movePlayer(player, speed, pressedKey) {
   }
 }
 
-export function createPlayer(player, x, y) {
-  player.physics.add.sprite(x, y, "player", "doc-walk-down-0");
+export function setPlayer(player) {
   player.body.setSize(player.width * 0.8, player.height * 0.25);
   player.body.setOffset(2, 25);
   player.setCollideWorldBounds(true);
 }
+
+export function interact(cursor, message, player) {
+  console.log(player.x);
+  console.log(player.y);
+  if (message.text) {
+    message.text = "";
+  } else {
+    let nextToTarget = isItClose(player, []);
+    console.log(nextToTarget);
+    if (nextToTarget) {
+      console.log(`im next to ${nextToTarget.name}`);
+      updateText(player, nextToTarget, message);
+    }
+  }
+}
+
+export const overworldScenes = [
+  {
+    //"This lamp is glowing faintly. Theress no flame and no bulb. Its an empty, indecernable light source",
+  },
+];
+
+export const overworldObjs = [{}];
