@@ -20,7 +20,7 @@ export default new Phaser.Game({
       debug: true,
     },
   },
-  scene: [Preloader, Game, Hospital, Shop, Maze],
+  scene: [Preloader, Maze, Game, Hospital, Shop],
   scale: {
     zoom: 1,
   },
