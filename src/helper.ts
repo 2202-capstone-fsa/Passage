@@ -18,6 +18,8 @@ export function isItClose(
     let doorY = targets[i].y;
     let percentX = Math.abs(1 - (doorX - x) / doorX);
     let percentY = Math.abs(1 - (doorY - y) / doorY);
+    // console.log(percentX); 2.4
+    //console.log(percentY);.6
     if (percentX <= 0.05 && percentY <= 0.05) {
       return targets[i] || null; // returns target object
     }
