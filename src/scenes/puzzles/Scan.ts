@@ -34,6 +34,7 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
+    console.log("hii");
     const fonts = new WebFontFile(this.load, "Press Start 2P");
     this.load.addFile(fonts);
   }
@@ -86,11 +87,17 @@ export default class Game extends Phaser.Scene {
 
   update() {
     if (this.gameState === GameState.PlayerLost) {
+      console.log("Player lost.");
+      //Start loss scene
     }
     if (this.gameState === GameState.PlayerWon) {
+      console.log("Player won!");
+      //Start won scene
     }
     if (this.gameState === GameState.Still) {
+      this.processPlayerInput();
       this.updateAI(4);
+      this.checkScore();
       //Stop old bg, start new one.
       //
       //
@@ -99,18 +106,23 @@ export default class Game extends Phaser.Scene {
         this.cursors.down.isDown ||
         this.cursors.left.isDown ||
         this.cursors.right.isDown
-      )
+      ) {
         this.gameState = GameState.PlayerLost;
+        console.log("loss");
+      }
+
       return;
     }
-    if (this.paused || this.gameState !== GameState.Running) return;
+    if (
+      (this.gameState !== GameState.Still && this.paused) ||
+      this.gameState !== GameState.Running
+    )
+      return;
 
     this.processPlayerInput();
     this.updateAI(2);
     this.checkScore();
   }
-
-  stillGame() {}
 
   processPlayerInput() {
     /** @type {Phaser.Physics.Arcade.StaticBody} */
@@ -160,21 +172,23 @@ export default class Game extends Phaser.Scene {
     }
 
     const maxScore = 7;
-    if (this.leftScore >= 1) {
+    if (this.leftScore >= 1 && this.leftScore < maxScore) {
       this.gameState = GameState.Still;
-
+      this.ball.setPosition(400, 250);
       let currentX = this.ball.body.velocity.x;
       let currentY = this.ball.body.velocity.y;
       this.ball.body.setVelocity(currentX * 2, currentY * 3);
-    } else if (this.leftScore >= 2) {
-      //player lost
-      this.gameState = GameState.PlayerLost;
-    } else if (this.rightScore >= maxScore) {
-      //AI won
+      console.log("in ball");
+      this.resetBall();
+    } else if (this.rightScore >= maxScore || this.leftScore >= maxScore) {
       this.gameState = GameState.PlayerWon;
+      this.resetBall();
     }
 
-    if (this.gameState === GameState.Running) {
+    if (
+      this.gameState !== GameState.PlayerLost ||
+      this.gameState !== GameState.PlayerWon
+    ) {
       this.resetBall();
     } else {
       this.ball.active = false;
@@ -202,10 +216,9 @@ export default class Game extends Phaser.Scene {
   resetBall() {
     //Resets location of ball to middle AND angle.
     this.ball.setPosition(400, 250);
-    const angle = Phaser.Math.Between(135, 90);
-    const vec = this.physics.velocityFromAngle(135, 350);
+    const angle = Phaser.Math.Between(0, 360);
+    const vec = this.physics.velocityFromAngle(angle, 900);
 
     this.ball.body.setVelocity(vec.x, vec.y);
-    console.log(this.ball.body.velocity);
   }
 }
