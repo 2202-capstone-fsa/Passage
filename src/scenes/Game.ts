@@ -1,13 +1,19 @@
 import Phaser from "phaser";
 import { debugDraw } from "../utils/debug";
 import testhouse from "./Buildings/testhouse";
-import data from "../tiles/overworld.json";
-import { isItClose } from "../utils/helper";
+//import data from "../tiles/overworld.json";
+import {
+  isItClose,
+  updateText,
+  createPlayer,
+  movePlayer,
+} from "../utils/helper";
 
 export default class Game extends Phaser.Scene {
   private parry!: "string";
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private player!: Phaser.Physics.Arcade.Sprite;
+  private message!: Phaser.GameObjects.Text;
 
   constructor() {
     super("game");
@@ -69,7 +75,7 @@ export default class Game extends Phaser.Scene {
 
     this.player = this.physics.add.sprite(
       800,
-      1050,
+      800,
       "player",
       "doc-walk-down-0"
     );
@@ -77,6 +83,7 @@ export default class Game extends Phaser.Scene {
       this.player.width * 0.8,
       this.player.height * 0.25
     );
+    this.player.body.setOffset(2, 25);
     this.player.setCollideWorldBounds(true);
 
     //adds and configs music
@@ -170,8 +177,23 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.player, housesLayer);
     this.physics.add.collider(this.player, waterfallLayer);
 
-    // text demo that changes on spacebar press
-    const message = this.add.text(800, 750, "", {
+    // Array of interactable objects
+    let arrOfObjs = [
+      {
+        x: 800,
+        y: 800,
+        name: "lamp",
+        text: "This lamp is glowing faintly. Theress no flame and no bulb. Its an empty, indecernable light source",
+      },
+      {
+        x: 400,
+        y: 400,
+        name: "thing",
+        text: "You found my hidden thing, impressive!",
+      },
+    ];
+
+    this.message = this.add.text(800, 750, "", {
       color: "white",
       backgroundColor: "black",
       fontSize: "12px",
@@ -185,46 +207,17 @@ export default class Game extends Phaser.Scene {
     this.cursors.space.on("down", () => {
       console.log(this.player.x);
       console.log(this.player.y);
-      if (message.text) {
-        message.text = "";
+      if (this.message.text) {
+        this.message.text = "";
       } else {
-        let nextToTarget = isItClose(this.player, [
-          { x: 800, y: 800, name: "testhouse" },
-        ]);
+        let nextToTarget = isItClose(this.player, arrOfObjs);
         console.log(nextToTarget);
         if (nextToTarget) {
-          // message.text = nextToTarget.text;
           console.log(`im next to ${nextToTarget.name}`);
+          updateText(this.player, nextToTarget, this.message);
         }
       }
     }),
-      // this.cursors.space.on("down", () => {
-      //   let x = this.player.x;
-      //   let y = this.player.y;
-      //   console.log(x);
-      //   console.log(y);
-      //   if (message.text) {
-      //     message.text = "";
-      //     message.y = y + 160;
-      //     message.x = x;
-      //   } else if (x > 509 && x < 522 && y > 857 && y < 935) {
-      //     // lamp
-      //     message.y = y + 160;
-      //     message.x = x;
-      //     message.text =
-      //       "This lamp is glowing faintly. Theres's no flame and no bulb. It's an empty, indecernable light source";
-      //   } else if (x > 170 && x < 195 && y > 620 && y < 634) {
-      //     // enter house 1
-      //     this.scene.start(new testhouse());
-      //     // this.scene.transition({
-      //     //   target: "testhouse",
-      //     //   duration: 1000,
-      //     // });
-      //   } else {
-      //     console.log("test");
-      //   }
-      // });
-
       debugDraw(wallsLayer, this);
   }
 
@@ -233,51 +226,44 @@ export default class Game extends Phaser.Scene {
       return;
     }
     let nextToTarget = isItClose(this.player, [
-      { x: 324, y: 1217, name: "testhouse" },
+      { x: 310, y: 1192, name: "shop", text: "placeholder" },
     ]);
     // Walking, check for entering scene
     if (nextToTarget) {
       this.scene.start(nextToTarget.name);
     }
 
-    // Hit space to interact with an object
-
-    // let x = this.player.x;
-    // let y = this.player.y;
-    // if (x > 170 && x < 195 && y > 620 && y < 634) {
-    //   // enter house 1
-    //   this.scene.start(new testhouse());
-    // }
-
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;
 
     // movement
-    const speed = 120;
-    if (this.cursors.left?.isDown) {
-      this.player.anims.play("player-walk-side", true);
-      this.player.setVelocity(-speed, 0);
-      this.player.scaleX = 1;
-      this.player.body.offset.x = 0;
-    } else if (this.cursors.right?.isDown) {
-      this.player.anims.play("player-walk-side", true);
-      this.player.setVelocity(speed, 0);
-      this.player.scaleX = -1;
-      this.player.body.offset.x = 16;
-    } else if (this.cursors.down?.isDown) {
-      this.player.anims.play("player-walk-down", true);
-      this.player.setVelocity(0, speed);
-      this.player.body.offset.y = 0;
-    } else if (this.cursors.up?.isDown) {
-      this.player.anims.play("player-walk-up", true);
-      this.player.setVelocity(0, -speed);
-      this.player.body.offset.y = 0;
-    } else {
-      if (!this.player.anims.currentAnim) return;
-      const parts = this.player.anims.currentAnim.key.split("-");
-      parts[1] = "idle";
-      this.player.play(parts.join("-"));
-      this.player.setVelocity(0, 0);
-    }
+    let speed = this.message.text ? 0 : 120;
+    movePlayer(this.player, speed, this.cursors);
+    // if (this.cursors.left?.isDown) {
+    //   this.player.anims.play("player-walk-side", true);
+    //   this.player.setVelocity(-speed, 0);
+    //   this.player.scaleX = 1;
+    //   this.player.body.setOffset(2, 25);
+    // } else if (this.cursors.right?.isDown) {
+    //   this.player.anims.play("player-walk-side", true);
+    //   this.player.setVelocity(speed, 0);
+    //   this.player.scaleX = -1;
+    //   //this.player.body.setOffset(2, 25);
+    //   // this.player.body.offset.x = 11;
+    // } else if (this.cursors.down?.isDown) {
+    //   this.player.anims.play("player-walk-down", true);
+    //   this.player.setVelocity(0, speed);
+    //   //this.player.body.setOffset(2, 25);
+    // } else if (this.cursors.up?.isDown) {
+    //   this.player.anims.play("player-walk-up", true);
+    //   this.player.setVelocity(0, -speed);
+    //   //this.player.body.setOffset(2, 25);
+    // } else {
+    //   if (!this.player.anims.currentAnim) return;
+    //   const parts = this.player.anims.currentAnim.key.split("-");
+    //   parts[1] = "idle";
+    //   this.player.play(parts.join("-"));
+    //   this.player.setVelocity(0, 0);
+    // }
   }
 }
