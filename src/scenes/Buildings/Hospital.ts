@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { debugDraw } from "../utils/debug";
+import { debugDraw } from "../../utils/debug";
 
 export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -45,7 +45,7 @@ export default class Game extends Phaser.Scene {
       "doc-walk-down-0"
     );
     this.player.body.setSize(this.player.width * 0.3, this.player.height * 0.2);
-    this.player.body.setOffset(6.5, 30)
+    this.player.body.setOffset(6.5, 30);
     this.player.setCollideWorldBounds(true);
 
     //Create idle animations for direction player is facing.
@@ -97,20 +97,18 @@ export default class Game extends Phaser.Scene {
     });
 
     floorLayer.setCollisionByProperty({ collides: true });
-    floorObjLayer.setCollisionByProperty({ collides: true })
+    floorObjLayer.setCollisionByProperty({ collides: true });
     lowObjLayer.setCollisionByProperty({ collides: true });
     highObjLayer.setCollisionByProperty({ collides: true });
-
 
     this.physics.add.collider(this.player, lowObjLayer);
     this.physics.add.collider(this.player, highObjLayer);
     this.physics.add.collider(this.player, floorLayer);
-    this.physics.add.collider(this.player, floorObjLayer)
+    this.physics.add.collider(this.player, floorObjLayer);
 
     debugDraw(floorLayer, this);
     debugDraw(highObjLayer, this);
     debugDraw(lowObjLayer, this);
-
   }
 
   update() {
@@ -142,5 +140,6 @@ export default class Game extends Phaser.Scene {
       parts[1] = "idle";
       this.player.play(parts.join("-"));
       this.player.setVelocity(0, 0);
+    }
   }
 }
