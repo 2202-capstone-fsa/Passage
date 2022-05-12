@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import { debugDraw } from "../utils/debug";
 import testhouse from "./Buildings/testhouse";
-import data from "../../public/tiles/overworld.json";
+import data from "../tiles/overworld.json";
 import { isItClose } from "../helper";
 
 export default class Game extends Phaser.Scene {
@@ -79,7 +79,7 @@ export default class Game extends Phaser.Scene {
 
     this.player = this.physics.add.sprite(
       800,
-      800,
+      1050,
       "player",
       "doc-walk-down-0"
     );
