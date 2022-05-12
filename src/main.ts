@@ -6,6 +6,7 @@ import Preloader from "./scenes/Preloader";
 import Hospital from "./scenes/Buildings/Hospital";
 import Maze from "./scenes/Puzzles/Maze";
 import Shop from "./scenes/Buildings/Shop";
+import Scan from "./scenes/Puzzles/Scan";
 
 // import GameUI from "./scenes/GameUI";
 
@@ -20,7 +21,7 @@ export default new Phaser.Game({
       debug: true,
     },
   },
-  scene: [Preloader, Game, Hospital, Shop, Maze],
+  scene: [Preloader, Game, Hospital, Shop, Maze, Scan],
   scale: {
     zoom: 1,
   },

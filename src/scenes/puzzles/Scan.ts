@@ -1,8 +1,8 @@
 import Phaser from "phaser";
-import WebFontFile from "./WebFontFile";
+import WebFontFile from "../../utils/WebFontFile";
 
-import { GameBackground, GameOver } from "../consts/SceneKeys";
-import * as Colors from "../consts/Colors";
+// import { GameBackground, GameOver } from "../consts/SceneKeys";
+// import * as Colors from "../consts/Colors";
 
 const GameState = {
   Running: "running",
@@ -11,9 +11,22 @@ const GameState = {
 };
 
 export default class Game extends Phaser.Scene {
-  init() {
-    this.gameState = GameState.Running;
+  private leftScore!: number;
+  private leftScoreLabel!: any;
+  private rightScore!: number;
+  private rightScoreLabel!: any;
+  private paddleRightVelocity!: any;
+  private gameState!: string;
+  private ball!: any;
+  private paddleLeft!: Phaser.GameObjects.Rectangle;
+  private paddleRight!: Phaser.GameObjects.Rectangle;
+  private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
+  private paused!: boolean;
+  private white = 0xffffff;
 
+  constructor() {
+    super("scan");
+    this.gameState = GameState.Running;
     this.paddleRightVelocity = new Phaser.Math.Vector2(0, 0);
     this.leftScore = 0;
     this.rightScore = 0;
@@ -22,30 +35,36 @@ export default class Game extends Phaser.Scene {
   preload() {
     const fonts = new WebFontFile(this.load, "Press Start 2P");
     this.load.addFile(fonts);
+    console.log("hello");
   }
 
   create() {
-    this.scene.run(GameBackground);
-    this.scene.sendToBack(GameBackground);
+    console.log("hello");
+    // this.scene.run(GameBackground);
+    // this.scene.sendToBack(GameBackground);
+    // Above lines equivalent to the next few:
+    this.add.line(400, 250, 0, 0, 0, 500, this.white, 1).setLineWidth(2, 2);
+    this.add.circle(400, 250, 25).setStrokeStyle(3, this.white, 1);
 
     //Makes the ball go off the grid
     this.physics.world.setBounds(-100, 0, 1000, 500);
 
-    this.ball = this.add.circle(400, 250, 10, Colors.White, 1);
+    this.ball = this.add.circle(400, 250, 10, this.white, 1);
     this.physics.add.existing(this.ball);
     this.ball.body.setCircle(10);
     this.ball.body.setCollideWorldBounds(true, 1, 1);
     this.ball.body.setBounce(1, 1);
 
-    this.paddleLeft = this.add.rectangle(60, 250, 20, 100, Colors.White, 1);
+    this.paddleLeft = this.add.rectangle(60, 250, 20, 100, this.white, 1);
     this.physics.add.existing(this.paddleLeft, true);
     this.physics.add.collider(this.paddleLeft, this.ball);
 
-    this.paddleRight = this.add.rectangle(740, 250, 20, 100, Colors.White, 1);
+    this.paddleRight = this.add.rectangle(740, 250, 20, 100, this.white, 1);
     this.physics.add.existing(this.paddleRight, true);
     this.physics.add.collider(this.paddleRight, this.ball);
 
-    const scoreStyle = {
+    let scoreStyle: any;
+    scoreStyle = {
       fontSize: 48,
       fontFamily: '"Press Start 2P"',
     };
@@ -76,14 +95,15 @@ export default class Game extends Phaser.Scene {
 
   processPlayerInput() {
     /** @type {Phaser.Physics.Arcade.StaticBody} */
-    const body = this.paddleLeft.body;
+    let playerPaddle!: any;
+    playerPaddle = this.paddleLeft.body;
 
     if (this.cursors.up.isDown) {
       this.paddleLeft.y -= 10;
-      body.updateFromGameObject();
+      playerPaddle.updateFromGameObject();
     } else if (this.cursors.down.isDown) {
       this.paddleLeft.y += 10;
-      body.updateFromGameObject();
+      playerPaddle.updateFromGameObject();
     }
   }
 
@@ -101,7 +121,9 @@ export default class Game extends Phaser.Scene {
     }
 
     this.paddleRight.y += this.paddleRightVelocity.y;
-    this.paddleRight.body.updateFromGameObject();
+    let aiPaddle!: any;
+    aiPaddle = this.paddleRight.body;
+    aiPaddle.updateFromGameObject();
   }
 
   checkScore() {
@@ -134,14 +156,12 @@ export default class Game extends Phaser.Scene {
       this.ball.active = false;
       this.physics.world.remove(this.ball.body);
 
-      this.scene.stop(GameBackground);
-
-      this.scene.start(GameOver, {
-        leftScore: this.leftScore,
-        rightScore: this.rightScore,
-      });
-
-      //show the game over/win screen
+      // Stop current scene and enter result in hospital.
+      // this.scene.stop(GameBackground);
+      // this.scene.start(GameOver, {
+      //   leftScore: this.leftScore,
+      //   rightScore: this.rightScore,
+      // });
     }
   }
 
