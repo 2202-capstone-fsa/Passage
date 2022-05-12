@@ -18,6 +18,6 @@ export default class Preloader extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start("scan");
+    this.scene.start("hospital");
   }
 }

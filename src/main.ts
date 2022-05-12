@@ -23,6 +23,6 @@ export default new Phaser.Game({
   },
   scene: [Preloader, Game, Hospital, Shop, Maze, Scan],
   scale: {
-    zoom: 1,
+    zoom: 2,
   },
 });
