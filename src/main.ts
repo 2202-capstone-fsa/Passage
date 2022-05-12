@@ -3,9 +3,9 @@ import Phaser from "phaser";
 //import Preloader from "./scenes/Preloader";
 import Game from "./scenes/Game";
 import Preloader from "./scenes/Preloader";
-import Hospital from "./scenes/Hospital";
-import Maze from "./scenes/Maze";
-import Shop from "./scenes/Shop";
+import Hospital from "./scenes/Buildings/Hospital";
+import Maze from "./scenes/Puzzles/Maze";
+import Shop from "./scenes/Buildings/Shop";
 
 // import GameUI from "./scenes/GameUI";
 
