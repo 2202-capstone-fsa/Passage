@@ -10,11 +10,8 @@ export default class Game extends Phaser.Scene {
   private player!: Phaser.Physics.Arcade.Sprite;
 
   constructor() {
-
-    super("game")
-
+    super("game");
   }
-
 
   preload() {
     //Load graphics
@@ -83,7 +80,10 @@ export default class Game extends Phaser.Scene {
       "player",
       "doc-walk-down-0"
     );
-    this.player.body.setSize(this.player.width * .1, this.player.height * .1);
+    this.player.body.setSize(
+      this.player.width * 0.8,
+      this.player.height * 0.25
+    );
     this.player.setCollideWorldBounds(true);
 
     //adds and configs music
@@ -188,45 +188,66 @@ export default class Game extends Phaser.Scene {
       wordWrap: { width: 250 },
     });
 
+    // Hit spacebar to interact with objects. Clear message if there is one. Check if next to object and display text
     this.cursors.space.on("down", () => {
-      let x = this.player.x;
-      let y = this.player.y;
-      console.log(x);
-      console.log(y);
+      console.log(this.player.x);
+      console.log(this.player.y);
       if (message.text) {
         message.text = "";
-        message.y = y + 160;
-        message.x = x;
-      } else if (x > 509 && x < 522 && y > 857 && y < 935) {
-        // lamp
-        message.y = y + 160;
-        message.x = x;
-        message.text =
-          "This lamp is glowing faintly. Theres's no flame and no bulb. It's an empty, indecernable light source";
-      } else if (x > 170 && x < 195 && y > 620 && y < 634) {
-        // enter house 1
-        this.scene.start(new testhouse());
-        // this.scene.transition({
-        //   target: "testhouse",
-        //   duration: 1000,
-        // });
       } else {
-        console.log("test");
+        let nextToTarget = isItClose(this.player, [
+          { x: 800, y: 800, name: "testhouse" },
+        ]);
+        console.log(nextToTarget);
+        if (nextToTarget) {
+          // message.text = nextToTarget.text;
+          console.log(`im next to ${nextToTarget.name}`);
+        }
       }
-    });
+    }),
+      // this.cursors.space.on("down", () => {
+      //   let x = this.player.x;
+      //   let y = this.player.y;
+      //   console.log(x);
+      //   console.log(y);
+      //   if (message.text) {
+      //     message.text = "";
+      //     message.y = y + 160;
+      //     message.x = x;
+      //   } else if (x > 509 && x < 522 && y > 857 && y < 935) {
+      //     // lamp
+      //     message.y = y + 160;
+      //     message.x = x;
+      //     message.text =
+      //       "This lamp is glowing faintly. Theres's no flame and no bulb. It's an empty, indecernable light source";
+      //   } else if (x > 170 && x < 195 && y > 620 && y < 634) {
+      //     // enter house 1
+      //     this.scene.start(new testhouse());
+      //     // this.scene.transition({
+      //     //   target: "testhouse",
+      //     //   duration: 1000,
+      //     // });
+      //   } else {
+      //     console.log("test");
+      //   }
+      // });
 
-    debugDraw(wallsLayer, this);
+      debugDraw(wallsLayer, this);
   }
 
   update(t: number, dt: number) {
     if (!this.cursors || !this.player) {
       return;
     }
-    let aboutToEnter = isItClose(this.player, [{ x: 330, y: 1217, name:'testhouse' },]);
+    let nextToTarget = isItClose(this.player, [
+      { x: 324, y: 1217, name: "testhouse" },
+    ]);
     // Walking, check for entering scene
-    if (aboutToEnter) {
-      this.scene.start('shop');
+    if (nextToTarget) {
+      this.scene.start(nextToTarget.name);
     }
+
+    // Hit space to interact with an object
 
     // let x = this.player.x;
     // let y = this.player.y;
