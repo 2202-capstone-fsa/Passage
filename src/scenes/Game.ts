@@ -11,7 +11,6 @@ export default class Game extends Phaser.Scene {
 
   constructor() {
     super("game");
-    console.log(data);
   }
 
   preload() {
