@@ -97,6 +97,7 @@ export default class Game extends Phaser.Scene {
     });
 
     floorLayer.setCollisionByProperty({ collides: true });
+    floorObjLayer.setCollisionByProperty({ collides: true })
     lowObjLayer.setCollisionByProperty({ collides: true });
     highObjLayer.setCollisionByProperty({ collides: true });
 
@@ -104,6 +105,7 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.player, lowObjLayer);
     this.physics.add.collider(this.player, highObjLayer);
     this.physics.add.collider(this.player, floorLayer);
+    this.physics.add.collider(this.player, floorObjLayer)
 
     debugDraw(floorLayer, this);
     debugDraw(highObjLayer, this);
