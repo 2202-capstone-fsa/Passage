@@ -37,6 +37,7 @@ export default class Game extends Phaser.Scene {
       "upper dead objects",
       hospitalTilesets
     );
+    const objectLayer = map.createLayer("objects", hospitalTilesets);
 
     this.player = this.physics.add.sprite(
       105,

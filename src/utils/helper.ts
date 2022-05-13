@@ -138,3 +138,4 @@ export const overworldScenes = [
 ];
 
 export const overworldObjs = [{}];
+
