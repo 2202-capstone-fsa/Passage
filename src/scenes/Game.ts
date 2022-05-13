@@ -5,7 +5,7 @@ import {
   isItClose,
   setPlayer,
   movePlayer,
-  overworldScenes,
+  overworldExits,
   overworldObjs,
   createAnims,
   interact,
@@ -145,7 +145,7 @@ export default class Game extends Phaser.Scene {
     }
 
     // Enter a scene when near
-    let nextToTarget = isItClose(this.player, overworldScenes);
+    let nextToTarget = isItClose(this.player, overworldExits);
     if (nextToTarget) {
       this.scene.start(nextToTarget.name);
     }
