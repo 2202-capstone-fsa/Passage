@@ -127,10 +127,10 @@ export function createAnims(anims) {
   });
 }
 
-export const overworldScenes = [
-  {
-    //"This lamp is glowing faintly. Theress no flame and no bulb. Its an empty, indecernable light source",
-  },
+export const overworldExits = [
+  { x: 320, y: 1165, name: "shop" },
+  { x: 1234, y: 465, name: "hospital" },
+  { x: 803, y: 216, name: "cave" },
 ];
 
 export const overworldObjs = [{}];
