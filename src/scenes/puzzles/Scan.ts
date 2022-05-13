@@ -36,6 +36,11 @@ export default class Game extends Phaser.Scene {
   preload() {
     const fonts = new WebFontFile(this.load, "Press Start 2P");
     this.load.addFile(fonts);
+    this.load.audio("ding", "audio/sounds/ding.mp3");
+    this.load.audio("bling", "audio/sounds/bling.mp3");
+    this.load.audio("weirdwave", "audio/sounds/weirdwave.mp3");
+    this.load.audio("impact", "audio/sounds/impact.mp3");
+    this.load.audio("poweron", "audio/sounds/poweron.mp3");
   }
 
   create() {
@@ -208,12 +213,14 @@ export default class Game extends Phaser.Scene {
     this.leftScore += 1;
     this.leftScoreLabel.text = this.leftScore;
     console.log(this.leftScore);
+    this.sound.play("ding");
   }
 
   incrementRightScore() {
     this.rightScore += 1;
     this.rightScoreLabel.text = this.rightScore;
     console.log(this.rightScore);
+    this.sound.play("bling");
   }
 
   resetBall(spd = 450) {
