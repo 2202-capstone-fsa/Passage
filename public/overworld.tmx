@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="1">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="24">
  <editorsettings>
   <export target="tiles/overworld.json" format="json"/>
  </editorsettings>
@@ -56618,6 +56618,35 @@
    </properties>
   </tile>
  </tileset>
+ <tileset firstgid="11875" name="Icons" tilewidth="16" tileheight="16" tilecount="1072" columns="16">
+  <image source="../../../Downloads/icons_8.13.20/updated_layout/icons_tf_16.png" width="256" height="1072"/>
+ </tileset>
+ <tileset firstgid="12947" name="Chests" tilewidth="16" tileheight="16" tilecount="120" columns="10">
+  <image source="../../../Downloads/19.07c - Treasure Chests 1.2a/treasure chests.png" width="160" height="192"/>
+ </tileset>
+ <tileset firstgid="13067" name="Atlantis" tilewidth="16" tileheight="16" tilecount="1190" columns="34">
+  <image source="../../../Downloads/tf_atlantis_updated2020/tf_atlantis_tiles.png" width="544" height="560"/>
+  <tile id="529">
+   <properties>
+    <property name="Name" value="Shell 1"/>
+   </properties>
+  </tile>
+  <tile id="530">
+   <properties>
+    <property name="Name" value="Shell 1"/>
+   </properties>
+  </tile>
+  <tile id="563">
+   <properties>
+    <property name="Name" value="Shell 1"/>
+   </properties>
+  </tile>
+  <tile id="564">
+   <properties>
+    <property name="Name" value="Shell 1"/>
+   </properties>
+  </tile>
+ </tileset>
  <layer id="2" name="Ground" width="100" height="100" locked="1">
   <data encoding="csv">
 2107,2108,2109,2110,2111,2112,2107,2108,2109,2110,2111,2107,2108,2109,2110,2111,2112,2110,2111,2112,2172,2173,2174,2175,2176,2108,2109,2110,2111,2112,2107,2108,2109,2110,2111,2112,2107,2108,2109,2110,2111,2112,2107,2108,2109,2110,2111,2112,2107,2108,2109,2110,2111,2112,2107,2108,2109,2110,2111,2112,2107,2108,2109,2110,2111,2112,2107,2108,2109,2110,2111,2112,2109,2110,2111,2112,2107,2108,2109,2110,2111,2112,2107,2108,2109,2110,2111,2112,2107,2108,2109,2110,2111,2112,2107,2108,2109,2110,2111,2112,
@@ -56930,7 +56959,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="1" name="Walls" width="100" height="100" locked="1">
+ <layer id="1" name="Walls" width="100" height="100">
   <data encoding="csv">
 0,0,0,0,11101,11102,11103,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11538,11539,11540,11541,11542,0,0,11538,11539,11540,11541,11542,0,0,0,0,0,11538,11539,11540,11541,11542,0,0,9308,9521,9349,9349,9349,9349,9349,9349,9349,9523,9310,0,0,11538,11539,11540,11541,11542,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,11135,11136,11137,11138,11139,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11560,11561,11562,11563,11564,0,0,11560,11561,11562,11563,11564,0,0,0,0,0,11560,11561,11562,11563,11564,0,0,9308,9521,9394,9394,9394,9394,9394,9394,9394,9523,9310,0,0,11560,11561,11562,11563,11564,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -57034,4 +57063,5 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1305
 </data>
  </layer>
+ <objectgroup id="6" name="Chests"/>
 </map>
