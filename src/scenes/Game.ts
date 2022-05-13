@@ -1,11 +1,12 @@
 import Phaser from "phaser";
 import { debugDraw } from "../utils/debug";
 //import data from "../tiles/overworld.json";
+import data from "../../public/tiles/maze.json";
 import {
   isItClose,
   setPlayer,
   movePlayer,
-  overworldScenes,
+  overworldExits,
   overworldObjs,
   createAnims,
   interact,
@@ -135,6 +136,7 @@ export default class Game extends Phaser.Scene {
 
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
+      console.log(data);
       interact(this.message, this.player);
     }),
       debugDraw(wallsLayer, this);
@@ -145,7 +147,7 @@ export default class Game extends Phaser.Scene {
     }
 
     // Enter a scene when near
-    let nextToTarget = isItClose(this.player, overworldScenes);
+    let nextToTarget = isItClose(this.player, overworldExits);
     if (nextToTarget) {
       this.scene.start(nextToTarget.name);
     }

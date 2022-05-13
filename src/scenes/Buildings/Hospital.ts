@@ -1,9 +1,20 @@
 import Phaser from "phaser";
+import {
+  isItClose,
+  setPlayer,
+  movePlayer,
+  overworldExits,
+  overworldObjs,
+  createAnims,
+  interact,
+} from "../../utils/helper";
 import { debugDraw } from "../../utils/debug";
+import data from "../../../public/tiles/hospital.json";
 
 export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private player!: Phaser.Physics.Arcade.Sprite;
+  private message!: Phaser.GameObjects.Text;
 
   constructor() {
     super("hospital");
@@ -14,7 +25,7 @@ export default class Game extends Phaser.Scene {
     this.load.image("items", "tiles/LabItems.png");
     this.load.image("building", "tiles/ModernTiles.png");
 
-    this.load.tilemapTiledJSON("hospital", "tiles/hospital.tmj");
+    this.load.tilemapTiledJSON("hospital", "tiles/hospital.json");
 
     //Load keyboard for player to use.
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -107,7 +118,22 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.player, floorLayer);
     this.physics.add.collider(this.player, floorObjLayer);
 
-    debugDraw(floorLayer, this);
+    this.message = this.add.text(800, 750, "", {
+      color: "white",
+      backgroundColor: "black",
+      fontSize: "12px",
+      align: "center",
+      baselineX: 0,
+      baselineY: 0,
+      wordWrap: { width: 250 },
+    });
+
+    // Hit spacebar to interact with objects.
+    this.cursors.space.on("down", () => {
+      console.log(data);
+      interact(this.message, this.player, data.layers[4].objects);
+    }),
+      debugDraw(floorLayer, this);
     debugDraw(highObjLayer, this);
     debugDraw(lowObjLayer, this);
   }
@@ -116,12 +142,13 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;
 
-    const speed = 120;
+    const speed = this.message.text ? 0 : 120;
     if (this.cursors.left?.isDown) {
       this.player.anims.play("player-walk-side", true);
       this.player.setVelocity(-speed, 0);
       this.player.scaleX = 1;
       this.player.body.offset.x = 5;
+      //console.log(data);
     } else if (this.cursors.right?.isDown) {
       this.player.anims.play("player-walk-side", true);
       this.player.setVelocity(speed, 0);
