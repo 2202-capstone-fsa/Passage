@@ -8,6 +8,7 @@ import Maze from "./scenes/Puzzles/Maze";
 import Shop from "./scenes/Buildings/Shop";
 import Scan from "./scenes/Puzzles/Scan";
 
+
 // import GameUI from "./scenes/GameUI";
 
 export default new Phaser.Game({
