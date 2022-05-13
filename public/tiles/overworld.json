@@ -445,9 +445,20 @@
          "width":100,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":6,
+         "name":"Chests",
+         "objects":[],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":6,
- "nextobjectid":1,
+ "nextlayerid":7,
+ "nextobjectid":24,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.4",
@@ -102509,6 +102520,82 @@
                          "name":"collides",
                          "type":"bool",
                          "value":false
+                        }]
+                }],
+         "tilewidth":16
+        }, 
+        {
+         "columns":16,
+         "firstgid":11875,
+         "image":"..\/..\/..\/..\/Downloads\/icons_8.13.20\/updated_layout\/icons_tf_16.png",
+         "imageheight":1072,
+         "imagewidth":256,
+         "margin":0,
+         "name":"Icons",
+         "spacing":0,
+         "tilecount":1072,
+         "tileheight":16,
+         "tilewidth":16
+        }, 
+        {
+         "columns":10,
+         "firstgid":12947,
+         "image":"..\/..\/..\/..\/Downloads\/19.07c - Treasure Chests 1.2a\/treasure chests.png",
+         "imageheight":192,
+         "imagewidth":160,
+         "margin":0,
+         "name":"Chests",
+         "spacing":0,
+         "tilecount":120,
+         "tileheight":16,
+         "tilewidth":16
+        }, 
+        {
+         "columns":34,
+         "firstgid":13067,
+         "image":"..\/..\/..\/..\/Downloads\/tf_atlantis_updated2020\/tf_atlantis_tiles.png",
+         "imageheight":560,
+         "imagewidth":544,
+         "margin":0,
+         "name":"Atlantis",
+         "spacing":0,
+         "tilecount":1190,
+         "tileheight":16,
+         "tiles":[
+                {
+                 "id":529,
+                 "properties":[
+                        {
+                         "name":"Name",
+                         "type":"string",
+                         "value":"Shell 1"
+                        }]
+                }, 
+                {
+                 "id":530,
+                 "properties":[
+                        {
+                         "name":"Name",
+                         "type":"string",
+                         "value":"Shell 1"
+                        }]
+                }, 
+                {
+                 "id":563,
+                 "properties":[
+                        {
+                         "name":"Name",
+                         "type":"string",
+                         "value":"Shell 1"
+                        }]
+                }, 
+                {
+                 "id":564,
+                 "properties":[
+                        {
+                         "name":"Name",
+                         "type":"string",
+                         "value":"Shell 1"
                         }]
                 }],
          "tilewidth":16
