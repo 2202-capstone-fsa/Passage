@@ -26,7 +26,15 @@ export function isItClose(player, targets) {
 export function updateText(player, target, message) {
   message.x = player.x + 20;
   message.y = player.y + 100;
-  message.text = target.text;
+  if (!target.properties) {
+    return;
+  }
+
+  for (let i = 0; i < target.properties.length; i++) {
+    if (target.properties[i].name == "message") {
+      message.text = target.properties[i].value;
+    }
+  }
 }
 
 export function movePlayer(player, speed, pressedKey) {
@@ -71,9 +79,8 @@ export function interact(message, player, objs = []) {
     message.text = "";
   } else {
     let nextToTarget = isItClose(player, objs);
-    console.log(nextToTarget);
     if (nextToTarget) {
-      console.log(`im next to ${nextToTarget.name}`);
+      console.log(`im next to: ${nextToTarget.name}`);
       updateText(player, nextToTarget, message);
     }
   }

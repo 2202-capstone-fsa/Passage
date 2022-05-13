@@ -1,7 +1,7 @@
 HELPER FUNCTION DOCUMENTATION:
 
 interact(message, player, objects)
-  Give it this.message, this.player, and an array of objects the player can interact with. Calls isItClose, and updates message with text of interacting object.
+  Give it this.message, this.player, and an array of objects the player can interact with. Objects array should be something like data.layers[n].objects, where n is either 3 or 4 usually. Calls isItClose, and updates message with text of interacting object.
 
 isItClose (player, target)
   Give it this.player and an array of target objects. Returns the target object within 3% distance of player, or null.
