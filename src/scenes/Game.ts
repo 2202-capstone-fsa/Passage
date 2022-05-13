@@ -1,14 +1,14 @@
 import Phaser from "phaser";
 import { debugDraw } from "../utils/debug";
-import testhouse from "./Buildings/testhouse";
 //import data from "../tiles/overworld.json";
 import {
   isItClose,
-  updateText,
   setPlayer,
   movePlayer,
   overworldScenes,
   overworldObjs,
+  createIdleAnims,
+  createMotionAnims,
   interact,
 } from "../utils/helper";
 
@@ -98,53 +98,9 @@ export default class Game extends Phaser.Scene {
 
     music.play(musicConfig);
 
-    //Create idle animations for direction player is facing.
-    this.anims.create({
-      key: "player-idle-down",
-      frames: [{ key: "player", frame: "doc-walk-down-0" }],
-    });
-    this.anims.create({
-      key: "player-idle-side",
-      frames: [{ key: "player", frame: "doc-walk-side-0" }],
-    });
-    this.anims.create({
-      key: "player-idle-up",
-      frames: [{ key: "player", frame: "doc-walk-up-0" }],
-    });
-
-    //Create animations for player motions.
-    this.anims.create({
-      key: "player-walk-down",
-      frames: this.anims.generateFrameNames("player", {
-        start: 3,
-        end: 6,
-        prefix: "doc-walk-down-",
-      }),
-      repeat: -1,
-      frameRate: 6,
-    });
-
-    this.anims.create({
-      key: "player-walk-up",
-      frames: this.anims.generateFrameNames("player", {
-        start: 3,
-        end: 6,
-        prefix: "doc-walk-up-",
-      }),
-      repeat: -1,
-      frameRate: 6,
-    });
-
-    this.anims.create({
-      key: "player-walk-side",
-      frames: this.anims.generateFrameNames("player", {
-        start: 3,
-        end: 6,
-        prefix: "doc-walk-side-",
-      }),
-      repeat: -1,
-      frameRate: 6,
-    });
+    //Create animations
+    createIdleAnims(this.anims);
+    createMotionAnims(this.anims);
 
     //Create houses and walls in this world, over the Ground and Player.
     const housesLayer = map.createLayer("Houses", [
@@ -175,8 +131,6 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.player, housesLayer);
     this.physics.add.collider(this.player, waterfallLayer);
 
-    // Array of interactable objects
-
     this.message = this.add.text(800, 750, "", {
       color: "white",
       backgroundColor: "black",
@@ -187,22 +141,9 @@ export default class Game extends Phaser.Scene {
       wordWrap: { width: 250 },
     });
 
-    // Hit spacebar to interact with objects. Clear message if there is one. Check if next to object and display text
-    //interact(this.cursors, this.message, this.player);
+    // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
-      interact(this.cursors, this.message, this.player);
-      // console.log(this.player.x);
-      // console.log(this.player.y);
-      // if (this.message.text) {
-      //   this.message.text = "";
-      // } else {
-      //   let nextToTarget = isItClose(this.player, []);
-      //   console.log(nextToTarget);
-      //   if (nextToTarget) {
-      //     console.log(`im next to ${nextToTarget.name}`);
-      //     updateText(this.player, nextToTarget, this.message);
-      //   }
-      // }
+      interact(this.message, this.player);
     }),
       debugDraw(wallsLayer, this);
   }

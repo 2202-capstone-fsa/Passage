@@ -1,14 +1,7 @@
 //load data from json
 
 // checks if player is close any obj in target arr. Returns the obj
-export function isItClose(
-  player,
-  targets = [
-    { x: 3, y: 4, name: "house1", text: "" },
-    { x: 3, y: 4, name: "house2", text: "" },
-    { x: 3, y: 4, name: "house3", text: "" },
-  ]
-) {
+export function isItClose(player, targets) {
   let x = player.x;
   let y = player.y;
 
@@ -71,19 +64,71 @@ export function setPlayer(player) {
   player.setCollideWorldBounds(true);
 }
 
-export function interact(cursor, message, player) {
+export function interact(message, player, objs = []) {
   console.log(player.x);
   console.log(player.y);
   if (message.text) {
     message.text = "";
   } else {
-    let nextToTarget = isItClose(player, []);
+    let nextToTarget = isItClose(player, objs);
     console.log(nextToTarget);
     if (nextToTarget) {
       console.log(`im next to ${nextToTarget.name}`);
       updateText(player, nextToTarget, message);
     }
   }
+}
+
+//Create idle animations for direction player is facing.
+export function createIdleAnims(anims) {
+  anims.create({
+    key: "player-idle-down",
+    frames: [{ key: "player", frame: "doc-walk-down-0" }],
+  });
+  anims.create({
+    key: "player-idle-side",
+    frames: [{ key: "player", frame: "doc-walk-side-0" }],
+  });
+  anims.create({
+    key: "player-idle-up",
+    frames: [{ key: "player", frame: "doc-walk-up-0" }],
+  });
+}
+
+//Create animations for player motions.
+export function createMotionAnims(anims) {
+  anims.create({
+    key: "player-walk-down",
+    frames: anims.generateFrameNames("player", {
+      start: 3,
+      end: 6,
+      prefix: "doc-walk-down-",
+    }),
+    repeat: -1,
+    frameRate: 6,
+  });
+
+  anims.create({
+    key: "player-walk-up",
+    frames: anims.generateFrameNames("player", {
+      start: 3,
+      end: 6,
+      prefix: "doc-walk-up-",
+    }),
+    repeat: -1,
+    frameRate: 6,
+  });
+
+  anims.create({
+    key: "player-walk-side",
+    frames: anims.generateFrameNames("player", {
+      start: 3,
+      end: 6,
+      prefix: "doc-walk-side-",
+    }),
+    repeat: -1,
+    frameRate: 6,
+  });
 }
 
 export const overworldScenes = [
