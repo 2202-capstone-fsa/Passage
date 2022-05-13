@@ -7,12 +7,9 @@ import {
   movePlayer,
   overworldScenes,
   overworldObjs,
-  createIdleAnims,
-  createMotionAnims,
+  createAnims,
   interact,
 } from "../utils/helper";
-
-
 
 export default class Game extends Phaser.Scene {
   private parry!: "string";
@@ -25,26 +22,24 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
-    
     //Load graphics
     this.load.image("houses", "tiles/overworld/houses.png");
     this.load.image("outside", "tiles/overworld/outside.png");
     this.load.image("jungle", "tiles/overworld/jungle.png");
     this.load.image("beach", "tiles/overworld/beach.png");
     this.load.image("clouds", "tiles/overworld/clouds.png");
-    
+
     //Load audio
     this.load.audio("music", ["music/2.mp3"]);
-    
+
     //Load data (collisions, etc) for the map.
     this.load.tilemapTiledJSON("overworld", "tiles/overworld.json");
-    
+
     //Load keyboard for player to use.
     this.cursors = this.input.keyboard.createCursorKeys();
   }
 
   create() {
-    
     //Create tile sets so that we can access Tiled data later on.
     const map = this.make.tilemap({ key: "overworld" });
     const townTileSet = map.addTilesetImage("Town", "outside");
@@ -52,7 +47,7 @@ export default class Game extends Phaser.Scene {
     const jungleTileSet = map.addTilesetImage("Jungle", "jungle");
     const beachTileSet = map.addTilesetImage("Beach", "beach");
     const cloudsTileSet = map.addTilesetImage("Clouds", "clouds");
-    
+
     //Create ground layer first using tile set data.
     const overworld = map.addTilesetImage("overworld", "Ground");
     const groundLayer = map.createLayer("Ground", [
@@ -86,7 +81,6 @@ export default class Game extends Phaser.Scene {
 
     setPlayer(this.player);
 
-
     //adds and configs music
     let music = this.sound.add("music");
     let musicConfig = {
@@ -101,9 +95,7 @@ export default class Game extends Phaser.Scene {
     music.play(musicConfig);
 
     //Create animations
-    createIdleAnims(this.anims);
-    createMotionAnims(this.anims);
-
+    createAnims(this.anims);
 
     //Create houses and walls in this world, over the Ground and Player.
     const housesLayer = map.createLayer("Houses", [
@@ -144,7 +136,6 @@ export default class Game extends Phaser.Scene {
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
       interact(this.message, this.player);
-
     }),
       debugDraw(wallsLayer, this);
   }
@@ -162,10 +153,9 @@ export default class Game extends Phaser.Scene {
     // Camera that follows
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;
-    
+
     // movement
     let speed = this.message.text ? 0 : 120;
     movePlayer(this.player, speed, this.cursors);
-
   }
 }

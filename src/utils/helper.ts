@@ -80,7 +80,7 @@ export function interact(message, player, objs = []) {
 }
 
 //Create idle animations for direction player is facing.
-export function createIdleAnims(anims) {
+export function createAnims(anims) {
   anims.create({
     key: "player-idle-down",
     frames: [{ key: "player", frame: "doc-walk-down-0" }],
@@ -93,10 +93,6 @@ export function createIdleAnims(anims) {
     key: "player-idle-up",
     frames: [{ key: "player", frame: "doc-walk-up-0" }],
   });
-}
-
-//Create animations for player motions.
-export function createMotionAnims(anims) {
   anims.create({
     key: "player-walk-down",
     frames: anims.generateFrameNames("player", {
@@ -138,4 +134,3 @@ export const overworldScenes = [
 ];
 
 export const overworldObjs = [{}];
-
