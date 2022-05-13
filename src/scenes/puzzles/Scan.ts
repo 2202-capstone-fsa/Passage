@@ -34,7 +34,6 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
-    console.log("hii");
     const fonts = new WebFontFile(this.load, "Press Start 2P");
     this.load.addFile(fonts);
   }
@@ -108,7 +107,6 @@ export default class Game extends Phaser.Scene {
         this.cursors.right.isDown
       ) {
         this.gameState = GameState.PlayerLost;
-        console.log("loss");
       }
 
       return;
@@ -120,7 +118,7 @@ export default class Game extends Phaser.Scene {
       return;
 
     this.processPlayerInput();
-    this.updateAI(2);
+    this.updateAI(3);
     this.checkScore();
   }
 
@@ -178,9 +176,11 @@ export default class Game extends Phaser.Scene {
       let currentX = this.ball.body.velocity.x;
       let currentY = this.ball.body.velocity.y;
       this.ball.body.setVelocity(currentX * 2, currentY * 3);
-      console.log("in ball");
       this.resetBall();
-    } else if (this.rightScore >= maxScore || this.leftScore >= maxScore) {
+    }
+
+    if (this.rightScore >= maxScore || this.leftScore >= maxScore) {
+      console.log("winner");
       this.gameState = GameState.PlayerWon;
       this.resetBall();
     }
@@ -206,18 +206,24 @@ export default class Game extends Phaser.Scene {
   incrementLeftScore() {
     this.leftScore += 1;
     this.leftScoreLabel.text = this.leftScore;
+    console.log(this.leftScore);
   }
 
   incrementRightScore() {
     this.rightScore += 1;
-    this.leftScoreLabel.text = this.rightScore;
+    this.rightScoreLabel.text = this.rightScore;
+    console.log(this.rightScore);
   }
 
-  resetBall() {
+  resetBall(spd = 450) {
+    if (this.gameState === GameState.Still) {
+      spd = 800;
+    }
     //Resets location of ball to middle AND angle.
     this.ball.setPosition(400, 250);
-    const angle = Phaser.Math.Between(0, 360);
-    const vec = this.physics.velocityFromAngle(angle, 900);
+    const angleArray = [45, 135, 225, 315];
+    const angle = angleArray[Math.floor(Math.random() * angleArray.length)];
+    const vec = this.physics.velocityFromAngle(angle, spd);
 
     this.ball.body.setVelocity(vec.x, vec.y);
   }
