@@ -1,0 +1,22 @@
+HELPER FUNCTION DOCUMENTATION:
+
+interact(message, player, objects)
+  Give it this.message, this.player, and an array of objects the player can interact with. Calls isItClose, and updates message with text of interacting object.
+
+isItClose (player, target)
+  Give it this.player and an array of target objects. Returns the target object within 3% distance of player, or null.
+
+setPlayer(player)
+  Give it this.player and it sets body and collisions.
+
+movePlayer(player)
+  Give it this.player and it sets arrow movement for player.
+
+overworldExits
+  An array of objects. Each object, {x, y, name}, represents boundary of a new scene (door, waterfall, entrance)
+
+overworldObjs
+  An array of objects. Each object is an interactable item in the scene (will finish this once objects JSON is done)
+  createAnims,
+  interact,
+}
