@@ -14,7 +14,7 @@ export default class Game extends Phaser.Scene {
     this.load.image("items", "tiles/LabItems.png");
     this.load.image("building", "tiles/ModernTiles.png");
 
-    this.load.tilemapTiledJSON("hospital", "tiles/hospital.tmj");
+    this.load.tilemapTiledJSON("hospital", "tiles/hospital.json");
 
     //Load keyboard for player to use.
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -37,7 +37,7 @@ export default class Game extends Phaser.Scene {
       "upper dead objects",
       hospitalTilesets
     );
-    const objectLayer = map.createLayer("objects", hospitalTilesets);
+    //const objectLayer = map.createLayer("objects", hospitalTilesets);
 
     this.player = this.physics.add.sprite(
       105,

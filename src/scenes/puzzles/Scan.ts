@@ -39,11 +39,11 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-    // this.scene.run(GameBackground);
-    // this.scene.sendToBack(GameBackground);
+    this.scene.run("scan-background");
+    this.scene.sendToBack("scan-background");
     // Above lines equivalent to the next few:
-    this.add.line(400, 250, 0, 0, 0, 500, this.white, 1).setLineWidth(2, 2);
-    this.add.circle(400, 250, 25).setStrokeStyle(3, this.white, 1);
+    // this.add.line(400, 250, 0, 0, 0, 500, this.white, 1).setLineWidth(2, 2);
+    // this.add.circle(400, 250, 25).setStrokeStyle(3, this.white, 1);
 
     //Makes the ball go off the grid
     this.physics.world.setBounds(-100, 0, 1000, 500);
@@ -97,6 +97,7 @@ export default class Game extends Phaser.Scene {
       this.processPlayerInput();
       this.updateAI(4);
       this.checkScore();
+      this.scene.stop("scan-background");
       //Stop old bg, start new one.
       //
       //
