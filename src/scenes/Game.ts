@@ -1,14 +1,25 @@
 import Phaser from "phaser";
 import { debugDraw } from "../utils/debug";
-import testhouse from "./Buildings/testhouse";
 //import data from "../tiles/overworld.json";
-import { isItClose, updateText } from "../utils/helper";
+import {
+  isItClose,
+  setPlayer,
+  movePlayer,
+  overworldScenes,
+  overworldObjs,
+  createIdleAnims,
+  createMotionAnims,
+  interact,
+} from "../utils/helper";
+
+
 
 export default class Game extends Phaser.Scene {
   private parry!: "string";
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private player!: Phaser.Physics.Arcade.Sprite;
   private message!: Phaser.GameObjects.Text;
+
   constructor() {
     super("game");
   }
@@ -72,12 +83,10 @@ export default class Game extends Phaser.Scene {
       "player",
       "doc-walk-down-0"
     );
-    this.player.body.setSize(
-      this.player.width * 0.8,
-      this.player.height * 0.25
-    );
-    this.player.body.setOffset(2, 25);
-    this.player.setCollideWorldBounds(true);
+
+    setPlayer(this.player);
+
+
     //adds and configs music
     let music = this.sound.add("music");
     let musicConfig = {
@@ -90,50 +99,12 @@ export default class Game extends Phaser.Scene {
       delay: 0,
     };
     music.play(musicConfig);
-    //Create idle animations for direction player is facing.
-    this.anims.create({
-      key: "player-idle-down",
-      frames: [{ key: "player", frame: "doc-walk-down-0" }],
-    });
-    this.anims.create({
-      key: "player-idle-side",
-      frames: [{ key: "player", frame: "doc-walk-side-0" }],
-    });
-    this.anims.create({
-      key: "player-idle-up",
-      frames: [{ key: "player", frame: "doc-walk-up-0" }],
-    });
-    //Create animations for player motions.
-    this.anims.create({
-      key: "player-walk-down",
-      frames: this.anims.generateFrameNames("player", {
-        start: 3,
-        end: 6,
-        prefix: "doc-walk-down-",
-      }),
-      repeat: -1,
-      frameRate: 6,
-    });
-    this.anims.create({
-      key: "player-walk-up",
-      frames: this.anims.generateFrameNames("player", {
-        start: 3,
-        end: 6,
-        prefix: "doc-walk-up-",
-      }),
-      repeat: -1,
-      frameRate: 6,
-    });
-    this.anims.create({
-      key: "player-walk-side",
-      frames: this.anims.generateFrameNames("player", {
-        start: 3,
-        end: 6,
-        prefix: "doc-walk-side-",
-      }),
-      repeat: -1,
-      frameRate: 6,
-    });
+
+    //Create animations
+    createIdleAnims(this.anims);
+    createMotionAnims(this.anims);
+
+
     //Create houses and walls in this world, over the Ground and Player.
     const housesLayer = map.createLayer("Houses", [
       houseTileSet,
@@ -159,21 +130,7 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.player, wallsLayer);
     this.physics.add.collider(this.player, housesLayer);
     this.physics.add.collider(this.player, waterfallLayer);
-    // Array of interactable objects
-    let arrOfObjs = [
-      {
-        x: 800,
-        y: 800,
-        name: "lamp",
-        text: "This lamp is glowing faintly. Theress no flame and no bulb. Its an empty, indecernable light source",
-      },
-      {
-        x: 400,
-        y: 400,
-        name: "thing",
-        text: "You found my hidden thing, impressive!",
-      },
-    ];
+
     this.message = this.add.text(800, 750, "", {
       color: "white",
       backgroundColor: "black",
@@ -183,20 +140,11 @@ export default class Game extends Phaser.Scene {
       baselineY: 0,
       wordWrap: { width: 250 },
     });
-    // Hit spacebar to interact with objects. Clear message if there is one. Check if next to object and display text
+
+    // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
-      console.log(this.player.x);
-      console.log(this.player.y);
-      if (this.message.text) {
-        this.message.text = "";
-      } else {
-        let nextToTarget = isItClose(this.player, arrOfObjs);
-        console.log(nextToTarget);
-        if (nextToTarget) {
-          console.log(`im next to ${nextToTarget.name}`);
-          updateText(this.player, nextToTarget, this.message);
-        }
-      }
+      interact(this.message, this.player);
+
     }),
       debugDraw(wallsLayer, this);
   }
@@ -204,42 +152,20 @@ export default class Game extends Phaser.Scene {
     if (!this.cursors || !this.player) {
       return;
     }
-    let nextToTarget = isItClose(this.player, [
-      { x: 310, y: 1192, name: "shop", text: "placeholder" },
-    ]);
-    // Walking, check for entering scene
+
+    // Enter a scene when near
+    let nextToTarget = isItClose(this.player, overworldScenes);
     if (nextToTarget) {
       this.scene.start(nextToTarget.name);
     }
+
+    // Camera that follows
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;
+    
     // movement
     let speed = this.message.text ? 0 : 120;
-    if (this.cursors.left?.isDown) {
-      this.player.anims.play("player-walk-side", true);
-      this.player.setVelocity(-speed, 0);
-      this.player.scaleX = 1;
-      this.player.body.setOffset(2, 25);
-    } else if (this.cursors.right?.isDown) {
-      this.player.anims.play("player-walk-side", true);
-      this.player.setVelocity(speed, 0);
-      this.player.scaleX = -1;
-      //this.player.body.setOffset(2, 25);
-      // this.player.body.offset.x = 11;
-    } else if (this.cursors.down?.isDown) {
-      this.player.anims.play("player-walk-down", true);
-      this.player.setVelocity(0, speed);
-      //this.player.body.setOffset(2, 25);
-    } else if (this.cursors.up?.isDown) {
-      this.player.anims.play("player-walk-up", true);
-      this.player.setVelocity(0, -speed);
-      //this.player.body.setOffset(2, 25);
-    } else {
-      if (!this.player.anims.currentAnim) return;
-      const parts = this.player.anims.currentAnim.key.split("-");
-      parts[1] = "idle";
-      this.player.play(parts.join("-"));
-      this.player.setVelocity(0, 0);
-    }
+    movePlayer(this.player, speed, this.cursors);
+
   }
 }
