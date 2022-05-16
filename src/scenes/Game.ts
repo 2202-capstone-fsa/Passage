@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import { debugDraw } from "../utils/debug";
 //import data from "../tiles/overworld.json";
-import data from "../../public/tiles/maze.json";
+import data from "../../public/tiles/overworld.json";
 import {
   isItClose,
   setPlayer,
@@ -48,23 +48,17 @@ export default class Game extends Phaser.Scene {
     const jungleTileSet = map.addTilesetImage("Jungle", "jungle");
     const beachTileSet = map.addTilesetImage("Beach", "beach");
     const cloudsTileSet = map.addTilesetImage("Clouds", "clouds");
+    const allTileSet = [
+      houseTileSet,
+      townTileSet,
+      beachTileSet,
+      jungleTileSet,
+      cloudsTileSet,
+    ];
 
     //Create ground layer first using tile set data.
-    const overworld = map.addTilesetImage("overworld", "Ground");
-    const groundLayer = map.createLayer("Ground", [
-      houseTileSet,
-      townTileSet,
-      beachTileSet,
-      jungleTileSet,
-      cloudsTileSet,
-    ]);
-    const waterfallLayer = map.createLayer("Waterfall", [
-      houseTileSet,
-      townTileSet,
-      beachTileSet,
-      jungleTileSet,
-      cloudsTileSet,
-    ]);
+    // const overworld = map.addTilesetImage("overworld", "Ground");
+    const groundLayer = map.createLayer("Ground", allTileSet);
     /* Add Player sprite to the game.
       In the sprite json file, for any png of sprites,
       the first set of sprites is called "green"
@@ -99,20 +93,10 @@ export default class Game extends Phaser.Scene {
     createAnims(this.anims);
 
     //Create houses and walls in this world, over the Ground and Player.
-    const housesLayer = map.createLayer("Houses", [
-      houseTileSet,
-      townTileSet,
-      beachTileSet,
-      jungleTileSet,
-      cloudsTileSet,
-    ]);
-    const wallsLayer = map.createLayer("Walls", [
-      houseTileSet,
-      townTileSet,
-      beachTileSet,
-      jungleTileSet,
-      cloudsTileSet,
-    ]);
+    const housesLayer = map.createLayer("Houses", allTileSet);
+    const waterfallLayer = map.createLayer("Waterfall", allTileSet);
+    const wallsLayer = map.createLayer("Walls", allTileSet);
+
     // this.cameras.main.startFollow(this.player, true);
     // this.cameras.main.setBounds(0, 0, 1600, 1600);
     // this.cameras.main.centerOn(600, 600);
