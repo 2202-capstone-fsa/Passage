@@ -39,6 +39,7 @@ export default class Game extends Phaser.Scene {
     this.load.audio("weirdwave", "audio/sounds/weirdwave.mp3");
     this.load.audio("impact", "audio/sounds/impact.mp3");
     this.load.audio("poweron", "audio/sounds/poweron.mp3");
+    this.load.audio("lightimpact", "audio/sounds/poweron.mp3");
   }
 
   create() {
