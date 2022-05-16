@@ -137,7 +137,7 @@ export function createAnims(anims) {
 export const overworldExits = [
   { x: 320, y: 1165, name: "shop" },
   { x: 1234, y: 465, name: "hospital" },
-  { x: 803, y: 216, name: "cave" },
+  { x: 803, y: 216, name: "atlantis" },
 ];
 
 export const overworldObjs = [{}];
