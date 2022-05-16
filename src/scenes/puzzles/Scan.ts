@@ -1,9 +1,6 @@
 import Phaser from "phaser";
 import WebFontFile from "../../utils/WebFontFile";
 
-// import { GameBackground, GameOver } from "../consts/SceneKeys";
-// import * as Colors from "../consts/Colors";
-
 const GameState = {
   Running: "running",
   Still: "be-still",
@@ -12,6 +9,7 @@ const GameState = {
 };
 
 export default class Game extends Phaser.Scene {
+  private parry!: string;
   private leftScore!: number;
   private leftScoreLabel!: any;
   private rightScore!: number;
@@ -41,6 +39,7 @@ export default class Game extends Phaser.Scene {
     this.load.audio("weirdwave", "audio/sounds/weirdwave.mp3");
     this.load.audio("impact", "audio/sounds/impact.mp3");
     this.load.audio("poweron", "audio/sounds/poweron.mp3");
+    this.load.audio("lightimpact", "audio/sounds/poweron.mp3");
   }
 
   create() {
@@ -61,11 +60,29 @@ export default class Game extends Phaser.Scene {
 
     this.paddleLeft = this.add.rectangle(60, 250, 20, 100, this.white, 1);
     this.physics.add.existing(this.paddleLeft, true);
-    this.physics.add.collider(this.paddleLeft, this.ball);
+    this.physics.add.collider(
+      this.paddleLeft,
+      this.ball,
+      this.handlePaddleBallCollision,
+      undefined,
+      this
+    );
 
     this.paddleRight = this.add.rectangle(740, 250, 20, 100, this.white, 1);
     this.physics.add.existing(this.paddleRight, true);
-    this.physics.add.collider(this.paddleRight, this.ball);
+    this.physics.add.collider(
+      this.paddleRight,
+      this.ball,
+      this.handlePaddleBallCollision,
+      undefined,
+      this
+    );
+
+    this.physics.world.on(
+      "worldbounds",
+      this.handleBallWorldBoundsCollision,
+      this
+    );
 
     let scoreStyle: any;
     scoreStyle = {
@@ -102,7 +119,7 @@ export default class Game extends Phaser.Scene {
       this.processPlayerInput();
       this.updateAI(4);
       this.checkScore();
-      this.scene.stop("scan-background");
+      //this.scene.stop("scan-background");
       //Stop old bg, start new one.
       //
       //
@@ -126,6 +143,31 @@ export default class Game extends Phaser.Scene {
     this.processPlayerInput();
     this.updateAI(3);
     this.checkScore();
+  }
+
+  handleBallWorldBoundsCollision(body, up, down, left, right) {
+    if (left || right) {
+      return;
+    }
+    this.sound.play("impact");
+
+    /**@type {Phaser.Physics.Arcade.Body} */
+    const vel = this.ball.body.velocity;
+    vel.x *= 1.05;
+    vel.y *= 1.05;
+    body.setVelocity(vel.x, vel.y);
+  }
+
+  handlePaddleBallCollision() {
+    this.sound.play("lightimpact");
+
+    /**@type {Phaser.Physics.Arcade.Body} */
+    const body = this.ball.body;
+    const vel = body.velocity;
+    vel.x *= 1.05;
+    vel.y *= 1.05;
+
+    body.setVelocity(vel.x, vel.y);
   }
 
   processPlayerInput() {
