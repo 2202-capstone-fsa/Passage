@@ -42,21 +42,20 @@ export function movePlayer(player, speed, pressedKey) {
     player.anims.play("player-walk-side", true);
     player.setVelocity(-speed, 0);
     player.scaleX = 1;
-    player.body.setOffset(2, 25);
+    player.body.offset.x = 5;
   } else if (pressedKey.right?.isDown) {
     player.anims.play("player-walk-side", true);
     player.setVelocity(speed, 0);
     player.scaleX = -1;
-    //player.body.setOffset(2, 25);
-    // player.body.offset.x = 11;
+    player.body.offset.x = 10;
   } else if (pressedKey.down?.isDown) {
     player.anims.play("player-walk-down", true);
     player.setVelocity(0, speed);
-    //player.body.setOffset(2, 25);
+    player.body.offset.y = 25;
   } else if (pressedKey.up?.isDown) {
     player.anims.play("player-walk-up", true);
     player.setVelocity(0, -speed);
-    //player.body.setOffset(2, 25);
+    player.body.offset.y = 25;
   } else {
     if (!player.anims.currentAnim) return;
     const parts = player.anims.currentAnim.key.split("-");
@@ -67,8 +66,8 @@ export function movePlayer(player, speed, pressedKey) {
 }
 
 export function setPlayer(player) {
-  player.body.setSize(player.width * 0.8, player.height * 0.25);
-  player.body.setOffset(2, 25);
+  player.body.setSize(player.width * 0.3, player.height * 0.2);
+  player.body.setOffset(6.5, 30);
   player.setCollideWorldBounds(true);
 }
 
@@ -137,7 +136,7 @@ export function createAnims(anims) {
 export const overworldExits = [
   { x: 320, y: 1165, name: "shop" },
   { x: 1234, y: 465, name: "hospital" },
-  { x: 803, y: 216, name: "cave" },
+  { x: 803, y: 216, name: "atlantis" },
 ];
 
 export const overworldObjs = [{}];
