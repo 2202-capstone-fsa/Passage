@@ -148,7 +148,6 @@ export default class Game extends Phaser.Scene {
       this.player.setVelocity(-speed, 0);
       this.player.scaleX = 1;
       this.player.body.offset.x = 5;
-      //console.log(data);
     } else if (this.cursors.right?.isDown) {
       this.player.anims.play("player-walk-side", true);
       this.player.setVelocity(speed, 0);
