@@ -396,7 +396,7 @@
                         {
                          "name":"passed",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }, 
                         {
                          "name":"piano",
@@ -513,27 +513,15 @@
                  "width":16,
                  "x":280.666666666667,
                  "y":374.666666666667
-                }, 
-                {
-                 "gid":5612,
-                 "height":16,
-                 "id":16,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":16,
-                 "x":12,
-                 "y":315.333333333333
                 }],
-         "opacity":0.44,
+         "opacity":0.71,
          "type":"objectgroup",
          "visible":true,
          "x":0,
          "y":0
         }],
  "nextlayerid":11,
- "nextobjectid":17,
+ "nextobjectid":18,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.4",
