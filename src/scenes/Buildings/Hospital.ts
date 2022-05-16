@@ -32,6 +32,11 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
+    const overworldExits = [
+      { x: 422, y: 88, name: "bed" },
+      { x: 1234, y: 465, name: "hospital" },
+    ];
+
     //Create tile sets so that we can access Tiled data later on.
 
     const map = this.make.tilemap({ key: "hospital" });

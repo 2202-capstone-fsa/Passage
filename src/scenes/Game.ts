@@ -56,12 +56,6 @@ export default class Game extends Phaser.Scene {
       cloudsTileSet,
     ];
 
-    export const overworldExits = [
-      { x: 320, y: 1165, name: "shop" },
-      { x: 1234, y: 465, name: "hospital" },
-      { x: 803, y: 216, name: "atlantis" },
-    ];
-
     //Create ground layer first using tile set data.
     // const overworld = map.addTilesetImage("overworld", "Ground");
     const groundLayer = map.createLayer("Ground", allTileSet);
