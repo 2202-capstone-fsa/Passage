@@ -374,11 +374,7 @@
           ],
           "rotation": 0,
           "type": "",
-<<<<<<< HEAD
           "visible": true,
-=======
-          "visible": false,
->>>>>>> 74e1304 (Tinkering with objects)
           "width": 16,
           "x": 263.914,
           "y": 210.721
