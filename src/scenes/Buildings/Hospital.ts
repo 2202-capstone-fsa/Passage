@@ -48,7 +48,8 @@ export default class Game extends Phaser.Scene {
       "upper dead objects",
       hospitalTilesets
     );
-    const objectLayer = map.createLayer("objects", hospitalTilesets);
+    map.createFromObjects("objects", { id: 10 });
+    map.createFromObjects("objects", { id: 341 });
 
     this.player = this.physics.add.sprite(
       105,
@@ -56,57 +57,9 @@ export default class Game extends Phaser.Scene {
       "player",
       "doc-walk-down-0"
     );
-    this.player.body.setSize(this.player.width * 0.3, this.player.height * 0.2);
-    this.player.body.setOffset(6.5, 30);
-    this.player.setCollideWorldBounds(true);
 
-    //Create idle animations for direction player is facing.
-    this.anims.create({
-      key: "player-idle-down",
-      frames: [{ key: "player", frame: "doc-walk-down-0" }],
-    });
-    this.anims.create({
-      key: "player-idle-side",
-      frames: [{ key: "player", frame: "doc-walk-side-0" }],
-    });
-    this.anims.create({
-      key: "player-idle-up",
-      frames: [{ key: "player", frame: "doc-walk-up-0" }],
-    });
-
-    //Create animations for player motions.
-    this.anims.create({
-      key: "player-walk-down",
-      frames: this.anims.generateFrameNames("player", {
-        start: 3,
-        end: 6,
-        prefix: "doc-walk-down-",
-      }),
-      repeat: -1,
-      frameRate: 6,
-    });
-
-    this.anims.create({
-      key: "player-walk-up",
-      frames: this.anims.generateFrameNames("player", {
-        start: 3,
-        end: 6,
-        prefix: "doc-walk-up-",
-      }),
-      repeat: -1,
-      frameRate: 6,
-    });
-
-    this.anims.create({
-      key: "player-walk-side",
-      frames: this.anims.generateFrameNames("player", {
-        start: 3,
-        end: 6,
-        prefix: "doc-walk-side-",
-      }),
-      repeat: -1,
-      frameRate: 6,
-    });
+    setPlayer(this.player);
+    createAnims(this.anims);
 
     floorLayer.setCollisionByProperty({ collides: true });
     floorObjLayer.setCollisionByProperty({ collides: true });
@@ -138,35 +91,16 @@ export default class Game extends Phaser.Scene {
     debugDraw(lowObjLayer, this);
   }
 
-  update() {
+  update(t: number, dt: number) {
+    let nextToTarget = isItClose(this.player, overworldExits);
+    if (nextToTarget) {
+      this.scene.start(nextToTarget.name);
+    }
+
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;
 
-    const speed = this.message.text ? 0 : 120;
-    if (this.cursors.left?.isDown) {
-      this.player.anims.play("player-walk-side", true);
-      this.player.setVelocity(-speed, 0);
-      this.player.scaleX = 1;
-      this.player.body.offset.x = 5;
-    } else if (this.cursors.right?.isDown) {
-      this.player.anims.play("player-walk-side", true);
-      this.player.setVelocity(speed, 0);
-      this.player.scaleX = -1;
-      this.player.body.offset.x = 10;
-    } else if (this.cursors.down?.isDown) {
-      this.player.anims.play("player-walk-down", true);
-      this.player.setVelocity(0, speed);
-      this.player.body.offset.y = 25;
-    } else if (this.cursors.up?.isDown) {
-      this.player.anims.play("player-walk-up", true);
-      this.player.setVelocity(0, -speed);
-      this.player.body.offset.y = 25;
-    } else {
-      if (!this.player.anims.currentAnim) return;
-      const parts = this.player.anims.currentAnim.key.split("-");
-      parts[1] = "idle";
-      this.player.play(parts.join("-"));
-      this.player.setVelocity(0, 0);
-    }
+    let speed = this.message.text ? 0 : 120;
+    movePlayer(this.player, speed, this.cursors);
   }
 }

@@ -1,3 +1,4 @@
+import { World } from "matter";
 import Phaser from "phaser";
 import WebFontFile from "../../utils/WebFontFile";
 
@@ -37,8 +38,9 @@ export default class Game extends Phaser.Scene {
     this.load.audio("ding", "audio/sounds/ding.mp3");
     this.load.audio("bling", "audio/sounds/bling.mp3");
     this.load.audio("weirdwave", "audio/sounds/weirdwave.mp3");
-    this.load.audio("impact", "audio/sounds/impact.mp3");
+    this.load.audio("lightimpact", "audio/sounds/impact.mp3");
     this.load.audio("poweron", "audio/sounds/poweron.mp3");
+    this.load.audio("ballhit", "audio/sounds/ballhit.wav");
   }
 
   create() {
@@ -49,6 +51,7 @@ export default class Game extends Phaser.Scene {
     // this.add.circle(400, 250, 25).setStrokeStyle(3, this.white, 1);
 
     //Makes the ball go off the grid
+
     this.physics.world.setBounds(-100, 0, 1000, 500);
 
     this.ball = this.add.circle(400, 250, 10, this.white, 1);
@@ -148,7 +151,7 @@ export default class Game extends Phaser.Scene {
     if (left || right) {
       return;
     }
-    this.sound.play("impact");
+    this.sound.play("ballhit");
 
     /**@type {Phaser.Physics.Arcade.Body} */
     const vel = this.ball.body.velocity;
@@ -158,7 +161,7 @@ export default class Game extends Phaser.Scene {
   }
 
   handlePaddleBallCollision() {
-    this.sound.play("lightimpact");
+    this.sound.play("ballhit");
 
     /**@type {Phaser.Physics.Arcade.Body} */
     const body = this.ball.body;
