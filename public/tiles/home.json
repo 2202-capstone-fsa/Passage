@@ -350,6 +350,11 @@
                          "name":"message",
                          "type":"string",
                          "value":"Knock knock.  Who\u2019s there? Window. Window who? Windon\u2019t you knock one more time?"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"clue"
                         }],
                  "rotation":0,
                  "type":"",
@@ -365,7 +370,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":9,
+ "nextobjectid":10,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.4",
