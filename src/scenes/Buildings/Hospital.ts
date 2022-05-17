@@ -7,6 +7,7 @@ import {
   overworldObjs,
   createAnims,
   interact,
+  displayInventory,
 } from "../../utils/helper";
 import { debugDraw } from "../../utils/debug";
 import data from "../../../public/tiles/hospital.json";
@@ -30,6 +31,7 @@ export default class Game extends Phaser.Scene {
     //Load graphics for hospital.
     this.load.image("items", "tiles/LabItems.png");
     this.load.image("building", "tiles/ModernTiles.png");
+    this.load.audio("item", ["music/item.mp3"]);
 
     this.load.tilemapTiledJSON("hospital", "tiles/hospital.json");
 
@@ -89,11 +91,22 @@ export default class Game extends Phaser.Scene {
       wordWrap: { width: 250 },
     });
 
+    this.sound.add("item");
+
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
       console.log(data);
-      interact(this.message, this.player, data.layers[4].objects);
+      interact(
+        this.message,
+        this.player,
+        data.layers[4].objects,
+        this.sound.add("item")
+      );
     }),
+      // Hit shift to view Inventory.
+      this.cursors.shift.on("down", () => {
+        displayInventory(this.message, this.player);
+      }),
       debugDraw(floorLayer, this);
     debugDraw(highObjLayer, this);
     debugDraw(lowObjLayer, this);
