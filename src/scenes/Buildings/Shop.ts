@@ -10,9 +10,15 @@ import {
   displayInventory,
 } from "../../utils/helper";
 import { debugDraw } from "../../utils/debug";
+import data from "../../../public/tiles/hospital.json";
 
-export default class Shop extends Phaser.Scene {
-  private parry!: "string";
+const hospitalExits = [
+  { x: 422, y: 88, name: "maze" },
+  { x: 105, y: 575, name: "game" },
+
+];
+
+export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private player!: Phaser.Physics.Arcade.Sprite;
   private message!: Phaser.GameObjects.Text;
@@ -23,10 +29,7 @@ export default class Shop extends Phaser.Scene {
 
   preload() {
     this.load.image("shop", "tiles/RPGW_HousesAndInt_v1.1/interiors.png");
-    this.load.image(
-      "props",
-      "tiles/RPGW_HousesAndInt_v1.1/decorative_props.png"
-    );
+    this.load.image("props", "tiles/RPGW_HousesAndInt_v1.1/decorative_props.png");
     this.load.image("decore", "tiles/RPGW_HousesAndInt_v1.1/furniture.png");
     this.load.atlas(
       "player",
