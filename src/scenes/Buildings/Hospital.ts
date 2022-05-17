@@ -31,7 +31,6 @@ export default class Game extends Phaser.Scene {
     //Load graphics for hospital.
     this.load.image("items", "tiles/LabItems.png");
     this.load.image("building", "tiles/ModernTiles.png");
-    this.load.audio("item", ["music/item.mp3"]);
 
     this.load.tilemapTiledJSON("hospital", "tiles/hospital.json");
 
@@ -58,7 +57,6 @@ export default class Game extends Phaser.Scene {
     );
     map.createFromObjects("objects", { id: 10 });
     map.createFromObjects("objects", { id: 341 });
-
 
     //Add if statement depending on if Pong is complete.
     this.player = this.physics.add.sprite(

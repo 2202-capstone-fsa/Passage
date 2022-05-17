@@ -22,7 +22,7 @@ export default class Maze extends Phaser.Scene {
       "NPC_Characters_v1/MaleSprites.json"
     );
     //load audio
-    this.load.audio("music", ["music/Chopin-Maze.mp3"]);
+    this.load.audio("music", ["audio/Chopin-Maze.mp3"]);
 
     //Load data (collisions, etc) for the map.
     this.load.tilemapTiledJSON("maze", "tiles/maze.json");
