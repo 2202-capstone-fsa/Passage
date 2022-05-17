@@ -34,8 +34,10 @@ export default class Game extends Phaser.Scene {
     this.load.image("clouds", "tiles/overworld/clouds.png");
 
     //Load audio
+
     this.load.audio("music", ["music/2.mp3"]);
     this.load.audio("item", ["music/item.mp3"]);
+
 
     //Load data (collisions, etc) for the map.
     this.load.tilemapTiledJSON("overworld", "tiles/overworld.json");

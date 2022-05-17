@@ -1,8 +1,6 @@
+import { World } from "matter";
 import Phaser from "phaser";
 import WebFontFile from "../../utils/WebFontFile";
-
-// import { GameBackground, GameOver } from "../consts/SceneKeys";
-// import * as Colors from "../consts/Colors";
 
 const GameState = {
   Running: "running",
@@ -12,6 +10,7 @@ const GameState = {
 };
 
 export default class Game extends Phaser.Scene {
+  private parry!: string;
   private leftScore!: number;
   private leftScoreLabel!: any;
   private rightScore!: number;
@@ -36,6 +35,12 @@ export default class Game extends Phaser.Scene {
   preload() {
     const fonts = new WebFontFile(this.load, "Press Start 2P");
     this.load.addFile(fonts);
+    this.load.audio("ding", "audio/sounds/ding.mp3");
+    this.load.audio("bling", "audio/sounds/bling.mp3");
+    this.load.audio("weirdwave", "audio/sounds/weirdwave.mp3");
+    this.load.audio("lightimpact", "audio/sounds/impact.mp3");
+    this.load.audio("poweron", "audio/sounds/poweron.mp3");
+    this.load.audio("ballhit", "audio/sounds/ballhit.wav");
   }
 
   create() {
@@ -46,6 +51,7 @@ export default class Game extends Phaser.Scene {
     // this.add.circle(400, 250, 25).setStrokeStyle(3, this.white, 1);
 
     //Makes the ball go off the grid
+
     this.physics.world.setBounds(-100, 0, 1000, 500);
 
     this.ball = this.add.circle(400, 250, 10, this.white, 1);
@@ -56,11 +62,29 @@ export default class Game extends Phaser.Scene {
 
     this.paddleLeft = this.add.rectangle(60, 250, 20, 100, this.white, 1);
     this.physics.add.existing(this.paddleLeft, true);
-    this.physics.add.collider(this.paddleLeft, this.ball);
+    this.physics.add.collider(
+      this.paddleLeft,
+      this.ball,
+      this.handlePaddleBallCollision,
+      undefined,
+      this
+    );
 
     this.paddleRight = this.add.rectangle(740, 250, 20, 100, this.white, 1);
     this.physics.add.existing(this.paddleRight, true);
-    this.physics.add.collider(this.paddleRight, this.ball);
+    this.physics.add.collider(
+      this.paddleRight,
+      this.ball,
+      this.handlePaddleBallCollision,
+      undefined,
+      this
+    );
+
+    this.physics.world.on(
+      "worldbounds",
+      this.handleBallWorldBoundsCollision,
+      this
+    );
 
     let scoreStyle: any;
     scoreStyle = {
@@ -87,17 +111,23 @@ export default class Game extends Phaser.Scene {
   update() {
     if (this.gameState === GameState.PlayerLost) {
       console.log("Player lost.");
+      this.scene.stop("scan");
+      this.scene.stop("scan-background");
+      this.scene.start("hospital");
       //Start loss scene
     }
     if (this.gameState === GameState.PlayerWon) {
       console.log("Player won!");
+      this.scene.stop("scan");
+      this.scene.stop("scan-background");
+      this.scene.start("hospital");
       //Start won scene
     }
     if (this.gameState === GameState.Still) {
       this.processPlayerInput();
       this.updateAI(4);
       this.checkScore();
-      this.scene.stop("scan-background");
+      //this.scene.stop("scan-background");
       //Stop old bg, start new one.
       //
       //
@@ -121,6 +151,31 @@ export default class Game extends Phaser.Scene {
     this.processPlayerInput();
     this.updateAI(3);
     this.checkScore();
+  }
+
+  handleBallWorldBoundsCollision(body, up, down, left, right) {
+    if (left || right) {
+      return;
+    }
+    this.sound.play("ballhit");
+
+    /**@type {Phaser.Physics.Arcade.Body} */
+    const vel = this.ball.body.velocity;
+    vel.x *= 1.05;
+    vel.y *= 1.05;
+    body.setVelocity(vel.x, vel.y);
+  }
+
+  handlePaddleBallCollision() {
+    this.sound.play("ballhit");
+
+    /**@type {Phaser.Physics.Arcade.Body} */
+    const body = this.ball.body;
+    const vel = body.velocity;
+    vel.x *= 1.05;
+    vel.y *= 1.05;
+
+    body.setVelocity(vel.x, vel.y);
   }
 
   processPlayerInput() {
@@ -208,12 +263,14 @@ export default class Game extends Phaser.Scene {
     this.leftScore += 1;
     this.leftScoreLabel.text = this.leftScore;
     console.log(this.leftScore);
+    this.sound.play("ding");
   }
 
   incrementRightScore() {
     this.rightScore += 1;
     this.rightScoreLabel.text = this.rightScore;
     console.log(this.rightScore);
+    this.sound.play("bling");
   }
 
   resetBall(spd = 450) {
