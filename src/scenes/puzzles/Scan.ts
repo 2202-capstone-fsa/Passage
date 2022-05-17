@@ -54,7 +54,7 @@ export default class Game extends Phaser.Scene {
 
     this.physics.world.setBounds(-100, 0, 1000, 500);
 
-    this.ball = this.add.circle(400, 250, 50, this.white, 1);
+    this.ball = this.add.circle(400, 250, 10, this.white, 1);
     this.physics.add.existing(this.ball);
     this.ball.body.setCircle(10);
     this.ball.body.setCollideWorldBounds(true, 1, 1);
@@ -111,10 +111,16 @@ export default class Game extends Phaser.Scene {
   update() {
     if (this.gameState === GameState.PlayerLost) {
       console.log("Player lost.");
+      this.scene.stop("scan");
+      this.scene.stop("scan-background");
+      this.scene.start("hospital");
       //Start loss scene
     }
     if (this.gameState === GameState.PlayerWon) {
       console.log("Player won!");
+      this.scene.stop("scan");
+      this.scene.stop("scan-background");
+      this.scene.start("hospital");
       //Start won scene
     }
     if (this.gameState === GameState.Still) {

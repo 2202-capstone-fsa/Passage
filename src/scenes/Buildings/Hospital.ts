@@ -11,6 +11,12 @@ import {
 import { debugDraw } from "../../utils/debug";
 import data from "../../../public/tiles/hospital.json";
 
+const hospitalExits = [
+  { x: 422, y: 88, name: "scan" },
+  { x: 105, y: 575, name: "game" },
+  { x: 635, y: 52, name: "shop" },
+];
+
 export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private player!: Phaser.Physics.Arcade.Sprite;
@@ -32,11 +38,6 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-    const overworldExits = [
-      { x: 422, y: 88, name: "bed" },
-      { x: 1234, y: 465, name: "hospital" },
-    ];
-
     //Create tile sets so that we can access Tiled data later on.
 
     const map = this.make.tilemap({ key: "hospital" });
@@ -56,6 +57,8 @@ export default class Game extends Phaser.Scene {
     map.createFromObjects("objects", { id: 10 });
     map.createFromObjects("objects", { id: 341 });
 
+
+    //Add if statement depending on if Pong is complete.
     this.player = this.physics.add.sprite(
       105,
       550,
@@ -97,7 +100,7 @@ export default class Game extends Phaser.Scene {
   }
 
   update(t: number, dt: number) {
-    let nextToTarget = isItClose(this.player, overworldExits);
+    let nextToTarget = isItClose(this.player, hospitalExits);
     if (nextToTarget) {
       this.scene.start(nextToTarget.name);
     }
