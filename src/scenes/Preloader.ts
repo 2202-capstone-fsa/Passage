@@ -15,6 +15,8 @@ export default class Preloader extends Phaser.Scene {
       "NPC_Characters_v1/Male4.png",
       "NPC_Characters_v1/MaleSprites.json"
     );
+    this.load.audio("music", ["audio/2.mp3"]);
+    this.load.audio("item", ["audio/sounds/item.mp3"]);
   }
 
   create() {
