@@ -57065,7 +57065,7 @@
  </layer>
  <objectgroup id="6" name="Chests">
   <object id="26" name="Chest" x="165.401" y="104.779" width="21.3299" height="17.9621"/>
-  <object id="28" name="sign" x="112.218" y="240.827" width="15.9711" height="14.7102">
+  <object id="28" name="sign" x="114.856" y="241.624" width="8.74667" height="11.6887">
    <properties>
     <property name="message" value="Do you like sand?"/>
    </properties>
