@@ -36,14 +36,14 @@ export default class Game extends Phaser.Scene {
     //load audio
     this.load.audio("music", ["music/2.mp3"]);
     //Load data (collisions, etc) for the map.
-    this.load.tilemapTiledJSON("craftsman", "tiles/craftsman.json");
+    this.load.tilemapTiledJSON("home", "tiles/home.json");
     //Load keyboard for player to use.
     this.cursors = this.input.keyboard.createCursorKeys();
   }
 
   create() {
     //Create tile sets
-    const map = this.make.tilemap({ key: "craftsman" });
+    const map = this.make.tilemap({ key: "home" });
     const crafthouseTileSet = map.addTilesetImage("crafthouse", "home");
     const decorationsTileSet = map.addTilesetImage("decorations", "decore");
     const propsTileSet = map.addTilesetImage("props", "props");
