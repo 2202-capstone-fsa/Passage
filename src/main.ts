@@ -3,7 +3,7 @@ import Phaser from "phaser";
 //import Preloader from "./scenes/Preloader";
 import Game from "./scenes/Game";
 import Preloader from "./scenes/Preloader";
-import Hospital from "./scenes/Buildings/Hospital";
+import Hospital from "./scenes/Hospital";
 import Maze from "./scenes/Puzzles/Maze";
 import Shop from "./scenes/Buildings/Shop";
 import Scan from "./scenes/Puzzles/Scan";
