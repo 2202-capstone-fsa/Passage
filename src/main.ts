@@ -10,6 +10,7 @@ import Scan from "./scenes/Puzzles/Scan";
 import Atlantis from "./scenes/Buildings/Atlantis";
 import ScanBackground from "./scenes/puzzles/ScanBackground";
 import TitleScreen from "./scenes/TitleScreen";
+import ending from "./scenes/ending";
 
 // import GameUI from "./scenes/GameUI";
 
@@ -34,6 +35,7 @@ export default new Phaser.Game({
     Atlantis,
     TitleScreen,
     ScanBackground,
+    ending,
   ],
   scale: {
     zoom: 2,
