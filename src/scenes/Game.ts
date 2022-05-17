@@ -10,6 +10,8 @@ import {
   overworldObjs,
   createAnims,
   interact,
+  displayInventory,
+  updateInventory,
 } from "../utils/helper";
 
 export default class Game extends Phaser.Scene {
@@ -17,6 +19,7 @@ export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private player!: Phaser.Physics.Arcade.Sprite;
   private message!: Phaser.GameObjects.Text;
+  private objLayer!: Phaser.Tilemaps.ObjectLayer;
 
   constructor() {
     super("game");
@@ -32,6 +35,7 @@ export default class Game extends Phaser.Scene {
 
     //Load audio
     this.load.audio("music", ["music/2.mp3"]);
+    this.load.audio("item", ["music/item.mp3"]);
 
     //Load data (collisions, etc) for the map.
     this.load.tilemapTiledJSON("overworld", "tiles/overworld.json");
@@ -77,6 +81,7 @@ export default class Game extends Phaser.Scene {
     setPlayer(this.player);
 
     //adds and configs music
+
     let music = this.sound.add("music");
     let musicConfig = {
       mute: false,
@@ -88,6 +93,7 @@ export default class Game extends Phaser.Scene {
       delay: 0,
     };
     music.play(musicConfig);
+    let item = this.sound.add("item");
 
     //Create animations
     createAnims(this.anims);
@@ -120,9 +126,13 @@ export default class Game extends Phaser.Scene {
 
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
-      console.log(data);
-      interact(this.message, this.player);
+      //console.log(data);
+      interact(this.message, this.player, [], item);
     }),
+      // Hit shift to view Inventory.
+      this.cursors.shift.on("down", () => {
+        displayInventory(this.message, this.player);
+      }),
       debugDraw(wallsLayer, this);
   }
   update(t: number, dt: number) {

@@ -1,5 +1,3 @@
-//load data from json
-
 // checks if player is close any obj in target arr. Returns the obj
 export function isItClose(player, targets) {
   let x = player.x;
@@ -26,13 +24,12 @@ export function isItClose(player, targets) {
 export function updateText(player, target, message) {
   message.x = player.x + 20;
   message.y = player.y + 100;
-  if (!target.properties) {
-    return;
-  }
-
-  for (let i = 0; i < target.properties.length; i++) {
-    if (target.properties[i].name == "message") {
-      message.text = target.properties[i].value;
+  //
+  if (target.properties) {
+    for (let i = 0; i < target.properties.length; i++) {
+      if (target.properties[i].name == "message") {
+        message.text = target.properties[i].value;
+      }
     }
   }
 }
@@ -71,7 +68,7 @@ export function setPlayer(player) {
   player.setCollideWorldBounds(true);
 }
 
-export function interact(message, player, objs = []) {
+export function interact(message, player, objs = [], sound) {
   console.log(player.x);
   console.log(player.y);
   if (message.text) {
@@ -81,6 +78,7 @@ export function interact(message, player, objs = []) {
     if (nextToTarget) {
       console.log(`im next to: ${nextToTarget.name}`);
       updateText(player, nextToTarget, message);
+      updateInventory(nextToTarget, message, player, sound);
     }
   }
 }
@@ -131,6 +129,38 @@ export function createAnims(anims) {
     repeat: -1,
     frameRate: 6,
   });
+}
+
+export function displayInventory(message, player) {
+  let inventory = localStorage;
+  console.log(inventory);
+  if (message.text) {
+    message.text = "";
+  } else if (inventory) {
+    message.x = player.x + 20;
+    message.y = player.y + 100;
+    let arr = [];
+    Object.keys(inventory).forEach((x) => {
+      arr.push(`${x}: ${inventory[x]}`);
+    });
+
+    message.text = "INVENTORY ITEMS: " + arr.join("\n ");
+  }
+}
+
+let keyItems = ["sign", "pod"]; //only include key item names
+
+export function updateInventory(item, message, player, sound) {
+  if (!localStorage[item.name] && keyItems.includes(item.name)) {
+    message.x = player.x + 20;
+    message.y = player.y + 100;
+    if (localStorage.length == 0) {
+      message.text = "Item obtained! Press SHIFT to view inventory!";
+    }
+    localStorage.setItem(`${item.name}`, `${item.message}`);
+    sound.play();
+    //make it invisible
+  }
 }
 
 export const overworldExits = [
