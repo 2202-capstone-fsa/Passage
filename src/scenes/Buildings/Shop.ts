@@ -1,10 +1,21 @@
 import Phaser from "phaser";
+import {
+  isItClose,
+  setPlayer,
+  movePlayer,
+  overworldExits,
+  overworldObjs,
+  createAnims,
+  interact,
+  displayInventory,
+} from "../../utils/helper";
 import { debugDraw } from "../../utils/debug";
 
 export default class Shop extends Phaser.Scene {
   private parry!: "string";
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private player!: Phaser.Physics.Arcade.Sprite;
+  private message!: Phaser.GameObjects.Text;
 
   constructor() {
     super("shop");
@@ -25,8 +36,10 @@ export default class Shop extends Phaser.Scene {
 
     //load audio
     this.load.audio("music", ["music/2.mp3"]);
+    this.load.audio("item", ["music/item.mp3"]);
     //Load data (collisions, etc) for the map.
     this.load.tilemapTiledJSON("craftsman", "tiles/craftsman.json");
+
     //Load keyboard for player to use.
     this.cursors = this.input.keyboard.createCursorKeys();
   }
@@ -76,8 +89,9 @@ export default class Shop extends Phaser.Scene {
       loop: true,
       delay: 0,
     };
-
     music.play(musicConfig);
+
+    let item = this.sound.add("item");
 
     //Create idle animations for direction player is facing.
     this.anims.create({
@@ -127,8 +141,27 @@ export default class Shop extends Phaser.Scene {
       frameRate: 6,
     });
 
-    //adds collisions
-    wallsLayer.setCollisionByProperty({ collides: true });
+    this.message = this.add.text(800, 750, "", {
+      color: "white",
+      backgroundColor: "black",
+      fontSize: "12px",
+      align: "center",
+      baselineX: 0,
+      baselineY: 0,
+      wordWrap: { width: 250 },
+    });
+
+    // Hit spacebar to interact with objects.
+    this.cursors.space.on("down", () => {
+      //console.log(data);
+      interact(this.message, this.player, [], item);
+    }),
+      // Hit shift to view Inventory.
+      this.cursors.shift.on("down", () => {
+        displayInventory(this.message, this.player);
+      }),
+      //adds collisions
+      wallsLayer.setCollisionByProperty({ collides: true });
     decoreLayer.setCollisionByProperty({ collides: true });
     decorationsLayer.setCollisionByProperty({ collides: true });
     this.physics.add.collider(this.player, [
