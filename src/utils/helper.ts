@@ -78,7 +78,7 @@ export function interact(message, player, objs = [], sound) {
     if (nextToTarget) {
       console.log(`im next to: ${nextToTarget.name}`);
       updateText(player, nextToTarget, message);
-      updateInventory(nextToTarget, true, message, player, sound);
+      updateInventory(nextToTarget, message, player, sound);
     }
   }
 }
@@ -139,23 +139,27 @@ export function displayInventory(message, player) {
   } else if (inventory) {
     message.x = player.x + 20;
     message.y = player.y + 100;
-    message.text = "INVENTORY ITEMS: " + Object.keys(inventory).join(", ");
+    let arr = [];
+    Object.keys(inventory).forEach((x) => {
+      arr.push(`${x}: ${inventory[x]}`);
+    });
+
+    message.text = "INVENTORY ITEMS: " + arr.join("\n ");
   }
 }
 
-export function updateInventory(item, canCollect, message, player, sound) {
-  if (!canCollect) {
-    return;
-  }
+let keyItems = ["sign", "pod"]; //only include key item names
 
-  if (localStorage.length == 0) {
+export function updateInventory(item, message, player, sound) {
+  if (!localStorage[item.name] && keyItems.includes(item.name)) {
     message.x = player.x + 20;
     message.y = player.y + 100;
-    message.text = "Item obtained! Press SHIFT to view inventory!";
-  }
-  if (!localStorage[item.name]) {
-    localStorage.setItem(`${item.name}`, `${true}`);
+    if (localStorage.length == 0) {
+      message.text = "Item obtained! Press SHIFT to view inventory!";
+    }
+    localStorage.setItem(`${item.name}`, `${item.message}`);
     sound.play();
+    //make it invisible
   }
 }
 

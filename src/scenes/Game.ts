@@ -19,6 +19,7 @@ export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private player!: Phaser.Physics.Arcade.Sprite;
   private message!: Phaser.GameObjects.Text;
+  private objLayer!: Phaser.Tilemaps.ObjectLayer;
 
   constructor() {
     super("game");
