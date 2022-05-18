@@ -7,9 +7,13 @@ import {
   overworldObjs,
   createAnims,
   interact,
+  displayInventory,
+  updateText,
 } from "../../utils/helper";
 import { debugDraw } from "../../utils/debug";
 import data from "../../../public/tiles/atlantis.json";
+
+const atlantisExits = [{ x: 235, y: 449, name: "game" }];
 
 export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -26,10 +30,6 @@ export default class Game extends Phaser.Scene {
     this.load.image("building", "tiles/cave/atlantis.png");
 
     this.load.tilemapTiledJSON("atlantis", "tiles/atlantis.json");
-
-    //Load the item
-    this.load.image("heart", "tiles/icons/individual/icon001.png");
-    this.load.image("soul", "tiles/icons/individual/icon130.png");
 
     //Load keyboard for player to use.
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -48,12 +48,6 @@ export default class Game extends Phaser.Scene {
     const wallLayer = map.createLayer("Walls", atlantisTilesets);
     const objLayer = map.createLayer("Objects", atlantisTilesets);
     //const objectLayer = map.createLayer("objects", atlantisTilesets);
-
-    //add the static item
-    // const heart = this.physics.add.staticImage(200, 465, "heart");
-    const items = this.physics.add.staticGroup();
-    items.create(205, 350, "heart");
-    items.create(275, 350, "soul");
 
     this.player = this.physics.add.sprite(
       250,
@@ -114,7 +108,6 @@ export default class Game extends Phaser.Scene {
     });
 
     //Collides
-    this.physics.add.collider(this.player, items);
     wallLayer.setCollisionByProperty({ collides: true });
     objLayer.setCollisionByProperty({ collides: true });
     groundLayer.setCollisionByProperty({ collides: true });
@@ -133,16 +126,33 @@ export default class Game extends Phaser.Scene {
       wordWrap: { width: 250 },
     });
 
+    this.sound.add("item");
+
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
       console.log(data);
-      interact(this.message, this.player, data.layers[4].objects);
+      console.log(displayInventory);
+      interact(
+        this.message,
+        this.player,
+        data.layers[3].objects,
+        this.sound.add("item")
+      );
     });
-    debugDraw(wallLayer, this);
+    // Hit shift to view Inventory.
+    this.cursors.shift.on("down", () => {
+      return displayInventory(this.message, this.player);
+    }),
+      debugDraw(wallLayer, this);
     debugDraw(groundLayer, this);
   }
 
-  update() {
+  update(t: number, dt: number) {
+    let nextToTarget = isItClose(this.player, atlantisExits);
+    if (nextToTarget) {
+      this.scene.stop("hospital");
+      this.scene.start(nextToTarget.name);
+    }
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;
 

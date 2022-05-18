@@ -24,15 +24,18 @@ import data from "../../public/tiles/hospital.json";
 
 const hospitalExits = [
   { x: 422, y: 88, name: "scan" },
+
   { x: 635, y: 52, name: "shop" },
 ];
 
 let roomLocked = true;
 
+
 const dialogue = [
   {
     x: 105,
     y: 384,
+
     properties: [
       {
         name: "message",
@@ -93,8 +96,10 @@ const dialogue = [
 export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private player!: Phaser.Physics.Arcade.Sprite;
+
   private nurse!: Phaser.Physics.Arcade.Sprite;
   private doctor!: Phaser.Physics.Arcade.Sprite;
+
   private message!: Phaser.GameObjects.Text;
 
   constructor() {
@@ -113,7 +118,6 @@ export default class Game extends Phaser.Scene {
       "NPC_Characters_v1/modernsprites.png",
       "NPC_Characters_v1/modernsprites.json"
     );
-
     //Load keyboard for player to use.
     this.cursors = this.input.keyboard.createCursorKeys();
   }
@@ -139,6 +143,7 @@ export default class Game extends Phaser.Scene {
     map.createFromObjects("objects", { id: 341 });
 
     //Add if statement depending on if Pong is complete.
+
     if (localStorage["from"] === "overworld") {
       localStorage.removeItem("from");
       this.player = this.physics.add.sprite(
@@ -170,6 +175,7 @@ export default class Game extends Phaser.Scene {
 
     setPlayer(this.player);
     createAnims(this.anims);
+
 
     this.nurse = this.physics.add.sprite(283, 185, "modern", "nurse_front_1");
 
@@ -207,12 +213,14 @@ export default class Game extends Phaser.Scene {
         data.layers[4].objects,
         this.sound.add("item")
       );
+
       //if player xy close to the window xy
       //count++
       //reset count
 
       //if close to door && count === 2
       // scene start 'game'
+
     }),
       // Hit shift to view Inventory.
       this.cursors.shift.on("down", () => {
@@ -224,6 +232,7 @@ export default class Game extends Phaser.Scene {
   }
 
   update(t: number, dt: number) {
+
     if (this.player.y > 575) {
       localStorage.setItem("from", `hospital`);
       this.scene.stop("hospital");
@@ -285,6 +294,7 @@ export default class Game extends Phaser.Scene {
       } else {
         updateText(this.player, dialogueSpot, this.message);
         dialogueSpot.hasAppeared = true;
+
       }
     }
 

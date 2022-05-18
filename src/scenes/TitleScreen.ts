@@ -1,7 +1,19 @@
 import Phaser from "phaser";
+import {
+  isItClose,
+  setPlayer,
+  movePlayer,
+  overworldExits,
+  overworldObjs,
+  createAnims,
+  interact,
+  displayInventory,
+  updateInventory,
+} from "../utils/helper";
 import data from "../../public/tiles/titlescreen.json";
 
 export default class TitleScreen extends Phaser.Scene {
+  private player!: Phaser.Physics.Arcade.Sprite;
   constructor() {
     super("titlescreen");
   }
@@ -19,6 +31,26 @@ export default class TitleScreen extends Phaser.Scene {
   create() {
     const map = this.make.tilemap({ key: "titlescreen" });
     console.log("In title");
+
+    this.player = this.physics.add.sprite(
+      800,
+      800,
+      "player",
+      "doc-walk-down-0"
+    );
+    setPlayer(this.player);
+
+    let music = this.sound.add("music");
+    let musicConfig = {
+      mute: false,
+      volume: 0.5,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: true,
+      delay: 0,
+    };
+    music.play(musicConfig);
 
     const titleTileSet = map.addTilesetImage("Atlantis", "atlantis");
 

@@ -147,6 +147,7 @@ export function displayInventory(message, player, inventory = localStorage) {
   }
 }
 
+
 let keyItems = ["keycard", "soul", "soda", "brain", "shovel", "helm", "heart"]; //only include key item names
 
 export function updateInventory(item, message, player, sound) {
@@ -159,7 +160,6 @@ export function updateInventory(item, message, player, sound) {
 
     localStorage.setItem(`${item.name}`, `${item.properties[0].value}`);
 
-  
     sound.play();
     //make it invisible
   }
