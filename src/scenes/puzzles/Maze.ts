@@ -12,14 +12,13 @@ import {
 import { debugDraw } from "../../utils/debug";
 import data from "../../../public/tiles/maze.json";
 
-const mazeExits = [{x: 580, y: 60, name: 'shop' }]
+const mazeExits = [{ x: 580, y: 73, name: "shop" }];
 
 export default class Game extends Phaser.Scene {
   private parry!: "string";
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private player!: Phaser.Physics.Arcade.Sprite;
   private message!: Phaser.GameObjects.Text;
-
 
   constructor() {
     super("maze");
@@ -28,7 +27,10 @@ export default class Game extends Phaser.Scene {
   preload() {
     //Load graphics for maze and player
     this.load.image("building", "tiles/RPGW_HousesAndInt_v1.1/interiors.png");
-    this.load.image("props","tiles/RPGW_HousesAndInt_v1.1/decorative_props.png");
+    this.load.image(
+      "props",
+      "tiles/RPGW_HousesAndInt_v1.1/decorative_props.png"
+    );
     this.load.image("furniture", "tiles/RPGW_HousesAndInt_v1.1/furniture.png");
     this.load.image("objects", "tiles/icons/icons.png");
 
@@ -46,15 +48,18 @@ export default class Game extends Phaser.Scene {
     const mazeTileSet = map.addTilesetImage("house", "building");
     const furnitureTileSet = map.addTilesetImage("Furniture", "furniture");
     const propsTileSet = map.addTilesetImage("props", "props");
-    const allTileSets = [buildingTileSet, mazeTileSet, furnitureTileSet, propsTileSet]
-
+    const allTileSets = [
+      buildingTileSet,
+      mazeTileSet,
+      furnitureTileSet,
+      propsTileSet,
+    ];
 
     //Create ground layer first using tile set data.
     map.createLayer("subground", allTileSets);
     map.createLayer("ground", allTileSets);
     const wallsLayer = map.createLayer("walls", allTileSets);
     const furnitureLayer = map.createLayer("furniture", allTileSets);
-
 
     /* Add Player sprite to the game.
           In the sprite json file, for any png of sprites,
@@ -76,7 +81,6 @@ export default class Game extends Phaser.Scene {
 
     wallsLayer.setCollisionByProperty({ collides: true });
     furnitureLayer.setCollisionByProperty({ collides: true });
-
 
     this.physics.add.collider(this.player, wallsLayer);
     this.physics.add.collider(this.player, furnitureLayer);
@@ -103,7 +107,6 @@ export default class Game extends Phaser.Scene {
       wordWrap: { width: 250 },
     });
 
-
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
       console.log(data);
@@ -118,21 +121,23 @@ export default class Game extends Phaser.Scene {
       this.cursors.shift.on("down", () => {
         displayInventory(this.message, this.player);
       }),
-        debugDraw(wallsLayer, this);
-        debugDraw(furnitureLayer, this);
-        //debugDraw(lowObjLayer, this);
+      debugDraw(wallsLayer, this);
+    debugDraw(furnitureLayer, this);
+    //debugDraw(lowObjLayer, this);
   }
 
   update(t: number, dt: number) {
     let nextToTarget = isItClose(this.player, mazeExits);
     if (nextToTarget) {
+      localStorage.setItem("from", `maze`);
+      this.scene.stop("maze");
       this.scene.start(nextToTarget.name);
     }
 
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;
 
-    let speed = this.message.text ? 0 : 120;
+    let speed = this.message.text ? 0 : 200;
     movePlayer(this.player, speed, this.cursors);
   }
 }
