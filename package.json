@@ -5,11 +5,11 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "parcel src/index.html -p 8000",
-    "build": "parcel build src/index.html --out-dir dist",
+    "start": "parcel index.html -p 8000",
+    "build": "parcel build index.html --out-dir dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "supertommy",
+  "author": "Passengers",
   "license": "MIT",
   "repository": {
     "type": "git",
