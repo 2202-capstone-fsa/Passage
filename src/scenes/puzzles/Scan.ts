@@ -111,8 +111,12 @@ export default class Game extends Phaser.Scene {
   update() {
     if (this.gameState === GameState.PlayerLost) {
       console.log("Player lost.");
+      this.gameState = GameState.Running;
+      this.leftScore = 0;
+      this.rightScore = 0;
       this.scene.stop("scan");
       this.scene.stop("scan-background");
+      localStorage.setItem("Brain Scan", "TOO BLURRY");
       this.scene.start("hospital");
       //Start loss scene
     }
@@ -120,6 +124,7 @@ export default class Game extends Phaser.Scene {
       console.log("Player won!");
       this.scene.stop("scan");
       this.scene.stop("scan-background");
+      localStorage.setItem("Brain Scan", "CLEAR");
       this.scene.start("hospital");
       //Start won scene
     }
@@ -127,6 +132,7 @@ export default class Game extends Phaser.Scene {
       this.processPlayerInput();
       this.updateAI(4);
       this.checkScore();
+      this.cameras.main.setBackgroundColor(0xff0000);
       //this.scene.stop("scan-background");
       //Stop old bg, start new one.
       //
