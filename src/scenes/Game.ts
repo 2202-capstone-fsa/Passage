@@ -68,12 +68,46 @@ export default class Game extends Phaser.Scene {
       and the fourth set is called "doc"
     */
     //map.create
-    this.player = this.physics.add.sprite(
-      800,
-      800,
-      "player",
-      "doc-walk-down-0"
-    );
+    if (localStorage.from === "hospital") {
+      localStorage.removeItem("from");
+      this.player = this.physics.add.sprite(
+        1250,
+        526,
+        "player",
+        "doc-walk-down-0"
+      );
+    } else if (localStorage.from === "shop") {
+      localStorage.removeItem("from");
+      this.player = this.physics.add.sprite(
+        322,
+        1240,
+        "player",
+        "doc-walk-down-0"
+      );
+    } else if (localStorage.from === "home") {
+      localStorage.removeItem("from");
+      this.player = this.physics.add.sprite(
+        788,
+        1101,
+        "player",
+        "doc-walk-down-0"
+      );
+    } else if (localStorage.from === "cave") {
+      localStorage.removeItem("from");
+      this.player = this.physics.add.sprite(
+        808,
+        240,
+        "player",
+        "doc-walk-down-0"
+      );
+    } else {
+      this.player = this.physics.add.sprite(
+        800,
+        800,
+        "player",
+        "doc-walk-down-0"
+      );
+    }
 
     setPlayer(this.player);
 
@@ -125,7 +159,7 @@ export default class Game extends Phaser.Scene {
 
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
-      //console.log(data);
+      console.log(data);
       interact(this.message, this.player, [], item);
     }),
       // Hit shift to view Inventory.
@@ -146,6 +180,7 @@ export default class Game extends Phaser.Scene {
     let nextToTarget = isItClose(this.player, overworldExits);
 
     if (nextToTarget) {
+      localStorage.setItem("from", `overworld`);
       this.scene.start(nextToTarget.name);
     }
 

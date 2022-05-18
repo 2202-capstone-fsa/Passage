@@ -15,7 +15,7 @@ export function isItClose(player, targets) {
     let percentY = Math.abs((doorY - y) / doorY);
     // console.log(`percentX ${percentX}`);
     // console.log(`percentY ${percentY}`);
-    if (percentX <= 0.03 && percentY <= 0.03) {
+    if (percentX <= 0.05 && percentY <= 0.05) {
       return targets[i] || null; // returns target object
     }
   }
@@ -131,8 +131,7 @@ export function createAnims(anims) {
   });
 }
 
-export function displayInventory(message, player) {
-  let inventory = localStorage;
+export function displayInventory(message, player, inventory = localStorage) {
   console.log(inventory);
   if (message.text) {
     message.text = "";
@@ -157,7 +156,10 @@ export function updateInventory(item, message, player, sound) {
     if (localStorage.length == 0) {
       message.text = "Item obtained! Press SHIFT to view inventory!";
     }
-    localStorage.setItem(`${item.name}`, `${item.properties.value}`);
+
+    localStorage.setItem(`${item.name}`, `${item.properties[0].value}`);
+
+  
     sound.play();
     //make it invisible
   }
