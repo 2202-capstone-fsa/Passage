@@ -7,9 +7,12 @@ import {
   overworldObjs,
   createAnims,
   interact,
+  displayInventory,
 } from "../../utils/helper";
 import { debugDraw } from "../../utils/debug";
-import data from "../../../public/tiles/atlantis.json";
+import data from "../../../public/tiles/home.json";
+
+const homeExits = [{ x: 210, y: 273, name: "game" }];
 
 export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -22,21 +25,14 @@ export default class Game extends Phaser.Scene {
 
   preload() {
     //loading building tilesets
-    this.load.image("home", "tiles/RPGW_HousesAndInt_v1.1/interiors.png");
-    this.load.image("props", "tiles/RPGW_HousesAndInt_v1.1/decorative_props.png");
-    this.load.image("decore", "tiles/RPGW_HousesAndInt_v1.1/furniture.png");
-    
-    // loading character tilesets
-    this.load.atlas(
-      "player",
-      "NPC_Characters_v1/Male4.png",
-      "NPC_Characters_v1/MaleSprites.json"
-    );
+    this.load.image("interior", "tiles/RPGW_HousesAndInt_v1.1/interiors.png");
+    this.load.image("furniture", "tiles/RPGW_HousesAndInt_v1.1/furniture.png");
+    this.load.image("note", "tiles/icons/individual/icon384.png");
 
-    //load audio
-    this.load.audio("music", ["music/2.mp3"]);
+    
     //Load data (collisions, etc) for the map.
     this.load.tilemapTiledJSON("home", "tiles/home.json");
+
     //Load keyboard for player to use.
     this.cursors = this.input.keyboard.createCursorKeys();
   }
@@ -44,38 +40,35 @@ export default class Game extends Phaser.Scene {
   create() {
     //Create tile sets
     const map = this.make.tilemap({ key: "home" });
-    const crafthouseTileSet = map.addTilesetImage("crafthouse", "home");
-    const decorationsTileSet = map.addTilesetImage("decorations", "decore");
-    const propsTileSet = map.addTilesetImage("props", "props");
+    const interiorTileSet = map.addTilesetImage("interior", "interior");
+    const furnitureTileSet = map.addTilesetImage("furniture", "furniture");
+    const noteTileSet = map.addTilesetImage("note", "note");
+    const homeTileSets = [interiorTileSet, furnitureTileSet]
     //building layers
-    map.createLayer("black", crafthouseTileSet);
-    map.createLayer("ground", crafthouseTileSet);
-    const wallsLayer = map.createLayer("walls", [
-      crafthouseTileSet,
-      decorationsTileSet,
-      propsTileSet,
-    ]);
-    const decoreLayer = map.createLayer("decore", [
-      crafthouseTileSet,
-      decorationsTileSet,
-      propsTileSet,
-    ]);
-    const decorationsLayer = map.createLayer("decorations", [
-      decorationsTileSet,
-      propsTileSet,
-    ]);
-    //const decoreLayer = map.createLayer('decore', homeTileSet);
+    map.createLayer("ground", homeTileSets);
+    const wallsLayer = map.createLayer("walls", homeTileSets );
+    const furnitureLayer = map.createLayer("furniture", homeTileSets);
+    console.log('alkjdsfgj;lak jsdfg;lkja;slkdfj')
+    //map.createLayer("object", noteTileSet);
+
+    map.createFromObjects("object", { id: 1 });
 
     this.player = this.physics.add.sprite(
-      340,
-      450,
+      152,
+      57,
       "player",
       "doc-walk-down-0"
     );
-    this.player.body.setSize(this.player.width * 0.1, this.player.height * 0.1);
-    this.player.setCollideWorldBounds(true);
+    setPlayer(this.player);
+    createAnims(this.anims);
+  
+    wallsLayer.setCollisionByProperty({ collides: true });
+    furnitureLayer.setCollisionByProperty({ collides: true });
 
-    //adds and configs music
+    this.physics.add.collider(this.player, wallsLayer);
+    this.physics.add.collider(this.player, furnitureLayer);
+    //this.physics.add.collider(this.player, objectsLayer);
+
     let music = this.sound.add("music");
     let musicConfig = {
       mute: false,
@@ -86,101 +79,49 @@ export default class Game extends Phaser.Scene {
       loop: true,
       delay: 0,
     };
-
     music.play(musicConfig);
-
-    //Create idle animations for direction player is facing.
-    this.anims.create({
-      key: "player-idle-down",
-      frames: [{ key: "player", frame: "doc-walk-down-0" }],
-    });
-    this.anims.create({
-      key: "player-idle-side",
-      frames: [{ key: "player", frame: "doc-walk-side-0" }],
-    });
-    this.anims.create({
-      key: "player-idle-up",
-      frames: [{ key: "player", frame: "doc-walk-up-0" }],
+    
+    this.message = this.add.text(800, 750, "", {
+      color: "white",
+      backgroundColor: "black",
+      fontSize: "12px",
+      align: "center",
+      baselineX: 0,
+      baselineY: 0,
+      wordWrap: { width: 250 },
     });
 
-    //Create animations for player motions.
-    this.anims.create({
-      key: "player-walk-down",
-      frames: this.anims.generateFrameNames("player", {
-        start: 3,
-        end: 6,
-        prefix: "doc-walk-down-",
+    this.sound.add("item");
+
+    // Hit spacebar to interact with objects.
+    this.cursors.space.on("down", () => {
+      console.log(data);
+      interact(
+        this.message,
+        this.player,
+        data.layers[3].objects,
+        this.sound.add("item")
+      );
+    }),
+      // Hit shift to view Inventory.
+      this.cursors.shift.on("down", () => {
+        displayInventory(this.message, this.player);
       }),
-      repeat: -1,
-      frameRate: 6,
-    });
-
-    this.anims.create({
-      key: "player-walk-up",
-      frames: this.anims.generateFrameNames("player", {
-        start: 3,
-        end: 6,
-        prefix: "doc-walk-up-",
-      }),
-      repeat: -1,
-      frameRate: 6,
-    });
-
-    this.anims.create({
-      key: "player-walk-side",
-      frames: this.anims.generateFrameNames("player", {
-        start: 3,
-        end: 6,
-        prefix: "doc-walk-side-",
-      }),
-      repeat: -1,
-      frameRate: 6,
-    });
-
-    //adds collisions
-    wallsLayer.setCollisionByProperty({ collides: true });
-    decoreLayer.setCollisionByProperty({ collides: true });
-    decorationsLayer.setCollisionByProperty({ collides: true });
-    this.physics.add.collider(this.player, [
-      wallsLayer,
-      decoreLayer,
-      decorationsLayer,
-    ]);
+        debugDraw(wallsLayer, this);
+        debugDraw(furnitureLayer, this);
+        //debugDraw(objectsLayer, this);
   }
+
   update(t: number, dt: number) {
-    if (!this.cursors || !this.player) {
-      return;
+    let nextToTarget = isItClose(this.player, homeExits);
+    if (nextToTarget) {
+      this.scene.start(nextToTarget.name);
     }
 
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;
 
-    const speed = 120;
-
-    if (this.cursors.left?.isDown) {
-      this.player.anims.play("player-walk-side", true);
-      this.player.setVelocity(-speed, 0);
-      this.player.scaleX = 1;
-      this.player.body.offset.x = 0;
-    } else if (this.cursors.right?.isDown) {
-      this.player.anims.play("player-walk-side", true);
-      this.player.setVelocity(speed, 0);
-      this.player.scaleX = -1;
-      this.player.body.offset.x = 16;
-    } else if (this.cursors.down?.isDown) {
-      this.player.anims.play("player-walk-down", true);
-      this.player.setVelocity(0, speed);
-      this.player.body.offset.y = 0;
-    } else if (this.cursors.up?.isDown) {
-      this.player.anims.play("player-walk-up", true);
-      this.player.setVelocity(0, -speed);
-      this.player.body.offset.y = 0;
-    } else {
-      if (!this.player.anims.currentAnim) return;
-      const parts = this.player.anims.currentAnim.key.split("-");
-      parts[1] = "idle";
-      this.player.play(parts.join("-"));
-      this.player.setVelocity(0, 0);
-    }
+    let speed = this.message.text ? 0 : 120;
+    movePlayer(this.player, speed, this.cursors);
   }
 }
