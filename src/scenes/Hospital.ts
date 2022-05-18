@@ -8,14 +8,35 @@ import {
   createAnims,
   interact,
   displayInventory,
-} from "../../utils/helper";
-import { debugDraw } from "../../utils/debug";
-import data from "../../../public/tiles/hospital.json";
+  updateText,
+} from "../utils/helper";
+import { debugDraw } from "../utils/debug";
+import data from "../../public/tiles/hospital.json";
+
+/**
+ * Significant locations:
+ * Upon entering: 105, 384
+ * Entering the lab room: 550, 80
+ * Monitor: 570, 472
+ * By the desk: 280, 224
+ *
+ */
 
 const hospitalExits = [
   { x: 422, y: 88, name: "scan" },
   { x: 105, y: 575, name: "game" },
   { x: 635, y: 52, name: "shop" },
+];
+
+const dialogue = [
+  {
+    x: 105,
+    y: 384,
+    properties: [{ name: "message", value: "THis hospoital is caa" }],
+    hasAppeared: false,
+  },
+  // {x: , y: , message: "", hasAppeared: false},
+  // {x: , y: , message: "", hasAppeared: false},
 ];
 
 export default class Game extends Phaser.Scene {
@@ -61,7 +82,7 @@ export default class Game extends Phaser.Scene {
     //Add if statement depending on if Pong is complete.
     this.player = this.physics.add.sprite(
       105,
-      550,
+      530,
       "player",
       "doc-walk-down-0"
     );
@@ -94,6 +115,7 @@ export default class Game extends Phaser.Scene {
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
       console.log(data);
+      console.log(displayInventory);
       interact(
         this.message,
         this.player,
@@ -103,7 +125,7 @@ export default class Game extends Phaser.Scene {
     }),
       // Hit shift to view Inventory.
       this.cursors.shift.on("down", () => {
-        displayInventory(this.message, this.player);
+        return displayInventory(this.message, this.player);
       }),
       debugDraw(floorLayer, this);
     debugDraw(highObjLayer, this);
@@ -113,7 +135,23 @@ export default class Game extends Phaser.Scene {
   update(t: number, dt: number) {
     let nextToTarget = isItClose(this.player, hospitalExits);
     if (nextToTarget) {
+      this.scene.stop("hospital");
       this.scene.start(nextToTarget.name);
+    }
+
+    let closeToDialogueObj = isItClose(this.player, dialogue);
+    if (closeToDialogueObj && !closeToDialogueObj.hasAppeared) {
+      console.log("close to obj");
+      if (this.message.text) this.message.text = "";
+      else {
+        console.log("updating");
+        updateText(this.player, closeToDialogueObj, this.message);
+        closeToDialogueObj.hasAppeared = true;
+        // let i = 1;
+        // localStorage.setItem(`taken${i}`, closeToDialogueObj);
+        // console.log(localStorage);
+        // i++;
+      }
     }
 
     this.cameras.main.scrollX = this.player.x - 400;
