@@ -20,6 +20,7 @@ export default class Game extends Phaser.Scene {
   private player!: Phaser.Physics.Arcade.Sprite;
   private message!: Phaser.GameObjects.Text;
   private objLayer!: Phaser.Tilemaps.ObjectLayer;
+  private warning!: integer;
 
   constructor() {
     super("game");
@@ -112,17 +113,17 @@ export default class Game extends Phaser.Scene {
 
     //adds and configs music
 
-    let music = this.sound.add("music");
-    let musicConfig = {
-      mute: false,
-      volume: 0.5,
-      rate: 1,
-      detune: 0,
-      seek: 0,
-      loop: true,
-      delay: 0,
-    };
-    music.play(musicConfig);
+    // let music = this.sound.add("music");
+    // let musicConfig = {
+    //   mute: false,
+    //   volume: 0.5,
+    //   rate: 1,
+    //   detune: 0,
+    //   seek: 0,
+    //   loop: true,
+    //   delay: 0,
+    // };
+    // music.play(musicConfig);
     let item = this.sound.add("item");
 
     //Create animations
@@ -154,6 +155,8 @@ export default class Game extends Phaser.Scene {
       wordWrap: { width: 250 },
     });
 
+    this.warning = 0;
+
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
       console.log(data);
@@ -170,8 +173,12 @@ export default class Game extends Phaser.Scene {
       return;
     }
 
+    this.message.x = this.player.x + 20;
+    this.message.y = this.player.y + 100;
+
     // Enter a scene when near
     let nextToTarget = isItClose(this.player, overworldExits);
+
     if (nextToTarget) {
       localStorage.setItem("from", `overworld`);
       this.scene.start(nextToTarget.name);

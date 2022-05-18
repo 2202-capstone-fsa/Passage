@@ -1,64 +1,93 @@
 import Phaser from "phaser";
+import {
+  isItClose,
+  setPlayer,
+  movePlayer,
+  overworldExits,
+  overworldObjs,
+  createAnims,
+  interact,
+} from "../../utils/helper";
 import { debugDraw } from "../../utils/debug";
+import data from "../../../public/tiles/atlantis.json";
 
-export default class Maze extends Phaser.Scene {
-  private parry!: "string";
+export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private player!: Phaser.Physics.Arcade.Sprite;
+  private message!: Phaser.GameObjects.Text;
 
   constructor() {
-    super("maze");
+    super("home");
   }
+
   preload() {
-    //Load graphics for maze and player
-    this.load.image("shop", "tiles/RPGW_HousesAndInt_v1.1/interiors.png");
-    this.load.image(
-      "props",
-      "tiles/RPGW_HousesAndInt_v1.1/decorative_props.png"
-    );
+    //loading building tilesets
+    this.load.image("home", "tiles/RPGW_HousesAndInt_v1.1/interiors.png");
+    this.load.image("props", "tiles/RPGW_HousesAndInt_v1.1/decorative_props.png");
+    this.load.image("decore", "tiles/RPGW_HousesAndInt_v1.1/furniture.png");
+    
+    // loading character tilesets
     this.load.atlas(
       "player",
       "NPC_Characters_v1/Male4.png",
       "NPC_Characters_v1/MaleSprites.json"
     );
+
     //load audio
-    this.load.audio("music", ["audio/Chopin-Maze.mp3"]);
-
+    this.load.audio("music", ["music/2.mp3"]);
     //Load data (collisions, etc) for the map.
-    this.load.tilemapTiledJSON("maze", "tiles/maze.json");
-
+    this.load.tilemapTiledJSON("home", "tiles/home.json");
     //Load keyboard for player to use.
     this.cursors = this.input.keyboard.createCursorKeys();
   }
 
   create() {
-    //Create tile sets so that we can access Tiled data later on.
-    const map = this.make.tilemap({ key: "maze" });
-
-    const mazeTileSet = map.addTilesetImage("house", "shop");
+    //Create tile sets
+    const map = this.make.tilemap({ key: "home" });
+    const crafthouseTileSet = map.addTilesetImage("crafthouse", "home");
+    const decorationsTileSet = map.addTilesetImage("decorations", "decore");
     const propsTileSet = map.addTilesetImage("props", "props");
-
-    //Create ground layer first using tile set data.
-    map.createLayer("subground", [mazeTileSet, propsTileSet]);
-    const groundLayer = map.createLayer("ground", [mazeTileSet, propsTileSet]);
-
-    /* Add Player sprite to the game.
-          In the sprite json file, for any png of sprites,
-          the first set of sprites is called "green"
-          the second set is called "teal"
-          the third set is called "brown"
-          and the fourth set is called "doc"
-        */
-    //map.create
+    //building layers
+    map.createLayer("black", crafthouseTileSet);
+    map.createLayer("ground", crafthouseTileSet);
+    const wallsLayer = map.createLayer("walls", [
+      crafthouseTileSet,
+      decorationsTileSet,
+      propsTileSet,
+    ]);
+    const decoreLayer = map.createLayer("decore", [
+      crafthouseTileSet,
+      decorationsTileSet,
+      propsTileSet,
+    ]);
+    const decorationsLayer = map.createLayer("decorations", [
+      decorationsTileSet,
+      propsTileSet,
+    ]);
+    //const decoreLayer = map.createLayer('decore', homeTileSet);
 
     this.player = this.physics.add.sprite(
-      350,
-      600,
+      340,
+      450,
       "player",
       "doc-walk-down-0"
     );
     this.player.body.setSize(this.player.width * 0.1, this.player.height * 0.1);
     this.player.setCollideWorldBounds(true);
+
+    //adds and configs music
+    let music = this.sound.add("music");
+    let musicConfig = {
+      mute: false,
+      volume: 0.5,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: true,
+      delay: 0,
+    };
+
+    music.play(musicConfig);
 
     //Create idle animations for direction player is facing.
     this.anims.create({
@@ -108,30 +137,23 @@ export default class Maze extends Phaser.Scene {
       frameRate: 6,
     });
 
-    // this.cameras.main.startFollow(this.player, true);
-    // this.cameras.main.setBounds(0, 0, 1600, 1600);
-    // this.cameras.main.centerOn(600, 600);
-
-    //Create houses and walls in this world, over the Ground and Player.
-    const wallsLayer = map.createLayer("walls", [mazeTileSet, propsTileSet]);
-
-    //Set walls and houses to collide with Player.
+    //adds collisions
     wallsLayer.setCollisionByProperty({ collides: true });
-    groundLayer.setCollisionByProperty({ collides: true });
-    this.physics.add.collider(this.player, wallsLayer);
-
-    //adds and configs music
-
-    debugDraw(wallsLayer, this);
+    decoreLayer.setCollisionByProperty({ collides: true });
+    decorationsLayer.setCollisionByProperty({ collides: true });
+    this.physics.add.collider(this.player, [
+      wallsLayer,
+      decoreLayer,
+      decorationsLayer,
+    ]);
   }
-
   update(t: number, dt: number) {
     if (!this.cursors || !this.player) {
       return;
     }
 
-    this.cameras.main.scrollX = this.player.x - 120;
-    this.cameras.main.scrollY = this.player.y - 70;
+    this.cameras.main.scrollX = this.player.x - 400;
+    this.cameras.main.scrollY = this.player.y - 300;
 
     const speed = 120;
 
