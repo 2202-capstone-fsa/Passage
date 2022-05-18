@@ -1,5 +1,12 @@
 HELPER FUNCTION DOCUMENTATION:
 
+updateInventory(item, message, player, sound){
+  Give it the item you want to update inventory with. Updates inventory as localstorage.
+}
+
+displayInventory()
+  Wrap this in an event listener to display inventory
+
 interact(message, player, objects)
   Give it this.message, this.player, and an array of objects the player can interact with. Objects array should be something like data.layers[n].objects, where n is either 3 or 4 usually. Calls isItClose, and updates message with text of interacting object.
 
