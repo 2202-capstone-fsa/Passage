@@ -6,6 +6,7 @@ import Preloader from "./scenes/Preloader";
 import Hospital from "./scenes/Buildings/Hospital";
 import Maze from "./scenes/Puzzles/Maze";
 import Shop from "./scenes/Buildings/Shop";
+import Home from "./scenes/Buildings/Home";
 import Scan from "./scenes/Puzzles/Scan";
 import Atlantis from "./scenes/Buildings/Atlantis";
 import ScanBackground from "./scenes/puzzles/ScanBackground";
@@ -27,6 +28,7 @@ export default new Phaser.Game({
   scene: [
     Preloader,
     Game,
+    Home,
     Hospital,
     Shop,
     Maze,

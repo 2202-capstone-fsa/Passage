@@ -1,28 +1,36 @@
 import Phaser from "phaser";
+import {
+  isItClose,
+  setPlayer,
+  movePlayer,
+  overworldExits,
+  overworldObjs,
+  createAnims,
+  interact,
+  displayInventory,
+} from "../../utils/helper";
 import { debugDraw } from "../../utils/debug";
+import data from "../../../public/tiles/maze.json";
 
-export default class Maze extends Phaser.Scene {
+const mazeExits = [{x: 580, y: 60, name: 'shop' }]
+
+export default class Game extends Phaser.Scene {
   private parry!: "string";
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private player!: Phaser.Physics.Arcade.Sprite;
+  private message!: Phaser.GameObjects.Text;
+
 
   constructor() {
     super("maze");
   }
+
   preload() {
     //Load graphics for maze and player
-    this.load.image("shop", "tiles/RPGW_HousesAndInt_v1.1/interiors.png");
-    this.load.image(
-      "props",
-      "tiles/RPGW_HousesAndInt_v1.1/decorative_props.png"
-    );
-    this.load.atlas(
-      "player",
-      "NPC_Characters_v1/Male4.png",
-      "NPC_Characters_v1/MaleSprites.json"
-    );
-    //load audio
-    this.load.audio("music", ["audio/Chopin-Maze.mp3"]);
+    this.load.image("building", "tiles/RPGW_HousesAndInt_v1.1/interiors.png");
+    this.load.image("props","tiles/RPGW_HousesAndInt_v1.1/decorative_props.png");
+    this.load.image("furniture", "tiles/RPGW_HousesAndInt_v1.1/furniture.png");
+    this.load.image("objects", "tiles/icons/icons.png");
 
     //Load data (collisions, etc) for the map.
     this.load.tilemapTiledJSON("maze", "tiles/maze.json");
@@ -34,13 +42,19 @@ export default class Maze extends Phaser.Scene {
   create() {
     //Create tile sets so that we can access Tiled data later on.
     const map = this.make.tilemap({ key: "maze" });
-
-    const mazeTileSet = map.addTilesetImage("house", "shop");
+    const buildingTileSet = map.addTilesetImage("Building", "building");
+    const mazeTileSet = map.addTilesetImage("house", "building");
+    const furnitureTileSet = map.addTilesetImage("Furniture", "furniture");
     const propsTileSet = map.addTilesetImage("props", "props");
+    const allTileSets = [buildingTileSet, mazeTileSet, furnitureTileSet, propsTileSet]
+
 
     //Create ground layer first using tile set data.
-    map.createLayer("subground", [mazeTileSet, propsTileSet]);
-    const groundLayer = map.createLayer("ground", [mazeTileSet, propsTileSet]);
+    map.createLayer("subground", allTileSets);
+    map.createLayer("ground", allTileSets);
+    const wallsLayer = map.createLayer("walls", allTileSets);
+    const furnitureLayer = map.createLayer("furniture", allTileSets);
+
 
     /* Add Player sprite to the game.
           In the sprite json file, for any png of sprites,
@@ -52,76 +66,22 @@ export default class Maze extends Phaser.Scene {
     //map.create
 
     this.player = this.physics.add.sprite(
-      350,
-      600,
+      120,
+      1480,
       "player",
       "doc-walk-down-0"
     );
-    this.player.body.setSize(this.player.width * 0.1, this.player.height * 0.1);
-    this.player.setCollideWorldBounds(true);
+    setPlayer(this.player);
+    createAnims(this.anims);
 
-    //Create idle animations for direction player is facing.
-    this.anims.create({
-      key: "player-idle-down",
-      frames: [{ key: "player", frame: "doc-walk-down-0" }],
-    });
-    this.anims.create({
-      key: "player-idle-side",
-      frames: [{ key: "player", frame: "doc-walk-side-0" }],
-    });
-    this.anims.create({
-      key: "player-idle-up",
-      frames: [{ key: "player", frame: "doc-walk-up-0" }],
-    });
-
-    //Create animations for player motions.
-    this.anims.create({
-      key: "player-walk-down",
-      frames: this.anims.generateFrameNames("player", {
-        start: 3,
-        end: 6,
-        prefix: "doc-walk-down-",
-      }),
-      repeat: -1,
-      frameRate: 6,
-    });
-
-    this.anims.create({
-      key: "player-walk-up",
-      frames: this.anims.generateFrameNames("player", {
-        start: 3,
-        end: 6,
-        prefix: "doc-walk-up-",
-      }),
-      repeat: -1,
-      frameRate: 6,
-    });
-
-    this.anims.create({
-      key: "player-walk-side",
-      frames: this.anims.generateFrameNames("player", {
-        start: 3,
-        end: 6,
-        prefix: "doc-walk-side-",
-      }),
-      repeat: -1,
-      frameRate: 6,
-    });
-
-    // this.cameras.main.startFollow(this.player, true);
-    // this.cameras.main.setBounds(0, 0, 1600, 1600);
-    // this.cameras.main.centerOn(600, 600);
-
-    //Create houses and walls in this world, over the Ground and Player.
-    const wallsLayer = map.createLayer("walls", [mazeTileSet, propsTileSet]);
-
-    //Set walls and houses to collide with Player.
     wallsLayer.setCollisionByProperty({ collides: true });
-    groundLayer.setCollisionByProperty({ collides: true });
-    this.physics.add.collider(this.player, wallsLayer);
+    furnitureLayer.setCollisionByProperty({ collides: true });
 
-    //adds and configs music
-    let music = this.sound.add("music");
+
+    this.physics.add.collider(this.player, wallsLayer);
+    this.physics.add.collider(this.player, furnitureLayer);
+
+    let music = this.sound.add("race");
     let musicConfig = {
       mute: false,
       volume: 0.5,
@@ -131,46 +91,48 @@ export default class Maze extends Phaser.Scene {
       loop: true,
       delay: 0,
     };
-
     music.play(musicConfig);
 
-    debugDraw(wallsLayer, this);
+    this.message = this.add.text(800, 750, "", {
+      color: "white",
+      backgroundColor: "black",
+      fontSize: "12px",
+      align: "center",
+      baselineX: 0,
+      baselineY: 0,
+      wordWrap: { width: 250 },
+    });
+
+
+    // Hit spacebar to interact with objects.
+    this.cursors.space.on("down", () => {
+      console.log(data);
+      interact(
+        this.message,
+        this.player,
+        data.layers[4].objects,
+        this.sound.add("item")
+      );
+    }),
+      // Hit shift to view Inventory.
+      this.cursors.shift.on("down", () => {
+        displayInventory(this.message, this.player);
+      }),
+        debugDraw(wallsLayer, this);
+        debugDraw(furnitureLayer, this);
+        //debugDraw(lowObjLayer, this);
   }
 
   update(t: number, dt: number) {
-    if (!this.cursors || !this.player) {
-      return;
+    let nextToTarget = isItClose(this.player, mazeExits);
+    if (nextToTarget) {
+      this.scene.start(nextToTarget.name);
     }
 
-    this.cameras.main.scrollX = this.player.x - 120;
-    this.cameras.main.scrollY = this.player.y - 70;
+    this.cameras.main.scrollX = this.player.x - 400;
+    this.cameras.main.scrollY = this.player.y - 300;
 
-    const speed = 120;
-
-    if (this.cursors.left?.isDown) {
-      this.player.anims.play("player-walk-side", true);
-      this.player.setVelocity(-speed, 0);
-      this.player.scaleX = 1;
-      this.player.body.offset.x = 0;
-    } else if (this.cursors.right?.isDown) {
-      this.player.anims.play("player-walk-side", true);
-      this.player.setVelocity(speed, 0);
-      this.player.scaleX = -1;
-      this.player.body.offset.x = 16;
-    } else if (this.cursors.down?.isDown) {
-      this.player.anims.play("player-walk-down", true);
-      this.player.setVelocity(0, speed);
-      this.player.body.offset.y = 0;
-    } else if (this.cursors.up?.isDown) {
-      this.player.anims.play("player-walk-up", true);
-      this.player.setVelocity(0, -speed);
-      this.player.body.offset.y = 0;
-    } else {
-      if (!this.player.anims.currentAnim) return;
-      const parts = this.player.anims.currentAnim.key.split("-");
-      parts[1] = "idle";
-      this.player.play(parts.join("-"));
-      this.player.setVelocity(0, 0);
-    }
+    let speed = this.message.text ? 0 : 120;
+    movePlayer(this.player, speed, this.cursors);
   }
 }

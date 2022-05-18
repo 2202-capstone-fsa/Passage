@@ -37,7 +37,7 @@ export default class TitleScreen extends Phaser.Scene {
     this.add.text(240, 300, "Press Space to Start", {}).setOrigin(0.5);
 
     this.input.keyboard.once(`keydown-SPACE`, () => {
-      this.scene.start("game");
+      this.scene.start("home");
     });
   }
 
