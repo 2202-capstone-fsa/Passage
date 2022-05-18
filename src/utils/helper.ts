@@ -147,7 +147,7 @@ export function displayInventory(message, player, inventory = localStorage) {
   }
 }
 
-let keyItems = ["sign", "pod"]; //only include key item names
+let keyItems = ["sign", "pod", "shovel", "helm"]; //only include key item names
 
 export function updateInventory(item, message, player, sound) {
   if (!localStorage[item.name] && keyItems.includes(item.name)) {

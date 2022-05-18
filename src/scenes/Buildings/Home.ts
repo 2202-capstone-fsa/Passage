@@ -7,13 +7,9 @@ import {
   overworldObjs,
   createAnims,
   interact,
-  displayInventory,
-  updateText,
 } from "../../utils/helper";
 import { debugDraw } from "../../utils/debug";
 import data from "../../../public/tiles/atlantis.json";
-
-const atlantisExits = [{ x: 235, y: 449, name: "game" }];
 
 export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -21,43 +17,77 @@ export default class Game extends Phaser.Scene {
   private message!: Phaser.GameObjects.Text;
 
   constructor() {
-    super("atlantis");
+    super("home");
   }
 
   preload() {
-    //Load graphics for atlantis.
-    this.load.image("icons", "tiles/icons/icons.png");
-    this.load.image("building", "tiles/cave/atlantis.png");
+    //loading building tilesets
+    this.load.image("home", "tiles/RPGW_HousesAndInt_v1.1/interiors.png");
+    this.load.image("props", "tiles/RPGW_HousesAndInt_v1.1/decorative_props.png");
+    this.load.image("decore", "tiles/RPGW_HousesAndInt_v1.1/furniture.png");
+    
+    // loading character tilesets
+    this.load.atlas(
+      "player",
+      "NPC_Characters_v1/Male4.png",
+      "NPC_Characters_v1/MaleSprites.json"
+    );
 
-    this.load.tilemapTiledJSON("atlantis", "tiles/atlantis.json");
-
+    //load audio
+    this.load.audio("music", ["music/2.mp3"]);
+    //Load data (collisions, etc) for the map.
+    this.load.tilemapTiledJSON("home", "tiles/home.json");
     //Load keyboard for player to use.
     this.cursors = this.input.keyboard.createCursorKeys();
   }
 
   create() {
-    //Create tile sets so that we can access Tiled data later on.
-    const map = this.make.tilemap({ key: "atlantis" });
-    console.log("In atlantis");
-    const buildingTileSet = map.addTilesetImage("Atlantis", "building");
-    const iconsTileSet = map.addTilesetImage("Icons", "icons");
-    const atlantisTilesets = [buildingTileSet, iconsTileSet];
-
-    //Create ground layer first using tile set data.
-    const groundLayer = map.createLayer("Ground", atlantisTilesets);
-    const wallLayer = map.createLayer("Walls", atlantisTilesets);
-    const objLayer = map.createLayer("Objects", atlantisTilesets);
-    //const objectLayer = map.createLayer("objects", atlantisTilesets);
+    //Create tile sets
+    const map = this.make.tilemap({ key: "home" });
+    const crafthouseTileSet = map.addTilesetImage("crafthouse", "home");
+    const decorationsTileSet = map.addTilesetImage("decorations", "decore");
+    const propsTileSet = map.addTilesetImage("props", "props");
+    //building layers
+    map.createLayer("black", crafthouseTileSet);
+    map.createLayer("ground", crafthouseTileSet);
+    const wallsLayer = map.createLayer("walls", [
+      crafthouseTileSet,
+      decorationsTileSet,
+      propsTileSet,
+    ]);
+    const decoreLayer = map.createLayer("decore", [
+      crafthouseTileSet,
+      decorationsTileSet,
+      propsTileSet,
+    ]);
+    const decorationsLayer = map.createLayer("decorations", [
+      decorationsTileSet,
+      propsTileSet,
+    ]);
+    //const decoreLayer = map.createLayer('decore', homeTileSet);
 
     this.player = this.physics.add.sprite(
-      250,
-      400,
+      340,
+      450,
       "player",
       "doc-walk-down-0"
     );
-    this.player.body.setSize(this.player.width * 0.3, this.player.height * 0.2);
-    this.player.body.setOffset(6.5, 30);
+    this.player.body.setSize(this.player.width * 0.1, this.player.height * 0.1);
     this.player.setCollideWorldBounds(true);
+
+    //adds and configs music
+    let music = this.sound.add("music");
+    let musicConfig = {
+      mute: false,
+      volume: 0.5,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: true,
+      delay: 0,
+    };
+
+    music.play(musicConfig);
 
     //Create idle animations for direction player is facing.
     this.anims.create({
@@ -107,75 +137,44 @@ export default class Game extends Phaser.Scene {
       frameRate: 6,
     });
 
-    //Collides
-    wallLayer.setCollisionByProperty({ collides: true });
-    objLayer.setCollisionByProperty({ collides: true });
-    groundLayer.setCollisionByProperty({ collides: true });
-
-    this.physics.add.collider(this.player, groundLayer);
-    this.physics.add.collider(this.player, wallLayer);
-    this.physics.add.collider(this.player, objLayer);
-
-    this.message = this.add.text(800, 750, "", {
-      color: "white",
-      backgroundColor: "black",
-      fontSize: "12px",
-      align: "center",
-      baselineX: 0,
-      baselineY: 0,
-      wordWrap: { width: 250 },
-    });
-
-    this.sound.add("item");
-
-    // Hit spacebar to interact with objects.
-    this.cursors.space.on("down", () => {
-      console.log(data);
-      console.log(displayInventory);
-      interact(
-        this.message,
-        this.player,
-        data.layers[3].objects,
-        this.sound.add("item")
-      );
-    });
-    // Hit shift to view Inventory.
-    this.cursors.shift.on("down", () => {
-      return displayInventory(this.message, this.player);
-    }),
-      debugDraw(wallLayer, this);
-    debugDraw(groundLayer, this);
+    //adds collisions
+    wallsLayer.setCollisionByProperty({ collides: true });
+    decoreLayer.setCollisionByProperty({ collides: true });
+    decorationsLayer.setCollisionByProperty({ collides: true });
+    this.physics.add.collider(this.player, [
+      wallsLayer,
+      decoreLayer,
+      decorationsLayer,
+    ]);
   }
-
   update(t: number, dt: number) {
-    let nextToTarget = isItClose(this.player, atlantisExits);
-    if (nextToTarget) {
-      this.scene.stop("hospital");
-      this.scene.start(nextToTarget.name);
+    if (!this.cursors || !this.player) {
+      return;
     }
+
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;
 
-    const speed = this.message.text ? 0 : 120;
+    const speed = 120;
+
     if (this.cursors.left?.isDown) {
       this.player.anims.play("player-walk-side", true);
       this.player.setVelocity(-speed, 0);
       this.player.scaleX = 1;
-      this.player.body.offset.x = 5;
-      //console.log(data);
+      this.player.body.offset.x = 0;
     } else if (this.cursors.right?.isDown) {
       this.player.anims.play("player-walk-side", true);
       this.player.setVelocity(speed, 0);
       this.player.scaleX = -1;
-      this.player.body.offset.x = 10;
+      this.player.body.offset.x = 16;
     } else if (this.cursors.down?.isDown) {
       this.player.anims.play("player-walk-down", true);
       this.player.setVelocity(0, speed);
-      this.player.body.offset.y = 25;
+      this.player.body.offset.y = 0;
     } else if (this.cursors.up?.isDown) {
       this.player.anims.play("player-walk-up", true);
       this.player.setVelocity(0, -speed);
-      this.player.body.offset.y = 25;
+      this.player.body.offset.y = 0;
     } else {
       if (!this.player.anims.currentAnim) return;
       const parts = this.player.anims.currentAnim.key.split("-");

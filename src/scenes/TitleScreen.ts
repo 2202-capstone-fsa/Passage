@@ -40,6 +40,18 @@ export default class TitleScreen extends Phaser.Scene {
     );
     setPlayer(this.player);
 
+    let music = this.sound.add("music");
+    let musicConfig = {
+      mute: false,
+      volume: 0.5,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: true,
+      delay: 0,
+    };
+    music.play(musicConfig);
+
     const titleTileSet = map.addTilesetImage("Atlantis", "atlantis");
 
     //Create Layer
