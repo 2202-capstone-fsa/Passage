@@ -13,7 +13,7 @@ import {
   updateInventory,
 } from "../utils/helper";
 
-export default class ending extends Phaser.Scene {
+export default class start extends Phaser.Scene {
   private parry!: "string";
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private player!: Phaser.Physics.Arcade.Sprite;
@@ -23,7 +23,7 @@ export default class ending extends Phaser.Scene {
   private typewriteText!: Function;
 
   constructor() {
-    super("ending");
+    super("start");
   }
 
   preload() {
@@ -34,15 +34,11 @@ export default class ending extends Phaser.Scene {
   create() {
     this.cameras.main.centerOn(280, 150);
 
-    let inventory = localStorage;
-    let heart = inventory.heart;
-    let brain = inventory.brain;
-    let soul = inventory.soul;
-
-    let text = "Place holder text";
+    let text =
+      "How long do I have to wait? I wish they would come home. Just walk in through that door. It feels like it has been forever. I have got dinner waiting. You awaken in a dark room. Oh man, what a splitting headache. Why do I not remember a thing? Where am I, what is going on? Did I fall or something? Maybe if I move around I can get my bearings.";
 
     this.message = this.add
-      .text(0, 0, "You leave the town.", {
+      .text(0, 0, "You hear a voice.", {
         color: "white",
         backgroundColor: "black",
         fontSize: "18px",
@@ -68,17 +64,7 @@ export default class ending extends Phaser.Scene {
       });
     };
 
-    if (heart && soul && brain) {
-      text =
-        "The heart, the soul, the brain. The body is not complete without the soul, and the soul without the body. Having recovered all 3 pieces you feel a strong force moving you forward. The world of the living begins to fade away, and you move towards your next step in your passage.";
-    } else if (heart || soul || brain) {
-      text =
-        "With only part of your being in your possession, you feel incomplete. You feel a heavy, overbearing weight draw you back towards the uninhabited town. Perhaps there is something unfinished? Your body, mind and soul, stuck in a strange disconnect between this world and the next, fractures and sheers. Then you awaken, wondering it it was all a dream..";
-    } else {
-      text =
-        "Locations are left unexplored and their purposes remain undiscovered. You travel deeper into the darkness. Your body weakens and your limbs loosen. Bit by bit you are torn apart and dissolved into the ether. At the last moment of conciousness, a pinhole of light appears and you reach for it. You reawaken wondering if it was all a dream..";
-    }
-
+    //split into array of sentences
     let endTexts = text.match(/[^\.!\?]+[\.!\?]+/g);
     let counter = -1;
 
