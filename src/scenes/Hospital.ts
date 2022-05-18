@@ -30,7 +30,6 @@ const hospitalExits = [
 
 let roomLocked = true;
 
-
 const dialogue = [
   {
     x: 105,
@@ -123,6 +122,7 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
+    this.cameras.main.setSize(475, 300);
     //Create tile sets so that we can access Tiled data later on.
 
     const map = this.make.tilemap({ key: "hospital" });
@@ -174,8 +174,9 @@ export default class Game extends Phaser.Scene {
     }
 
     setPlayer(this.player);
-    createAnims(this.anims);
+    this.cameras.main.startFollow(this.player);
 
+    createAnims(this.anims);
 
     this.nurse = this.physics.add.sprite(283, 185, "modern", "nurse_front_1");
 
@@ -220,7 +221,6 @@ export default class Game extends Phaser.Scene {
 
       //if close to door && count === 2
       // scene start 'game'
-
     }),
       // Hit shift to view Inventory.
       this.cursors.shift.on("down", () => {
@@ -232,7 +232,6 @@ export default class Game extends Phaser.Scene {
   }
 
   update(t: number, dt: number) {
-
     if (this.player.y > 575) {
       localStorage.setItem("from", `hospital`);
       this.scene.stop("hospital");
@@ -294,7 +293,6 @@ export default class Game extends Phaser.Scene {
       } else {
         updateText(this.player, dialogueSpot, this.message);
         dialogueSpot.hasAppeared = true;
-
       }
     }
 

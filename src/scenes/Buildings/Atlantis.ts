@@ -36,6 +36,8 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
+    this.cameras.main.setSize(475, 300);
+
     //Create tile sets so that we can access Tiled data later on.
     const map = this.make.tilemap({ key: "atlantis" });
     console.log("In atlantis");
@@ -98,6 +100,7 @@ export default class Game extends Phaser.Scene {
     }),
       debugDraw(wallLayer, this);
     debugDraw(groundLayer, this);
+    this.cameras.main.startFollow(this.player);
   }
 
   update(t: number, dt: number) {
