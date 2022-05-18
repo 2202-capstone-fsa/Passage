@@ -108,7 +108,7 @@ export default class Game extends Phaser.Scene {
         "player",
         "doc-walk-down-0"
       );
-    } else if (localStorage.from === "cave") {
+    } else if (localStorage.from === "atlantis") {
       localStorage.removeItem("from");
       this.player = this.physics.add.sprite(
         808,
@@ -180,7 +180,6 @@ export default class Game extends Phaser.Scene {
       console.log(data);
 
       interact(this.message, this.player, data.layers[5].objects, item);
-
     }),
       // Hit shift to view Inventory.
       this.cursors.shift.on("down", () => {
@@ -200,7 +199,6 @@ export default class Game extends Phaser.Scene {
     let nextToTarget = isItClose(this.player, overworldExits);
 
     if (nextToTarget) {
-
       localStorage.setItem("from", `overworld`);
       this.scene.start(nextToTarget.name);
     }
