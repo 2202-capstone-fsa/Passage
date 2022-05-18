@@ -55,6 +55,8 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
+    this.cameras.main.setSize(475, 300);
+
     //Create tile sets so that we can access Tiled data later on.
     const map = this.make.tilemap({ key: "overworld" });
     const townTileSet = map.addTilesetImage("Town", "outside");
@@ -126,6 +128,7 @@ export default class Game extends Phaser.Scene {
     }
 
     setPlayer(this.player);
+    this.cameras.main.startFollow(this.player);
 
     //adds and configs music
 
@@ -163,7 +166,7 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.player, waterfallLayer);
     this.physics.add.collider(this.player, groundDeluxeLayer);
 
-    this.message = this.add.text(800, 750, "", {
+    this.message = this.add.text(400, 300, "", {
       color: "white",
       backgroundColor: "black",
       fontSize: "12px",
@@ -180,7 +183,6 @@ export default class Game extends Phaser.Scene {
       console.log(data);
 
       interact(this.message, this.player, data.layers[5].objects, item);
-
     }),
       // Hit shift to view Inventory.
       this.cursors.shift.on("down", () => {
@@ -200,7 +202,6 @@ export default class Game extends Phaser.Scene {
     let nextToTarget = isItClose(this.player, overworldExits);
 
     if (nextToTarget) {
-
       localStorage.setItem("from", `overworld`);
       this.scene.start(nextToTarget.name);
     }
