@@ -15,7 +15,7 @@ export function isItClose(player, targets) {
     let percentY = Math.abs((doorY - y) / doorY);
     // console.log(`percentX ${percentX}`);
     // console.log(`percentY ${percentY}`);
-    if (percentX <= 0.03 && percentY <= 0.03) {
+    if (percentX <= 0.05 && percentY <= 0.05) {
       return targets[i] || null; // returns target object
     }
   }
@@ -131,8 +131,7 @@ export function createAnims(anims) {
   });
 }
 
-export function displayInventory(message, player) {
-  let inventory = localStorage;
+export function displayInventory(message, player, inventory = localStorage) {
   console.log(inventory);
   if (message.text) {
     message.text = "";
@@ -148,7 +147,8 @@ export function displayInventory(message, player) {
   }
 }
 
-let keyItems = ["sign", "pod"]; //only include key item names
+
+let keyItems = ["keycard", "soul", "soda", "brain", "shovel", "helm", "heart"]; //only include key item names
 
 export function updateInventory(item, message, player, sound) {
   if (!localStorage[item.name] && keyItems.includes(item.name)) {
@@ -157,7 +157,9 @@ export function updateInventory(item, message, player, sound) {
     if (localStorage.length == 0) {
       message.text = "Item obtained! Press SHIFT to view inventory!";
     }
-    localStorage.setItem(`${item.name}`, `${item.message}`);
+
+    localStorage.setItem(`${item.name}`, `${item.properties[0].value}`);
+
     sound.play();
     //make it invisible
   }
@@ -167,6 +169,13 @@ export const overworldExits = [
   { x: 320, y: 1165, name: "shop" },
   { x: 1234, y: 465, name: "hospital" },
   { x: 803, y: 216, name: "atlantis" },
+  { x: 794, y: 1586, name: "ending" },
+  // {
+  //   x: 794,
+  //   y: 1500,
+  //   name: "nearEnd",
+  //   message: "You are near the end, no going back, are you sure?",
+  // },
 ];
 
 export const overworldObjs = [{}];

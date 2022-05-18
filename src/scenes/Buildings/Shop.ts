@@ -53,8 +53,6 @@ export default class Game extends Phaser.Scene {
     const decoreLayer = map.createLayer("decore", shopTileSets);
     const decorationsLayer = map.createLayer("decorations", shopTileSets);
     //const decoreLayer = map.createLayer('decore', shopTileSet);
-
-
       
     this.player = this.physics.add.sprite(
       340,
@@ -72,6 +70,7 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.player, wallsLayer)
     this.physics.add.collider(this.player, decoreLayer)
     this.physics.add.collider(this.player, decorationsLayer)
+
 
     let music = this.sound.add("music");
     let musicConfig = {
