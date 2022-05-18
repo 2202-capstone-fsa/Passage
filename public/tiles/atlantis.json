@@ -25,7 +25,7 @@
             210, 37, 37, 37, 37, 37, 37, 37, 37, 210, 210, 37, 37, 37, 37, 37, 40, 37, 37, 210, 210, 37, 37, 37, 37, 37, 37, 37, 37, 210,
             210, 37, 37, 37, 37, 37, 37, 37, 37, 210, 210, 37, 37, 37, 40, 37, 37, 37, 37, 210, 210, 37, 37, 37, 37, 37, 37, 37, 37, 210,
             210, 37, 37, 37, 37, 37, 37, 37, 37, 210, 210, 37, 37, 37, 37, 37, 37, 41, 37, 210, 210, 37, 37, 37, 37, 37, 37, 37, 37, 210,
-            210, 210, 37, 210, 210, 210, 210, 210, 210, 210, 210, 37, 37, 37, 37, 37, 37, 37, 37, 210, 210, 210, 210, 210, 210, 210, 210, 210, 210, 210,
+            210, 210, 206, 210, 210, 210, 210, 210, 210, 210, 210, 37, 37, 37, 37, 37, 37, 37, 37, 210, 210, 210, 210, 210, 210, 210, 210, 210, 210, 210,
             210, 210, 210, 210, 210, 210, 210, 210, 210, 210, 210, 37, 39, 37, 37, 37, 37, 37, 37, 210, 210, 210, 210, 210, 210, 210, 210, 210, 210, 210,
             210, 210, 210, 210, 210, 210, 210, 210, 210, 210, 210, 37, 38, 37, 37, 39, 37, 38, 37, 210, 210, 210, 210, 210, 210, 210, 210, 210, 210, 210,
             210, 210, 210, 210, 210, 210, 210, 210, 210, 210, 210, 37, 38, 37, 37, 37, 37, 40, 37, 210, 210, 210, 210, 210, 210, 210, 210, 210, 210, 210,
@@ -94,8 +94,8 @@
             206, 0, 0, 0, 0, 0, 0, 0, 0, 368, 369, 546, 547, 498, 0, 0, 500, 547, 548, 368, 369, 0, 0, 0, 0, 0, 0, 0, 0, 208,
             206, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 208,
             206, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 208,
+            206, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 208,
             206, 0, 0, 0, 0, 0, 0, 0, 0, 145, 241, 144, 0, 0, 0, 0, 0, 0, 145, 241, 144, 0, 0, 0, 0, 0, 0, 0, 0, 208,
-            206, 0, 0, 0, 0, 0, 0, 0, 0, 208, 275, 206, 0, 0, 0, 0, 0, 0, 208, 275, 206, 0, 0, 0, 0, 0, 0, 0, 0, 208,
             206, 0, 0, 0, 0, 0, 0, 0, 0, 208, 275, 206, 0, 0, 0, 0, 0, 0, 208, 275, 206, 0, 0, 0, 0, 0, 0, 0, 0, 208,
             206, 0, 0, 0, 0, 0, 0, 0, 0, 208, 275, 206, 0, 0, 0, 0, 0, 0, 208, 275, 206, 0, 0, 0, 0, 0, 0, 0, 0, 208,
             206, 0, 0, 0, 0, 0, 0, 0, 0, 208, 275, 206, 0, 0, 0, 0, 0, 0, 208, 275, 206, 0, 0, 0, 0, 0, 0, 0, 0, 208,
@@ -124,9 +124,31 @@
          "width":30,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":5,
+         "name":"Object",
+         "objects":[
+                {
+                 "height":23.3372,
+                 "id":1,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":28.5233,
+                 "x":225.809,
+                 "y":18.7994
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":4,
- "nextobjectid":1,
+ "nextlayerid":6,
+ "nextobjectid":2,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.4",
@@ -1685,7 +1707,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":true
+                         "value":false
                         }]
                 }, 
                 {
@@ -1884,7 +1906,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -1893,7 +1915,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -1902,7 +1924,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -1911,7 +1933,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -1920,7 +1942,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -2137,7 +2159,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -2146,7 +2168,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -2155,7 +2177,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -2164,7 +2186,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -2173,7 +2195,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -2390,7 +2412,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -2399,7 +2421,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -2408,7 +2430,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -2417,7 +2439,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -2426,7 +2448,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -2670,7 +2692,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -2679,7 +2701,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -3880,7 +3902,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -3889,7 +3911,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -3898,7 +3920,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -3907,7 +3929,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -3916,7 +3938,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -3925,7 +3947,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -3934,7 +3956,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 },
             
@@ -3944,7 +3966,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -4133,7 +4155,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -4142,7 +4164,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -4151,7 +4173,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -4160,7 +4182,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -4169,7 +4191,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -4178,7 +4200,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -4187,7 +4209,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -4196,7 +4218,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -6211,7 +6233,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -6220,7 +6242,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -6464,7 +6486,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -6473,7 +6495,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -6717,7 +6739,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -6726,7 +6748,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -6970,7 +6992,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -6979,7 +7001,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {

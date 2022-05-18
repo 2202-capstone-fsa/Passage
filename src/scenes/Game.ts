@@ -59,6 +59,7 @@ export default class Game extends Phaser.Scene {
     //Create ground layer first using tile set data.
     // const overworld = map.addTilesetImage("overworld", "Ground");
     const groundLayer = map.createLayer("Ground", allTileSet);
+    const groundDeluxeLayer = map.createLayer("GroundDeluxe", allTileSet);
     /* Add Player sprite to the game.
       In the sprite json file, for any png of sprites,
       the first set of sprites is called "green"
@@ -106,9 +107,11 @@ export default class Game extends Phaser.Scene {
     wallsLayer.setCollisionByProperty({ collides: true });
     housesLayer.setCollisionByProperty({ collides: true });
     waterfallLayer.setCollisionByProperty({ collides: true });
+    groundDeluxeLayer.setCollisionByProperty({ collides: true });
     this.physics.add.collider(this.player, wallsLayer);
     this.physics.add.collider(this.player, housesLayer);
     this.physics.add.collider(this.player, waterfallLayer);
+    this.physics.add.collider(this.player, groundDeluxeLayer);
 
     this.message = this.add.text(800, 750, "", {
       color: "white",
@@ -123,11 +126,7 @@ export default class Game extends Phaser.Scene {
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
       console.log(data);
-<<<<<<< HEAD
       interact(this.message, this.player, data.layers[4].objects, item);
-=======
-      interact(this.message, this.player, [], item);
->>>>>>> b4b706cc753dc11ebf1e2fc41b594bd95d5fb787
     }),
       // Hit shift to view Inventory.
       this.cursors.shift.on("down", () => {
