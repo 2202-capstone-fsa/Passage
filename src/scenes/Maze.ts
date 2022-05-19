@@ -137,18 +137,11 @@ export default class Game extends Phaser.Scene {
     const wallsLayer = map.createLayer("walls", allTileSets);
     const furnitureLayer = map.createLayer("furniture", allTileSets);
 
-    /* Add Player sprite to the game.
-          In the sprite json file, for any png of sprites,
-          the first set of sprites is called "green"
-          the second set is called "teal"
-          the third set is called "brown"
-          and the fourth set is called "doc"
-        */
     this.player = this.physics.add.sprite(
-      // 130,
-      // 1482,
-      494,
-      73,
+      130,
+      1482,
+      // 494, End of maze for dev.
+      // 73,
       "player",
       "doc-walk-side-0"
     );

@@ -21,12 +21,6 @@ const shopExits = [
   { x: 416, y: 150, name: "dupedoor" },
   { x: 192, y: 150, name: "dupedoor" },
   { x: 687, y: 150, name: "dupedoor" },
-
-  /*
-   [416, 173],
-        [192, 173],
-        [687, 173],
-  */
 ];
 
 const dialogue = [
@@ -170,15 +164,15 @@ export default class Game extends Phaser.Scene {
       // Hit shift to view Inventory.
       this.cursors.shift.on("down", () => {
         displayInventory(this.message, this.player);
-      }),
-      debugDraw(wallsLayer, this);
-    debugDraw(decoreLayer, this);
-    debugDraw(decorationsLayer, this);
+      });
+
+    // debugDraw(wallsLayer, this);
+    // debugDraw(decoreLayer, this);
+    // debugDraw(decorationsLayer, this);
   }
 
   update(t: number, dt: number) {
     this.playDialogue();
-
     this.exits();
 
     this.cameras.main.scrollX = this.player.x - 400;
