@@ -24,7 +24,6 @@ import data from "../../public/tiles/hospital.json";
 
 const hospitalExits = [
   { x: 422, y: 88, name: "scan" },
-
   { x: 635, y: 52, name: "shop" },
 ];
 
@@ -95,10 +94,8 @@ const dialogue = [
 export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private player!: Phaser.Physics.Arcade.Sprite;
-
   private nurse!: Phaser.Physics.Arcade.Sprite;
   private doctor!: Phaser.Physics.Arcade.Sprite;
-
   private message!: Phaser.GameObjects.Text;
 
   constructor() {
@@ -106,27 +103,27 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
-    //Load graphics for hospital.
+    //Load graphics for hospital map.
     this.load.image("items", "tiles/LabItems.png");
     this.load.image("building", "tiles/ModernTiles.png");
-
     this.load.tilemapTiledJSON("hospital", "tiles/hospital.json");
 
+    //Load sprite data for doctor and nurse characters.
     this.load.atlas(
       "modern",
       "NPC_Characters_v1/modernsprites.png",
       "NPC_Characters_v1/modernsprites.json"
     );
+
     //Load keyboard for player to use.
     this.cursors = this.input.keyboard.createCursorKeys();
   }
 
   create() {
     this.cameras.main.setSize(475, 300);
-    //Create tile sets so that we can access Tiled data later on.
 
+    //Create tile sets so that we can access Tiled data later on.
     const map = this.make.tilemap({ key: "hospital" });
-    console.log("In hospital");
     const buildingTileSet = map.addTilesetImage("futurevibes", "building");
     const labTileSet = map.addTilesetImage("labstuff", "items");
     const hospitalTilesets = [buildingTileSet, labTileSet];
@@ -139,59 +136,35 @@ export default class Game extends Phaser.Scene {
       "upper dead objects",
       hospitalTilesets
     );
+
+    //Don't know if I need this.
     map.createFromObjects("objects", { id: 10 });
     map.createFromObjects("objects", { id: 341 });
 
-    //Add if statement depending on if Pong is complete.
-
-    if (localStorage["from"] === "overworld") {
-      localStorage.removeItem("from");
-      this.player = this.physics.add.sprite(
-        105,
-        530,
-        "player",
-        "doc-walk-up-0"
-      );
-    } else if (localStorage["Brain Scan"] === "CLEAR") {
-      this.player = this.physics.add.sprite(
-        349,
-        85,
-        "player",
-        "doc-walk-side-0"
-      );
-
-      dialogue.forEach((textObj) => {
-        textObj.hasAppeared = true;
-      });
-      dialogue[4].hasAppeared = false;
-    } else if (localStorage["Brain Scan"] === "TOO BLURRY") {
-      this.player = this.physics.add.sprite(
-        359.5,
-        84,
-        "player",
-        "doc-walk-side-0"
-      );
-    }
-
-    setPlayer(this.player);
-    this.cameras.main.startFollow(this.player);
-
-    createAnims(this.anims);
-
-    this.nurse = this.physics.add.sprite(283, 185, "modern", "nurse_front_1");
-
-    this.doctor = this.physics.add.sprite(328, 86, "modern", "thedoc_right_1");
-
+    //Set collisions.
     floorLayer.setCollisionByProperty({ collides: true });
     floorObjLayer.setCollisionByProperty({ collides: true });
     lowObjLayer.setCollisionByProperty({ collides: true });
     highObjLayer.setCollisionByProperty({ collides: true });
+
+    //Local helper function: if player is coming from the overworld, they appear at the entrance. If they are returning form the Brain Scan, they appear by the bed.
+    this.spawn();
 
     this.physics.add.collider(this.player, lowObjLayer);
     this.physics.add.collider(this.player, highObjLayer);
     this.physics.add.collider(this.player, floorLayer);
     this.physics.add.collider(this.player, floorObjLayer);
 
+    //Set player in the game, follow with camera, and animate.
+    setPlayer(this.player);
+    this.cameras.main.startFollow(this.player);
+    createAnims(this.anims);
+
+    //Add other charas.
+    this.nurse = this.physics.add.sprite(283, 185, "modern", "nurse_front_1");
+    this.doctor = this.physics.add.sprite(328, 86, "modern", "thedoc_right_1");
+
+    //Initialize message and item sound.
     this.message = this.add.text(800, 750, "", {
       color: "white",
       backgroundColor: "black",
@@ -201,7 +174,6 @@ export default class Game extends Phaser.Scene {
       baselineY: 0,
       wordWrap: { width: 250 },
     });
-
     this.sound.add("item");
 
     // Hit spacebar to interact with objects.
@@ -214,13 +186,6 @@ export default class Game extends Phaser.Scene {
         data.layers[4].objects,
         this.sound.add("item")
       );
-
-      //if player xy close to the window xy
-      //count++
-      //reset count
-
-      //if close to door && count === 2
-      // scene start 'game'
     }),
       // Hit shift to view Inventory.
       this.cursors.shift.on("down", () => {
@@ -232,12 +197,39 @@ export default class Game extends Phaser.Scene {
   }
 
   update(t: number, dt: number) {
+    this.exits();
+    this.checkKeycard();
+    this.playDialogue();
+
+    this.cameras.main.scrollX = this.player.x - 400;
+    this.cameras.main.scrollY = this.player.y - 300;
+
+    let speed = this.message.text ? 0 : 120;
+    movePlayer(this.player, speed, this.cursors);
+  }
+
+  exits() {
     if (this.player.y > 575) {
       localStorage.setItem("from", `hospital`);
       this.scene.stop("hospital");
       this.scene.start("game");
     }
 
+    let nextToTarget = isItClose(this.player, hospitalExits);
+    if (nextToTarget) {
+      if (
+        nextToTarget.name === "scan" &&
+        localStorage["Brain Scan"] === "CLEAR"
+      ) {
+      } else {
+        localStorage.setItem("from", `hospital`);
+        this.scene.stop("hospital");
+        this.scene.start(nextToTarget.name);
+      }
+    }
+  }
+
+  checkKeycard() {
     if (roomLocked && this.player.x > 560 && this.player.y > 458) {
       let goodMonitor = {
         properties: [
@@ -252,6 +244,7 @@ export default class Game extends Phaser.Scene {
           },
         ],
       };
+
       if (localStorage["keycard"]) {
         this.player.setPosition(this.player.x, this.player.y + 5);
         updateText(this.player, goodMonitor, this.message);
@@ -261,23 +254,9 @@ export default class Game extends Phaser.Scene {
         updateText(this.player, badMonitor, this.message);
       }
     }
+  }
 
-    let nextToTarget = isItClose(this.player, hospitalExits);
-    if (nextToTarget) {
-      console.log("close to a scene");
-      console.log(nextToTarget);
-      if (
-        nextToTarget.name === "scan" &&
-        localStorage["Brain Scan"] === "CLEAR"
-      ) {
-        console.log("winner");
-      } else {
-        localStorage.setItem("from", `hospital`);
-        this.scene.stop("hospital");
-        this.scene.start(nextToTarget.name);
-      }
-    }
-
+  playDialogue() {
     let dialogueSpot = isItClose(this.player, dialogue);
     if (dialogueSpot && !dialogueSpot.hasAppeared) {
       if (this.message.text) this.message.text = "";
@@ -295,11 +274,35 @@ export default class Game extends Phaser.Scene {
         dialogueSpot.hasAppeared = true;
       }
     }
+  }
 
-    this.cameras.main.scrollX = this.player.x - 400;
-    this.cameras.main.scrollY = this.player.y - 300;
-
-    let speed = this.message.text ? 0 : 120;
-    movePlayer(this.player, speed, this.cursors);
+  spawn() {
+    if (localStorage["from"] === "overworld") {
+      localStorage.removeItem("from");
+      this.player = this.physics.add.sprite(
+        105,
+        530,
+        "player",
+        "doc-walk-up-0"
+      );
+    } else if (localStorage["Brain Scan"] === "CLEAR") {
+      this.player = this.physics.add.sprite(
+        349,
+        85,
+        "player",
+        "doc-walk-side-0"
+      );
+      dialogue.forEach((textObj) => {
+        textObj.hasAppeared = true;
+      });
+      dialogue[4].hasAppeared = false;
+    } else if (localStorage["Brain Scan"] === "TOO BLURRY") {
+      this.player = this.physics.add.sprite(
+        359.5,
+        84,
+        "player",
+        "doc-walk-side-0"
+      );
+    }
   }
 }
