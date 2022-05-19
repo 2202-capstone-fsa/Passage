@@ -164,6 +164,28 @@ export function updateInventory(item, message, player, sound) {
   }
 }
 
+export function dialogueArea(
+  minX = 0,
+  maxX = 0,
+  minY = 0,
+  maxY = 0,
+  dialogueObj,
+  player,
+  message
+) {
+  if (
+    player.y < maxY &&
+    player.y > minY &&
+    player.x > minX &&
+    player.x < maxX &&
+    !dialogueObj.hasAppeared
+  ) {
+    if (message.text) message.text = "";
+    updateText(player, dialogueObj, message);
+    dialogueObj.hasAppeared = true;
+  }
+}
+
 export const overworldExits = [
   { x: 320, y: 1165, name: "shop" },
   { x: 1234, y: 465, name: "hospital" },

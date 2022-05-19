@@ -8,11 +8,84 @@ import {
   createAnims,
   interact,
   displayInventory,
-} from "../../utils/helper";
-import { debugDraw } from "../../utils/debug";
-import data from "../../../public/tiles/maze.json";
+  updateText,
+  dialogueArea,
+} from "../utils/helper";
+import { debugDraw } from "../utils/debug";
+import data from "../../public/tiles/maze.json";
 
 const mazeExits = [{ x: 580, y: 73, name: "shop" }];
+
+const dialogue = [
+  {
+    x: 82,
+    y: 1493,
+    properties: [
+      {
+        name: "message",
+        value:
+          "How on Earth did I end up here? I.. am still on Earth, right? I should be able to find the owner of the house by following this hallway down.",
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value: "Ah, so we got a funny guy in charge of interior design.",
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value: "Are you kidding me!? Oh I swear, once I find this guy...",
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value: "LET ME OUT OF HERE!!!!!",
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value:
+          "Heavens. How many turns does this wallway have? And not a poster or window in sight! I wouldn't be surprised if this was the guy's dungeon and I found a prisoner in here! Hahaha. Actually, that's kind of scary. Onward.",
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value:
+          "This house looks familiar. All the furniture is gone, though. Maybe the guy who lived here moved away. Er.. what am I thinking? As if some guy lived in the middle of this awful maze.",
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value: "Do my eyes deceive me!?",
+      },
+    ],
+    hasAppeared: false,
+  },
+];
 
 export default class Game extends Phaser.Scene {
   private parry!: "string";
@@ -71,12 +144,13 @@ export default class Game extends Phaser.Scene {
     //map.create
 
     this.player = this.physics.add.sprite(
-      120,
-      1480,
+      82,
+      1493,
       "player",
       "doc-walk-down-0"
     );
     setPlayer(this.player);
+
     createAnims(this.anims);
 
     wallsLayer.setCollisionByProperty({ collides: true });
@@ -127,17 +201,53 @@ export default class Game extends Phaser.Scene {
   }
 
   update(t: number, dt: number) {
+    this.exits();
+
+    this.playDialogue();
+    this.cameras.main.scrollX = this.player.x - 400;
+    this.cameras.main.scrollY = this.player.y - 300;
+
+    let speed = this.message.text ? 0 : 200;
+    movePlayer(this.player, speed, this.cursors);
+  }
+
+  exits() {
     let nextToTarget = isItClose(this.player, mazeExits);
     if (nextToTarget) {
       localStorage.setItem("from", `maze`);
       this.scene.stop("maze");
       this.scene.start(nextToTarget.name);
     }
+  }
 
-    this.cameras.main.scrollX = this.player.x - 400;
-    this.cameras.main.scrollY = this.player.y - 300;
+  playDialogue() {
+    const firstWrongTurn = dialogue[1];
+    const secondWrongTurn = dialogue[2];
+    const thirdWrongTurn = dialogue[3];
+    const choicePath = dialogue[4];
+    const enteringHouse = dialogue[5];
+    const leavingMaze = dialogue[6];
 
-    let speed = this.message.text ? 0 : 200;
-    movePlayer(this.player, speed, this.cursors);
+    dialogueArea(130, 190, 0, 1160, firstWrongTurn, this.player, this.message);
+    dialogueArea(
+      800,
+      930,
+      1016,
+      1041,
+      secondWrongTurn,
+      this.player,
+      this.message
+    );
+    dialogueArea(550, 687, 625, 700, thirdWrongTurn, this.player, this.message);
+    dialogueArea(495, 615, 1399, 1410, choicePath, this.player, this.message);
+    dialogueArea(875, 940, 480, 660, enteringHouse, this.player, this.message);
+    dialogueArea(494, 500, 72, 97, leavingMaze, this.player, this.message);
+
+    let dialogueSpot = isItClose(this.player, dialogue);
+    if (dialogueSpot && !dialogueSpot.hasAppeared) {
+      if (this.message.text) this.message.text = "";
+      updateText(this.player, dialogueSpot, this.message);
+      dialogueSpot.hasAppeared = true;
+    }
   }
 }

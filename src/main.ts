@@ -4,7 +4,7 @@ import Phaser from "phaser";
 import Game from "./scenes/Game";
 import Preloader from "./scenes/Preloader";
 import Hospital from "./scenes/Hospital";
-import Maze from "./scenes/Puzzles/Maze";
+import Maze from "./scenes/Maze";
 import Shop from "./scenes/Buildings/Shop";
 import Home from "./scenes/Buildings/Home";
 import Scan from "./scenes/Puzzles/Scan";

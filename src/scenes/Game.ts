@@ -262,6 +262,7 @@ export default class Game extends Phaser.Scene {
     let exit = isItClose(this.player, overworldExits);
     if (exit) {
       localStorage.setItem("from", `overworld`);
+      this.scene.stop("game");
       this.scene.start(exit.name);
     }
   }
