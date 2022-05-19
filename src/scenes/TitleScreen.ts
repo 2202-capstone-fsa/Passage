@@ -78,9 +78,9 @@ export default class TitleScreen extends Phaser.Scene {
     };
     music.play(musicConfig);
 
-    this.add.text(240, 300, "Press Space to Start", {}).setOrigin(0.5);
+    this.add.text(240, 300, "Press Shift to Start", {}).setOrigin(0.5);
 
-    this.input.keyboard.once(`keydown-SPACE`, () => {
+    this.input.keyboard.once(`keydown-SHIFT`, () => {
       this.scene.start("home");
     });
   }
