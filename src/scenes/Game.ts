@@ -196,7 +196,7 @@ export default class Game extends Phaser.Scene {
     } else if (localStorage.from === "shop") {
       localStorage.removeItem("from");
       this.player = this.physics.add.sprite(
-        32,
+        320,
         1206,
         "player",
         "doc-walk-down-0"

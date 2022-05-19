@@ -8,14 +8,79 @@ import {
   createAnims,
   interact,
   displayInventory,
-} from "../../utils/helper";
-import { debugDraw } from "../../utils/debug";
-import data from "../../../public/tiles/craftsman.json";
+  updateText,
+  dialogueArea,
+} from "../utils/helper";
+import { debugDraw } from "../utils/debug";
+import data from "../../public/tiles/craftsman.json";
 
 const shopExits = [
-  { x: 718, y: 552, name: "maze" },
+  { x: 733, y: 533, name: "maze" },
   { x: 574, y: 72, name: "shop" },
   { x: 356, y: 449, name: "game" },
+  { x: 416, y: 150, name: "dupedoor" },
+  { x: 192, y: 150, name: "dupedoor" },
+  { x: 687, y: 150, name: "dupedoor" },
+
+  /*
+   [416, 173],
+        [192, 173],
+        [687, 173],
+  */
+];
+
+const dialogue = [
+  {
+    x: 418,
+    y: 159,
+    properties: [
+      {
+        name: "message",
+        value:
+          "FINALLY! Whew! I'm finally out! Still no one in sight. Honestly, I'd rather not meet the guy who designed this place anyway. What a creepy memento I found.",
+      },
+    ],
+    hasAppeared: false,
+    mazeExit: true,
+  },
+  {
+    x: 194,
+    y: 159,
+    properties: [
+      {
+        name: "message",
+        value:
+          "FINALLY! Whew! I'm finally out! Still no one in sight. Honestly, I'd rather not meet the guy who designed this place anyway. What a creepy memento I found.",
+      },
+    ],
+    hasAppeared: false,
+    mazeExit: true,
+  },
+  {
+    x: 684,
+    y: 157,
+    properties: [
+      {
+        name: "message",
+        value:
+          "FINALLY! Whew! I'm finally out! Still no one in sight. Honestly, I'd rather not meet the guy who designed this place anyway. What a creepy memento I found.",
+      },
+    ],
+    hasAppeared: false,
+    mazeExit: true,
+  },
+  {
+    x: 350,
+    y: 420,
+    properties: [
+      {
+        name: "message",
+        value:
+          "Hello? Mr. Neighbor? Huh.. no one here. I should scope out the place.",
+      },
+    ],
+    hasAppeared: false,
+  },
 ];
 
 export default class Game extends Phaser.Scene {
@@ -57,33 +122,11 @@ export default class Game extends Phaser.Scene {
     const decorationsLayer = map.createLayer("decorations", shopTileSets);
     //const decoreLayer = map.createLayer('decore', shopTileSet);
 
-    if (localStorage["from"] === "maze") {
-      localStorage.removeItem("from");
-      let doors = [
-        [418, 159],
-        [194, 159],
-        [684, 157],
-      ];
-      let chanceDoor = doors[Math.floor(Math.random() * doors.length)];
-      this.player = this.physics.add.sprite(
-        chanceDoor[0],
-        chanceDoor[1],
-        "player",
-        "doc-walk-down-0"
-      );
-    } else {
-      localStorage.removeItem("from");
-      this.player = this.physics.add.sprite(
-        350,
-        420,
-        "player",
-        "doc-walk-up-0"
-      );
-    }
+    this.spawn();
     setPlayer(this.player);
     createAnims(this.anims);
 
-    //adds collisions
+    //Adds collisions
     wallsLayer.setCollisionByProperty({ collides: true });
     decoreLayer.setCollisionByProperty({ collides: true });
     decorationsLayer.setCollisionByProperty({ collides: true });
@@ -134,17 +177,78 @@ export default class Game extends Phaser.Scene {
   }
 
   update(t: number, dt: number) {
-    let nextToTarget = isItClose(this.player, shopExits);
-    if (nextToTarget) {
-      localStorage.setItem("from", `shop`);
-      this.scene.stop("shop");
-      this.scene.start(nextToTarget.name);
-    }
+    this.playDialogue();
+
+    this.exits();
 
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;
 
     let speed = this.message.text ? 0 : 120;
     movePlayer(this.player, speed, this.cursors);
+  }
+
+  exits() {
+    let nextToTarget = isItClose(this.player, shopExits);
+    if (nextToTarget) {
+      if (nextToTarget.name === "dupedoor") {
+        this.player.setPosition(242, 289);
+        return;
+      }
+      localStorage.setItem("from", `shop`);
+      this.scene.stop("shop");
+      this.scene.start(nextToTarget.name);
+    }
+  }
+
+  playDialogue() {
+    let dialogueSpot = isItClose(this.player, dialogue);
+    if (dialogueSpot && !dialogueSpot.hasAppeared) {
+      if (this.message.text) this.message.text = "";
+      if (dialogueSpot.mazeExit) {
+        if (localStorage["from"] !== "maze") {
+          return;
+        }
+        updateText(this.player, dialogueSpot, this.message);
+        localStorage.removeItem("from");
+        dialogueSpot.hasAppeared = true;
+      } else {
+        updateText(this.player, dialogueSpot, this.message);
+        dialogueSpot.hasAppeared = true;
+      }
+    }
+  }
+
+  spawn() {
+    if (localStorage["from"] === "mazeWin") {
+      let doors = [
+        [416, 173],
+        [192, 173],
+        [687, 173],
+      ];
+      let chanceDoor = doors[Math.floor(Math.random() * doors.length)];
+      this.player = this.physics.add.sprite(
+        chanceDoor[0],
+        chanceDoor[1],
+        "player",
+        "doc-walk-down-0"
+      );
+    } else if (localStorage["from"] === "mazeFail") {
+      localStorage.removeItem("from");
+      this.player = this.physics.add.sprite(
+        644,
+        533,
+        "player",
+        "doc-walk-side-0"
+      );
+    } else {
+      localStorage.removeItem("from");
+      this.player = this.physics.add.sprite(
+        350,
+        420,
+        "player",
+        "doc-walk-up-0"
+      );
+    }
   }
 }

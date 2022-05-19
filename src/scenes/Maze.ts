@@ -14,12 +14,15 @@ import {
 import { debugDraw } from "../utils/debug";
 import data from "../../public/tiles/maze.json";
 
-const mazeExits = [{ x: 580, y: 73, name: "shop" }];
+const mazeExits = [
+  { x: 580, y: 73, name: "shop" },
+  { x: 82, y: 1480, name: "shop" },
+];
 
 const dialogue = [
   {
-    x: 82,
-    y: 1493,
+    x: 130,
+    y: 1482,
     properties: [
       {
         name: "message",
@@ -141,16 +144,15 @@ export default class Game extends Phaser.Scene {
           the third set is called "brown"
           and the fourth set is called "doc"
         */
-    //map.create
-
     this.player = this.physics.add.sprite(
-      82,
-      1493,
+      // 130,
+      // 1482,
+      494,
+      73,
       "player",
-      "doc-walk-down-0"
+      "doc-walk-side-0"
     );
     setPlayer(this.player);
-
     createAnims(this.anims);
 
     wallsLayer.setCollisionByProperty({ collides: true });
@@ -194,16 +196,17 @@ export default class Game extends Phaser.Scene {
       // Hit shift to view Inventory.
       this.cursors.shift.on("down", () => {
         displayInventory(this.message, this.player);
-      }),
-      debugDraw(wallsLayer, this);
-    debugDraw(furnitureLayer, this);
-    //debugDraw(lowObjLayer, this);
+      });
+
+    // debugDraw(wallsLayer, this);
+    // debugDraw(furnitureLayer, this);
+    // debugDraw(lowObjLayer, this);
   }
 
   update(t: number, dt: number) {
     this.exits();
-
     this.playDialogue();
+
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;
 
@@ -214,7 +217,12 @@ export default class Game extends Phaser.Scene {
   exits() {
     let nextToTarget = isItClose(this.player, mazeExits);
     if (nextToTarget) {
-      localStorage.setItem("from", `maze`);
+      if (this.player.y < 500) {
+        localStorage.setItem("from", `mazeWin`);
+      } else {
+        localStorage.setItem("from", `mazeFail`);
+      }
+
       this.scene.stop("maze");
       this.scene.start(nextToTarget.name);
     }
