@@ -91,17 +91,17 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.player, decoreLayer);
     this.physics.add.collider(this.player, decorationsLayer);
 
-    let music = this.sound.add("music");
-    let musicConfig = {
-      mute: false,
-      volume: 0.5,
-      rate: 1,
-      detune: 0,
-      seek: 0,
-      loop: true,
-      delay: 0,
-    };
-    music.play(musicConfig);
+    // let music = this.sound.add("music");
+    // let musicConfig = {
+    //   mute: false,
+    //   volume: 0.5,
+    //   rate: 1,
+    //   detune: 0,
+    //   seek: 0,
+    //   loop: true,
+    //   delay: 0,
+    // };
+    // music.play(musicConfig);
 
     this.message = this.add.text(800, 750, "", {
       color: "white",

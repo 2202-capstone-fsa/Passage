@@ -29,7 +29,6 @@ export default class Game extends Phaser.Scene {
     this.load.image("furniture", "tiles/RPGW_HousesAndInt_v1.1/furniture.png");
     this.load.image("note", "tiles/icons/individual/icon384.png");
 
-    
     //Load data (collisions, etc) for the map.
     this.load.tilemapTiledJSON("home", "tiles/home.json");
 
@@ -43,25 +42,20 @@ export default class Game extends Phaser.Scene {
     const interiorTileSet = map.addTilesetImage("interior", "interior");
     const furnitureTileSet = map.addTilesetImage("furniture", "furniture");
     const noteTileSet = map.addTilesetImage("note", "note");
-    const homeTileSets = [interiorTileSet, furnitureTileSet]
+    const homeTileSets = [interiorTileSet, furnitureTileSet];
     //building layers
     map.createLayer("ground", homeTileSets);
-    const wallsLayer = map.createLayer("walls", homeTileSets );
+    const wallsLayer = map.createLayer("walls", homeTileSets);
     const furnitureLayer = map.createLayer("furniture", homeTileSets);
-    console.log('alkjdsfgj;lak jsdfg;lkja;slkdfj')
+    console.log("alkjdsfgj;lak jsdfg;lkja;slkdfj");
     //map.createLayer("object", noteTileSet);
 
     map.createFromObjects("object", { id: 1 });
 
-    this.player = this.physics.add.sprite(
-      152,
-      57,
-      "player",
-      "doc-walk-down-0"
-    );
+    this.player = this.physics.add.sprite(152, 57, "player", "doc-walk-down-0");
     setPlayer(this.player);
     createAnims(this.anims);
-  
+
     wallsLayer.setCollisionByProperty({ collides: true });
     furnitureLayer.setCollisionByProperty({ collides: true });
 
@@ -69,18 +63,18 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.player, furnitureLayer);
     //this.physics.add.collider(this.player, objectsLayer);
 
-    let music = this.sound.add("music");
-    let musicConfig = {
-      mute: false,
-      volume: 0.5,
-      rate: 1,
-      detune: 0,
-      seek: 0,
-      loop: true,
-      delay: 0,
-    };
-    music.play(musicConfig);
-    
+    // let music = this.sound.add("music");
+    // let musicConfig = {
+    //   mute: false,
+    //   volume: 0.5,
+    //   rate: 1,
+    //   detune: 0,
+    //   seek: 0,
+    //   loop: true,
+    //   delay: 0,
+    // };
+    // music.play(musicConfig);
+
     this.message = this.add.text(800, 750, "", {
       color: "white",
       backgroundColor: "black",
@@ -107,9 +101,9 @@ export default class Game extends Phaser.Scene {
       this.cursors.shift.on("down", () => {
         displayInventory(this.message, this.player);
       }),
-        debugDraw(wallsLayer, this);
-        debugDraw(furnitureLayer, this);
-        //debugDraw(objectsLayer, this);
+      debugDraw(wallsLayer, this);
+    debugDraw(furnitureLayer, this);
+    //debugDraw(objectsLayer, this);
   }
 
   update(t: number, dt: number) {
