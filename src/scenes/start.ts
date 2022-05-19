@@ -34,8 +34,7 @@ export default class start extends Phaser.Scene {
   create() {
     this.cameras.main.centerOn(-100, -100);
 
-    let text =
-      "How long do I have to wait? I wish they would come home. Just walk in through that door. It feels like it has been forever. I have got dinner waiting. You awaken in a dark room. Oh man, what a splitting headache. Why do I not remember a thing? Where am I, what is going on? Did I fall or something? Maybe if I move around I can get my bearings.";
+    let text = `"How long do I have to wait?" "I wish they would come home." "Just walk in through that door." "It feels like it has been forever." "I've got dinner waiting." ...You awaken in a dim room... Oh man, what a splitting headache. Why do I not remember a thing? Where am I, what is going on? Did I fall or something? Maybe if I move around I can get my bearings.`;
 
     this.message = this.add
       .text(0, 0, "You hear a voice.", {

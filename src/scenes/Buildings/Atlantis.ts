@@ -25,6 +25,7 @@ const dialogue = [
         value: "Am I underwater? I feel so.. lonely. What can I do here?",
       },
     ],
+    hasAppeared: false,
   },
 ];
 

@@ -8,11 +8,47 @@ import {
   createAnims,
   interact,
   displayInventory,
-} from "../../utils/helper";
-import { debugDraw } from "../../utils/debug";
-import data from "../../../public/tiles/home.json";
+  updateText,
+} from "../utils/helper";
+import { debugDraw } from "../utils/debug";
+import data from "../../public/tiles/home.json";
 
-const homeExits = [{ x: 210, y: 273, name: "game" }];
+const homeExits = [{ x: 210, y: 278, name: "game" }];
+
+const dialogue = [
+  {
+    x: 152,
+    y: 57,
+    properties: [
+      {
+        name: "message",
+        value:
+          "What on Earth? Whose voice was that just now? Ergh, I must have drank too much last night. Damn it! I'm so hungry too.",
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value:
+          "Alright, well that's more than a regular headache. What is this place? Feels like home.. but I don't recognize it. I should see my doctor. Doctor, uh.. whatshisname? Yeah, this ain't right.",
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value:
+          "Empty plates, and no food around. I suppose I could stop at KFC before I head to the  doctor. Err, that doesn't sound right.",
+      },
+    ],
+    hasAppeared: false,
+  },
+];
 
 export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -43,16 +79,17 @@ export default class Game extends Phaser.Scene {
     const furnitureTileSet = map.addTilesetImage("furniture", "furniture");
     const noteTileSet = map.addTilesetImage("note", "note");
     const homeTileSets = [interiorTileSet, furnitureTileSet];
-    //building layers
+
+    //Building layers
     map.createLayer("ground", homeTileSets);
     const wallsLayer = map.createLayer("walls", homeTileSets);
     const furnitureLayer = map.createLayer("furniture", homeTileSets);
-    console.log("alkjdsfgj;lak jsdfg;lkja;slkdfj");
     //map.createLayer("object", noteTileSet);
 
     map.createFromObjects("object", { id: 1 });
 
-    this.player = this.physics.add.sprite(152, 57, "player", "doc-walk-down-0");
+    this.spawn();
+
     setPlayer(this.player);
     createAnims(this.anims);
 
@@ -100,24 +137,78 @@ export default class Game extends Phaser.Scene {
       // Hit shift to view Inventory.
       this.cursors.shift.on("down", () => {
         displayInventory(this.message, this.player);
-      }),
-      debugDraw(wallsLayer, this);
-    debugDraw(furnitureLayer, this);
-    //debugDraw(objectsLayer, this);
+      });
+
+    // debugDraw(wallsLayer, this);
+    // debugDraw(furnitureLayer, this);
+    // debugDraw(objectsLayer, this);
   }
 
   update(t: number, dt: number) {
-    let nextToTarget = isItClose(this.player, homeExits);
-    if (nextToTarget) {
-      localStorage.setItem("from", `home`);
-      this.scene.stop("home");
-      this.scene.start(nextToTarget.name);
-    }
+    this.exits();
+    this.playDialogue();
 
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;
 
     let speed = this.message.text ? 0 : 120;
     movePlayer(this.player, speed, this.cursors);
+  }
+
+  exits() {
+    let nextToTarget = isItClose(this.player, homeExits);
+    if (nextToTarget) {
+      localStorage.setItem("from", `home`);
+      this.scene.stop("home");
+      this.scene.start(nextToTarget.name);
+    }
+  }
+
+  playDialogue() {
+    const movingAround = dialogue[1];
+    const hungies = dialogue[2];
+
+    if (this.player.y > 87 && !movingAround.hasAppeared) {
+      if (this.message.text) this.message.text = "";
+
+      //***
+      //CRACKLING sound effect, and screen shake if possible.
+
+      updateText(this.player, movingAround, this.message);
+      movingAround.hasAppeared = true;
+    }
+
+    if (this.player.y > 217 && !hungies.hasAppeared) {
+      if (this.message.text) this.message.text = "";
+
+      updateText(this.player, hungies, this.message);
+      hungies.hasAppeared = true;
+    }
+
+    let dialogueSpot = isItClose(this.player, dialogue);
+    if (dialogueSpot && !dialogueSpot.hasAppeared) {
+      if (this.message.text) this.message.text = "";
+      updateText(this.player, dialogueSpot, this.message);
+      dialogueSpot.hasAppeared = true;
+    }
+  }
+
+  spawn() {
+    if (localStorage["from"] === "overworld") {
+      localStorage.removeItem("from");
+      this.player = this.physics.add.sprite(
+        207,
+        255,
+        "player",
+        "doc-walk-up-0"
+      );
+    } else {
+      this.player = this.physics.add.sprite(
+        152,
+        57,
+        "player",
+        "doc-walk-down-0"
+      );
+    }
   }
 }
