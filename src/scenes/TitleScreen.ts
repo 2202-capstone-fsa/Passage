@@ -31,14 +31,8 @@ export default class TitleScreen extends Phaser.Scene {
   create() {
     const map = this.make.tilemap({ key: "titlescreen" });
     console.log("In title");
-
-    this.player = this.physics.add.sprite(
-      800,
-      800,
-      "player",
-      "doc-walk-down-0"
-    );
-    setPlayer(this.player);
+    //this.cameras.main.centerOn(100, 100);
+    window.scrollTo(100, 100);
 
     let music = this.sound.add("music");
     let musicConfig = {
@@ -81,7 +75,7 @@ export default class TitleScreen extends Phaser.Scene {
     this.add.text(240, 300, "Press Shift to Start", {}).setOrigin(0.5);
 
     this.input.keyboard.once(`keydown-SHIFT`, () => {
-      this.scene.start("home");
+      this.scene.start("start");
     });
   }
 
