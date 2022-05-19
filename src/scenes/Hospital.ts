@@ -45,7 +45,7 @@ const dialogue = [
   },
   {
     x: 454,
-    y: 88,
+    y: 89,
     properties: [
       {
         name: "message",
@@ -78,8 +78,8 @@ const dialogue = [
     hasAppeared: false,
   },
   {
-    x: 349,
-    y: 85,
+    x: 385,
+    y: 89,
     properties: [
       {
         name: "message",
@@ -149,13 +149,7 @@ export default class Game extends Phaser.Scene {
 
     //Local helper function: if player is coming from the overworld, they appear at the entrance. If they are returning form the Brain Scan, they appear by the bed.
     this.spawn();
-
-    this.physics.add.collider(this.player, lowObjLayer);
-    this.physics.add.collider(this.player, highObjLayer);
-    this.physics.add.collider(this.player, floorLayer);
-    this.physics.add.collider(this.player, floorObjLayer);
-
-    //Set player in the game, follow with camera, and animate.
+    //Follow with camera and animate.
     setPlayer(this.player);
     this.cameras.main.startFollow(this.player);
     createAnims(this.anims);
@@ -163,6 +157,13 @@ export default class Game extends Phaser.Scene {
     //Add other charas.
     this.nurse = this.physics.add.sprite(283, 185, "modern", "nurse_front_1");
     this.doctor = this.physics.add.sprite(328, 86, "modern", "thedoc_right_1");
+    this.doctor.setImmovable(true);
+
+    this.physics.add.collider(this.player, lowObjLayer);
+    this.physics.add.collider(this.player, highObjLayer);
+    this.physics.add.collider(this.player, floorLayer);
+    this.physics.add.collider(this.player, floorObjLayer);
+    this.physics.add.collider(this.player, this.doctor);
 
     //Initialize message and item sound.
     this.message = this.add.text(800, 750, "", {
@@ -190,10 +191,11 @@ export default class Game extends Phaser.Scene {
       // Hit shift to view Inventory.
       this.cursors.shift.on("down", () => {
         return displayInventory(this.message, this.player);
-      }),
-      debugDraw(floorLayer, this);
-    debugDraw(highObjLayer, this);
-    debugDraw(lowObjLayer, this);
+      });
+
+    // debugDraw(floorLayer, this);
+    // debugDraw(highObjLayer, this);
+    // debugDraw(lowObjLayer, this);
   }
 
   update(t: number, dt: number) {

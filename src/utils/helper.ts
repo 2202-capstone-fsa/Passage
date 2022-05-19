@@ -147,7 +147,6 @@ export function displayInventory(message, player, inventory = localStorage) {
   }
 }
 
-
 let keyItems = ["keycard", "soul", "soda", "brain", "shovel", "helm", "heart"]; //only include key item names
 
 export function updateInventory(item, message, player, sound) {
@@ -177,5 +176,3 @@ export const overworldExits = [
   //   message: "You are near the end, no going back, are you sure?",
   // },
 ];
-
-export const overworldObjs = [{}];

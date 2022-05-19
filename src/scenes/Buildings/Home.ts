@@ -109,6 +109,8 @@ export default class Game extends Phaser.Scene {
   update(t: number, dt: number) {
     let nextToTarget = isItClose(this.player, homeExits);
     if (nextToTarget) {
+      localStorage.setItem("from", `home`);
+      this.scene.stop("home");
       this.scene.start(nextToTarget.name);
     }
 
