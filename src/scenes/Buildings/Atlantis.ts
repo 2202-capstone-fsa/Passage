@@ -13,7 +13,20 @@ import {
 import { debugDraw } from "../../utils/debug";
 import data from "../../../public/tiles/atlantis.json";
 
-const atlantisExits = [{ x: 235, y: 449, name: "game" }];
+//const atlantisExits = [{ x: 235, y: 449, name: "game" }];
+
+const dialogue = [
+  {
+    x: 250,
+    y: 400,
+    properties: [
+      {
+        name: "message",
+        value: "Am I underwater? I feel so.. lonely. What can I do here?",
+      },
+    ],
+  },
+];
 
 export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -25,10 +38,9 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
-    //Load graphics for atlantis.
+    //Load graphics for atlantis map.
     this.load.image("icons", "tiles/icons/icons.png");
     this.load.image("building", "tiles/cave/atlantis.png");
-
     this.load.tilemapTiledJSON("atlantis", "tiles/atlantis.json");
 
     //Load keyboard for player to use.
@@ -40,7 +52,6 @@ export default class Game extends Phaser.Scene {
 
     //Create tile sets so that we can access Tiled data later on.
     const map = this.make.tilemap({ key: "atlantis" });
-    console.log("In atlantis");
     const buildingTileSet = map.addTilesetImage("Atlantis", "building");
     const iconsTileSet = map.addTilesetImage("Icons", "icons");
     const atlantisTilesets = [buildingTileSet, iconsTileSet];
@@ -49,15 +60,9 @@ export default class Game extends Phaser.Scene {
     const groundLayer = map.createLayer("Ground", atlantisTilesets);
     const wallLayer = map.createLayer("Walls", atlantisTilesets);
     const objLayer = map.createLayer("Objects", atlantisTilesets);
-    //const objectLayer = map.createLayer("objects", atlantisTilesets);
 
     localStorage.removeItem("from");
-    this.player = this.physics.add.sprite(
-      250,
-      400,
-      "player",
-      "doc-walk-down-0"
-    );
+    this.player = this.physics.add.sprite(250, 400, "player", "doc-walk-up-0");
 
     setPlayer(this.player);
     createAnims(this.anims);
@@ -104,16 +109,30 @@ export default class Game extends Phaser.Scene {
   }
 
   update(t: number, dt: number) {
-    let nextToTarget = isItClose(this.player, atlantisExits);
-    if (nextToTarget) {
-      localStorage.setItem("from", `atlantis`);
-      this.scene.stop("atlantis");
-      this.scene.start(nextToTarget.name);
-    }
+    this.exits();
+    this.playDialogue();
+
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;
 
     const speed = this.message.text ? 0 : 120;
     movePlayer(this.player, speed, this.cursors);
+  }
+
+  exits() {
+    if (this.player.y > 449) {
+      localStorage.setItem("from", `atlantis`);
+      this.scene.stop("atlantis");
+      this.scene.start("game");
+    }
+  }
+
+  playDialogue() {
+    let dialogueSpot = isItClose(this.player, dialogue);
+    if (dialogueSpot && !dialogueSpot.hasAppeared) {
+      if (this.message.text) this.message.text = "";
+      updateText(this.player, dialogueSpot, this.message);
+      dialogueSpot.hasAppeared = true;
+    }
   }
 }
