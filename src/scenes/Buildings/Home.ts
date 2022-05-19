@@ -55,6 +55,7 @@ export default class Game extends Phaser.Scene {
     this.player = this.physics.add.sprite(152, 57, "player", "doc-walk-down-0");
     setPlayer(this.player);
     createAnims(this.anims);
+    this.cameras.main.centerOn(152, 27);
 
     wallsLayer.setCollisionByProperty({ collides: true });
     furnitureLayer.setCollisionByProperty({ collides: true });
@@ -62,18 +63,6 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.player, wallsLayer);
     this.physics.add.collider(this.player, furnitureLayer);
     //this.physics.add.collider(this.player, objectsLayer);
-
-    // let music = this.sound.add("music");
-    // let musicConfig = {
-    //   mute: false,
-    //   volume: 0.5,
-    //   rate: 1,
-    //   detune: 0,
-    //   seek: 0,
-    //   loop: true,
-    //   delay: 0,
-    // };
-    // music.play(musicConfig);
 
     this.message = this.add.text(800, 750, "", {
       color: "white",
@@ -109,6 +98,8 @@ export default class Game extends Phaser.Scene {
   update(t: number, dt: number) {
     let nextToTarget = isItClose(this.player, homeExits);
     if (nextToTarget) {
+      window.scrollTo(0, 0);
+      localStorage.setItem("from", "home");
       this.scene.start(nextToTarget.name);
     }
 
