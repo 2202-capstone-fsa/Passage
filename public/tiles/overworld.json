@@ -1577,6 +1577,23 @@
                  "width":16.3221372294715,
                  "x":735.731364089533,
                  "y":1074.26131300566
+                }, 
+                {
+                 "height":16.6601035955532,
+                 "id":123,
+                 "name":"sign",
+                 "properties":[
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"shop"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16.054281646624,
+                 "x":240.208402750432,
+                 "y":1184.38191015661
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1585,7 +1602,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":123,
+ "nextobjectid":124,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.4",

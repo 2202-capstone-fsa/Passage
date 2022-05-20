@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="123">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="124">
  <editorsettings>
   <export target="tiles/overworld.json" format="json"/>
  </editorsettings>
@@ -62827,6 +62827,11 @@
   <object id="122" name="sign" x="735.731" y="1074.26" width="16.3221" height="13.8518">
    <properties>
     <property name="message" value="Welcome"/>
+   </properties>
+  </object>
+  <object id="123" name="sign" x="240.208" y="1184.38" width="16.0543" height="16.6601">
+   <properties>
+    <property name="message" value="shop"/>
    </properties>
   </object>
  </objectgroup>
