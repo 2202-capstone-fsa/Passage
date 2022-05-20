@@ -162,17 +162,31 @@ export default class Game extends Phaser.Scene {
 
     //Initialize message and item sound.
     this.message = this.add.text(400, 300, "", {
-      color: "white",
-      backgroundColor: "black",
-      fontSize: "12px",
+      color: "#FFF5EE",
+      fontFamily: "Tahoma",
+      backgroundColor: "#708090",
+      fontSize: "17px",
       align: "center",
       baselineX: 0,
       baselineY: 0,
-      wordWrap: { width: 250 },
+      padding: 0,
+      wordWrap: { width: 350 },
     });
     let item = this.sound.add("item");
 
     this.warning = 0;
+
+    let wind = this.sound.add("wind");
+    let musicConfig = {
+      mute: false,
+      volume: 0.2,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: false,
+      delay: 3,
+    };
+    wind.play(musicConfig);
 
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
@@ -193,8 +207,8 @@ export default class Game extends Phaser.Scene {
     }
 
     this.playDialogue();
-    this.message.x = this.player.x + 20;
-    this.message.y = this.player.y + 100;
+    this.message.x = this.player.x - 100;
+    this.message.y = this.player.y + 50;
 
     // Enter a scene when near.
     this.exits();

@@ -50,6 +50,20 @@ const dialogue = [
   },
 ];
 
+const text = [
+  {
+    x: 0,
+    y: 0,
+
+    properties: [
+      {
+        name: "message",
+        value: "",
+      },
+    ],
+  },
+];
+
 export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private player!: Phaser.Physics.Arcade.Sprite;
@@ -102,13 +116,15 @@ export default class Game extends Phaser.Scene {
     //this.physics.add.collider(this.player, objectsLayer);
 
     this.message = this.add.text(800, 750, "", {
-      color: "white",
-      backgroundColor: "black",
-      fontSize: "12px",
+      color: "#FFF5EE",
+      fontFamily: "Tahoma",
+      backgroundColor: "#708090",
+      fontSize: "17px",
       align: "center",
       baselineX: 0,
       baselineY: 0,
-      wordWrap: { width: 250 },
+      padding: 0,
+      wordWrap: { width: 350 },
     });
 
     this.sound.add("item");
