@@ -60,7 +60,7 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-    this.cameras.main.setSize(475, 300);
+    this.cameras.main.setSize(475.5, 300.5);
 
     //Create tile sets so that we can access Tiled data later on.
     const map = this.make.tilemap({ key: "atlantis" });
