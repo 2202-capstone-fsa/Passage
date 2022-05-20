@@ -220,7 +220,7 @@ export default class Game extends Phaser.Scene {
     // movement
     let speed = this.message.text ? 0 : 120;
     if (localStorage["soda"] === "A yummy fizzy drink that doctors love!") {
-      speed = 180;
+      speed = this.message.text ? 0 : 180;
     }
     movePlayer(this.player, speed, this.cursors);
   }
