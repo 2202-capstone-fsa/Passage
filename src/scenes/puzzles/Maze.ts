@@ -14,6 +14,10 @@ import data from "../../../public/tiles/maze.json";
 
 const mazeExits = [{ x: 580, y: 73, name: "shop" }];
 
+const text = [
+  
+]
+
 export default class Game extends Phaser.Scene {
   private parry!: "string";
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -27,10 +31,7 @@ export default class Game extends Phaser.Scene {
   preload() {
     //Load graphics for maze and player
     this.load.image("building", "tiles/RPGW_HousesAndInt_v1.1/interiors.png");
-    this.load.image(
-      "props",
-      "tiles/RPGW_HousesAndInt_v1.1/decorative_props.png"
-    );
+    this.load.image("props", "tiles/RPGW_HousesAndInt_v1.1/decorative_props.png");
     this.load.image("furniture", "tiles/RPGW_HousesAndInt_v1.1/furniture.png");
     this.load.image("objects", "tiles/icons/icons.png");
 
