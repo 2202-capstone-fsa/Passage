@@ -50,6 +50,19 @@ const dialogue = [
   },
 ];
 
+const text = [
+  {
+    x: 0,
+    y: 0,
+
+    properties: [{
+      name: "message",
+      value: 
+        ""
+    }]
+  }
+]
+
 export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private player!: Phaser.Physics.Arcade.Sprite;
@@ -78,9 +91,8 @@ export default class Game extends Phaser.Scene {
     const interiorTileSet = map.addTilesetImage("interior", "interior");
     const furnitureTileSet = map.addTilesetImage("furniture", "furniture");
     const noteTileSet = map.addTilesetImage("note", "note");
-    const homeTileSets = [interiorTileSet, furnitureTileSet];
-
-    //Building layers
+    const homeTileSets = [interiorTileSet, furnitureTileSet, noteTileSet];
+    //building layers
     map.createLayer("ground", homeTileSets);
     const wallsLayer = map.createLayer("walls", homeTileSets);
     const furnitureLayer = map.createLayer("furniture", homeTileSets);
@@ -117,6 +129,7 @@ export default class Game extends Phaser.Scene {
     this.cursors.space.on("down", () => {
       console.log(data);
       interact(
+        console.log(this.player.x, this.player.y)
         this.message,
         this.player,
         data.layers[3].objects,
@@ -134,17 +147,8 @@ export default class Game extends Phaser.Scene {
   }
 
   update(t: number, dt: number) {
-<<<<<<< HEAD:src/scenes/Home.ts
     this.exits();
     this.playDialogue();
-=======
-    let nextToTarget = isItClose(this.player, homeExits);
-    if (nextToTarget) {
-      window.scrollTo(0, 0);
-      localStorage.setItem("from", "home");
-      this.scene.start(nextToTarget.name);
-    }
->>>>>>> 8de06158bd5454b500d223cac56f3cad97cd2a4d:src/scenes/Buildings/Home.ts
 
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;

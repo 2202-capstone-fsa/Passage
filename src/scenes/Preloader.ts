@@ -21,6 +21,6 @@ export default class Preloader extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start("home");
+    this.scene.start("maze");
   }
 }
