@@ -22,7 +22,18 @@ const dialogue = [
     properties: [
       {
         name: "message",
-        value: "Am I underwater? I feel so.. lonely. What can I do here?",
+        value:
+          "A secret cave! You're always supposed to go behind the waterfall! Haha! I.. wish someone was here to share this moment with me. What can I do here, anyway?",
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value:
+          "I could always go for a little treasure hunt. One dubloon in my pocket, and I'll be the richest man in the world! Normal man, at least.",
       },
     ],
     hasAppeared: false,
@@ -129,6 +140,16 @@ export default class Game extends Phaser.Scene {
   }
 
   playDialogue() {
+    const midwayPoint = dialogue[1];
+
+    //Where is the shovel?
+
+    if (this.player.y < 176 && !midwayPoint.hasAppeared) {
+      if (this.message.text) this.message.text = "";
+      updateText(this.player, midwayPoint, this.message);
+      midwayPoint.hasAppeared = true;
+    }
+
     let dialogueSpot = isItClose(this.player, dialogue);
     if (dialogueSpot && !dialogueSpot.hasAppeared) {
       if (this.message.text) this.message.text = "";
