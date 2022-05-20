@@ -90,9 +90,7 @@ const dialogue = [
   },
 ];
 
-const text = [
-  
-]
+const text = [];
 
 export default class Game extends Phaser.Scene {
   private parry!: "string";
@@ -107,7 +105,10 @@ export default class Game extends Phaser.Scene {
   preload() {
     //Load graphics for maze and player
     this.load.image("building", "tiles/RPGW_HousesAndInt_v1.1/interiors.png");
-    this.load.image("props", "tiles/RPGW_HousesAndInt_v1.1/decorative_props.png");
+    this.load.image(
+      "props",
+      "tiles/RPGW_HousesAndInt_v1.1/decorative_props.png"
+    );
     this.load.image("furniture", "tiles/RPGW_HousesAndInt_v1.1/furniture.png");
     this.load.image("objects", "tiles/icons/icons.png");
 
@@ -168,13 +169,15 @@ export default class Game extends Phaser.Scene {
     music.play(musicConfig);
 
     this.message = this.add.text(800, 750, "", {
-      color: "white",
-      backgroundColor: "black",
-      fontSize: "12px",
+      color: "#FFF5EE",
+      fontFamily: "Tahoma",
+      backgroundColor: "#708090",
+      fontSize: "17px",
       align: "center",
       baselineX: 0,
       baselineY: 0,
-      wordWrap: { width: 250 },
+      padding: 0,
+      wordWrap: { width: 350 },
     });
 
     // Hit spacebar to interact with objects.
