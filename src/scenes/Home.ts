@@ -92,6 +92,7 @@ export default class Game extends Phaser.Scene {
 
     setPlayer(this.player);
     createAnims(this.anims);
+    this.cameras.main.centerOn(152, 27);
 
     wallsLayer.setCollisionByProperty({ collides: true });
     furnitureLayer.setCollisionByProperty({ collides: true });
@@ -99,18 +100,6 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.player, wallsLayer);
     this.physics.add.collider(this.player, furnitureLayer);
     //this.physics.add.collider(this.player, objectsLayer);
-
-    // let music = this.sound.add("music");
-    // let musicConfig = {
-    //   mute: false,
-    //   volume: 0.5,
-    //   rate: 1,
-    //   detune: 0,
-    //   seek: 0,
-    //   loop: true,
-    //   delay: 0,
-    // };
-    // music.play(musicConfig);
 
     this.message = this.add.text(800, 750, "", {
       color: "white",
@@ -145,8 +134,17 @@ export default class Game extends Phaser.Scene {
   }
 
   update(t: number, dt: number) {
+<<<<<<< HEAD:src/scenes/Home.ts
     this.exits();
     this.playDialogue();
+=======
+    let nextToTarget = isItClose(this.player, homeExits);
+    if (nextToTarget) {
+      window.scrollTo(0, 0);
+      localStorage.setItem("from", "home");
+      this.scene.start(nextToTarget.name);
+    }
+>>>>>>> 8de06158bd5454b500d223cac56f3cad97cd2a4d:src/scenes/Buildings/Home.ts
 
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;
