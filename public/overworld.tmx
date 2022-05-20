@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="46">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="123">
  <editorsettings>
   <export target="tiles/overworld.json" format="json"/>
  </editorsettings>
@@ -62299,7 +62299,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6163,6164,6165,6166,6167,6168,6169,6170,6171,6172,6173,6174,6175,6176,6177,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6227,6228,6229,6230,6231,6232,6233,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6291,6292,6293,6294,6295,6296,6297,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,10088,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -62536,6 +62536,297 @@
   <object id="44" name="helm" gid="10185" x="159.757" y="143.981" width="16" height="16">
    <properties>
     <property name="message" value="is it for good ending?"/>
+   </properties>
+  </object>
+  <object id="46" name="sign" gid="10088" x="144.002" y="640.034" width="16" height="16">
+   <properties>
+    <property name="message" value="keep away!.. .  theres nothing here"/>
+   </properties>
+  </object>
+  <object id="47" name="grave" gid="10358" x="96.0216" y="607.955" width="16" height="16">
+   <properties>
+    <property name="message" value="RIP Masaki S."/>
+   </properties>
+  </object>
+  <object id="51" name="grave" gid="10358" x="47.9643" y="560.04" width="16" height="16">
+   <properties>
+    <property name="message" value="RIP Cody L."/>
+   </properties>
+  </object>
+  <object id="52" name="grave" gid="10358" x="0.0281697" y="511.945" width="16" height="16">
+   <properties>
+    <property name="message" value="RIP Leo R."/>
+   </properties>
+  </object>
+  <object id="53" name="grave" gid="10358" x="47.9939" y="463.98" width="16" height="16">
+   <properties>
+    <property name="message" value="RIP Parry T."/>
+   </properties>
+  </object>
+  <object id="54" name="wall" x="0.965484" y="640.599" width="126.478" height="41.5158">
+   <properties>
+    <property name="message" value="wow what a great looking wall"/>
+   </properties>
+  </object>
+  <object id="57" name="wall" x="240.389" y="640.543" width="127.457" height="41.7939">
+   <properties>
+    <property name="message" value="wow what a great looking wall"/>
+   </properties>
+  </object>
+  <object id="58" name="wall" x="0" y="801.579" width="416.343" height="38.2844">
+   <properties>
+    <property name="message" value="wow what a great looking wall"/>
+   </properties>
+  </object>
+  <object id="59" name="wall" x="480.622" y="640.829" width="222.927" height="40.2222">
+   <properties>
+    <property name="message" value="wow what a great looking wall"/>
+   </properties>
+  </object>
+  <object id="60" name="wall" x="528.343" y="801.036" width="207.929" height="39.8814">
+   <properties>
+    <property name="message" value="wow what a great looking wall"/>
+   </properties>
+  </object>
+  <object id="61" name="wall" x="847.735" y="801.036" width="224.29" height="40.904">
+   <properties>
+    <property name="message" value="wow what a great looking wall"/>
+   </properties>
+  </object>
+  <object id="62" name="wall" x="912.386" y="640.753" width="287.881" height="41.2448">
+   <properties>
+    <property name="message" value="wow what a great looking wall"/>
+   </properties>
+  </object>
+  <object id="63" name="wall" x="1312.89" y="640.095" width="110.373" height="41.9009">
+   <properties>
+    <property name="message" value="wow what a great looking wall"/>
+   </properties>
+  </object>
+  <object id="64" name="wall" x="1424.97" y="704.139" width="174.417" height="41.5602">
+   <properties>
+    <property name="message" value="wow what a great looking wall"/>
+   </properties>
+  </object>
+  <object id="66" name="wall" x="1184.67" y="800.845" width="143.14" height="40.5618">
+   <properties>
+    <property name="message" value="wow what a great looking wall"/>
+   </properties>
+  </object>
+  <object id="67" name="wall" x="1328.82" y="864.872" width="127.049" height="40.2266">
+   <properties>
+    <property name="message" value="wow what a great looking wall"/>
+   </properties>
+  </object>
+  <object id="71" name="plant" x="1465.92" y="863.039" width="45.0281" height="42.1097">
+   <properties>
+    <property name="message" value="it looks well kept... who's their gardener?"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="75" name="plant" x="1254.7" y="1005.49" width="49.8955" height="48.0669">
+   <properties>
+    <property name="message" value="it looks well kept... who's their gardener?"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="76" name="plant" x="1490.41" y="1325.99" width="57.942" height="47.3244">
+   <properties>
+    <property name="message" value="it looks well kept... who's their gardener?"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="77" name="plant" x="273.405" y="573.322" width="59.652" height="49.9862">
+   <properties>
+    <property name="message" value="it looks well kept... who's their gardener?"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="78" name="wall" x="899.528" y="1085.46" width="55.723" height="46.9096">
+   <properties>
+    <property name="message" value="it looks well kept... who's their gardener?"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="79" name="plant" x="628.589" y="1085.18" width="53.4486" height="48.0469">
+   <properties>
+    <property name="message" value="it looks well kept... who's their gardener?"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="80" name="onelamp" x="383.851" y="912.379" width="31.9333" height="24.1129">
+   <properties>
+    <property name="message" value="Thats pretty bright"/>
+   </properties>
+  </object>
+  <object id="81" name="onelamp" x="384.603" y="1040.53" width="31.6112" height="23.7084">
+   <properties>
+    <property name="message" value="Thats pretty bright"/>
+   </properties>
+  </object>
+  <object id="82" name="onelamp" x="528.17" y="912.773" width="31.6112" height="23.7084">
+   <properties>
+    <property name="message" value="Thats pretty bright"/>
+   </properties>
+  </object>
+  <object id="83" name="onelamp" x="527.182" y="1040.86" width="32.9283" height="23.0498">
+   <properties>
+    <property name="message" value="Thats pretty bright"/>
+   </properties>
+  </object>
+  <object id="84" name="onelamp" x="527.995" y="1184.55" width="31.9013" height="23.3051">
+   <properties>
+    <property name="message" value="Thats pretty bright"/>
+   </properties>
+  </object>
+  <object id="85" name="onelamp" x="383.942" y="1184.52" width="32.2287" height="23.1206">
+   <properties>
+    <property name="message" value="Thats pretty bright"/>
+   </properties>
+  </object>
+  <object id="86" name="twolamp" x="1039.71" y="1024.58" width="32.289" height="23.6171">
+   <properties>
+    <property name="message" value="Why have 1 when you can have 2 lights"/>
+   </properties>
+  </object>
+  <object id="87" name="twolamp" x="1183.56" y="1024.66" width="32.4682" height="23.1097">
+   <properties>
+    <property name="message" value="Why have 1 when you can have 2 lights"/>
+   </properties>
+  </object>
+  <object id="89" name="castle" x="259.608" y="66.4769" width="23.8969" height="25.2004">
+   <properties>
+    <property name="message" value="I can make a better one"/>
+   </properties>
+  </object>
+  <object id="90" name="sign" x="367.934" y="320.225" width="16.2959" height="16.0996">
+   <properties>
+    <property name="message" value="KEEP OUT"/>
+   </properties>
+  </object>
+  <object id="91" name="sign" x="831.811" y="304.147" width="16.2125" height="16.2125">
+   <properties>
+    <property name="message" value="If there is a waterfall in a game..."/>
+   </properties>
+  </object>
+  <object id="93" name="grave" x="1008.22" y="246.514" width="15.7311" height="23.4179">
+   <properties>
+    <property name="message" value="RIP MC"/>
+   </properties>
+  </object>
+  <object id="94" name="grave" x="1029.14" y="230.425" width="20.9153" height="37.1827">
+   <properties>
+    <property name="message" value="Is this angel sleeping? or weeping..."/>
+   </properties>
+  </object>
+  <object id="95" name="pot" x="993.824" y="278.008" width="11.8843" height="21.4342">
+   <properties>
+    <property name="message" value="its empty"/>
+   </properties>
+  </object>
+  <object id="96" name="fence" x="1104.52" y="415.963" width="63.0108" height="64.3806">
+   <properties>
+    <property name="message" value="what a dangerous fence"/>
+   </properties>
+  </object>
+  <object id="97" name="fence" x="1104.74" y="319.848" width="63.4674" height="64.3806">
+   <properties>
+    <property name="message" value="what a dangerous fence"/>
+   </properties>
+  </object>
+  <object id="98" name="fence" x="1104.52" y="224.419" width="63.0108" height="64.1523">
+   <properties>
+    <property name="message" value="what a dangerous fence"/>
+   </properties>
+  </object>
+  <object id="99" name="fence" x="1456.65" y="224.328" width="63.1681" height="63.978">
+   <properties>
+    <property name="message" value="what a dangerous fence"/>
+   </properties>
+  </object>
+  <object id="100" name="fence" x="1456.65" y="320.16" width="63.4381" height="63.708">
+   <properties>
+    <property name="message" value="what a dangerous fence"/>
+   </properties>
+  </object>
+  <object id="101" name="fence" x="1456.65" y="415.992" width="62.6282" height="64.5179">
+   <properties>
+    <property name="message" value="what a dangerous fence"/>
+   </properties>
+  </object>
+  <object id="102" name="sign" x="1279.85" y="482.081" width="16.3523" height="15.2289">
+   <properties>
+    <property name="message" value="General Hospital"/>
+   </properties>
+  </object>
+  <object id="103" name="tree" x="982.88" y="1455.23" width="82.5225" height="31.4078">
+   <properties>
+    <property name="message" value="Wish I can climb up this tree"/>
+   </properties>
+  </object>
+  <object id="104" name="tree" x="1175.03" y="1456.47" width="82.3607" height="30.5695">
+   <properties>
+    <property name="message" value="Wish I can climb up this tree"/>
+   </properties>
+  </object>
+  <object id="105" name="tree" x="1365.27" y="1455.71" width="85.3924" height="30.8221">
+   <properties>
+    <property name="message" value="Wish I can climb up this tree"/>
+   </properties>
+  </object>
+  <object id="106" name="fence" x="844.595" y="1465.94" width="71.0504" height="68.9607">
+   <properties>
+    <property name="message" value="just a fence i guess"/>
+   </properties>
+  </object>
+  <object id="107" name="fence" x="670.451" y="1463.85" width="70.7021" height="71.3987">
+   <properties>
+    <property name="message" value="just a fence i guess"/>
+   </properties>
+  </object>
+  <object id="108" name="crack" x="95.9244" y="899.689" width="15.9116" height="25.004">
+   <properties>
+    <property name="message" value="If I had a bomb I could...nah"/>
+   </properties>
+  </object>
+  <object id="114" name="tree" x="124.883" y="898.122" width="179.343" height="26.7606">
+   <properties>
+    <property name="message" value="this is just one tree?"/>
+   </properties>
+  </object>
+  <object id="115" name="tree" x="46.9484" y="899.061" width="40.3756" height="26.2911">
+   <properties>
+    <property name="message" value="this is just one tree?"/>
+   </properties>
+  </object>
+  <object id="116" name="sign" x="1247.8" y="1202.15" width="16.1445" height="13.695">
+   <properties>
+    <property name="message" value="KEEP OUT"/>
+   </properties>
+  </object>
+  <object id="117" name="bricklamp" x="1176.62" y="1133.48" width="47.7923" height="24.9535">
+   <properties>
+    <property name="message" value="Wow 4 is way better than 2 or 1"/>
+   </properties>
+  </object>
+  <object id="118" name="bricklamp" x="1032.82" y="1135.59" width="47.3693" height="21.9929">
+   <properties>
+    <property name="message" value="Wow 4 is way better than 2 or 1"/>
+   </properties>
+  </object>
+  <object id="120" name="bricklamp" x="1175.35" y="912.282" width="49.484" height="21.57">
+   <properties>
+    <property name="message" value="Wow 4 is way better than 2 or 1"/>
+   </properties>
+  </object>
+  <object id="121" name="bricklamp" x="1031.55" y="911.436" width="49.484" height="22.4158">
+   <properties>
+    <property name="message" value="Wow 4 is way better than 2 or 1"/>
+   </properties>
+  </object>
+  <object id="122" name="sign" x="735.731" y="1074.26" width="16.3221" height="13.8518">
+   <properties>
+    <property name="message" value="Welcome"/>
    </properties>
   </object>
  </objectgroup>
