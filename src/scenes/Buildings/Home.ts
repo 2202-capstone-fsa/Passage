@@ -65,13 +65,15 @@ export default class Game extends Phaser.Scene {
     //this.physics.add.collider(this.player, objectsLayer);
 
     this.message = this.add.text(800, 750, "", {
-      color: "white",
-      backgroundColor: "black",
-      fontSize: "12px",
+      color: "#FFF5EE",
+      fontFamily: "Tahoma",
+      backgroundColor: "#708090",
+      fontSize: "17px",
       align: "center",
       baselineX: 0,
       baselineY: 0,
-      wordWrap: { width: 250 },
+      padding: 0,
+      wordWrap: { width: 350 },
     });
 
     this.sound.add("item");
@@ -100,6 +102,7 @@ export default class Game extends Phaser.Scene {
     if (nextToTarget) {
       window.scrollTo(0, 0);
       localStorage.setItem("from", "home");
+
       this.scene.start(nextToTarget.name);
     }
 

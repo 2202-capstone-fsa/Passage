@@ -77,16 +77,29 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.player, objLayer);
 
     this.message = this.add.text(800, 750, "", {
-      color: "white",
-      backgroundColor: "black",
-      fontSize: "12px",
+      color: "#FFF5EE",
+      fontFamily: "Tahoma",
+      backgroundColor: "#708090",
+      fontSize: "17px",
       align: "center",
       baselineX: 0,
       baselineY: 0,
-      wordWrap: { width: 250 },
+      padding: 0,
+      wordWrap: { width: 350 },
     });
 
     this.sound.add("item");
+    let waterfall = this.sound.add("waterfall");
+    let musicConfig = {
+      mute: false,
+      volume: 0.02,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: false,
+      delay: 1,
+    };
+    waterfall.play(musicConfig);
 
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
