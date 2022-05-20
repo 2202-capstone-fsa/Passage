@@ -11,6 +11,7 @@ import {
   displayInventory,
   updateInventory,
   updateText,
+  dialogueArea,
 } from "../utils/helper";
 import { exit } from "process";
 
@@ -47,6 +48,36 @@ const dialogue = [
         name: "message",
         value:
           "I'm out! Finally. Now, about this pounding.. There's gotta be a hospital around here. Say.. what a nice town. Aren't there any people?",
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value:
+          "You hear a light snoring coming from inside, but no matter how much you knock nobody comes to the door.",
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value:
+          "There's a chatter in the distance, but it almost feels like it's coming from the yard than inside the house.",
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value:
+          "Nobody is home. A chill runs down your spine when you get close to the door.",
       },
     ],
     hasAppeared: false,
@@ -174,6 +205,9 @@ export default class Game extends Phaser.Scene {
 
     // movement
     let speed = this.message.text ? 0 : 120;
+    if (localStorage["soda"] === "A yummy fizzy drink that doctors love!") {
+      speed = 180;
+    }
     movePlayer(this.player, speed, this.cursors);
   }
 
@@ -229,9 +263,25 @@ export default class Game extends Phaser.Scene {
 
   playDialogue() {
     const goToEnd = dialogue[0];
+    const southeastHome = dialogue[4];
+    const westHome = dialogue[3];
+    const northWestHome = dialogue[2];
+
     if (goToEnd.hasAppeared && this.player.y < 1455) {
       goToEnd.hasAppeared = false;
     }
+
+    dialogueArea(
+      1290,
+      1340,
+      1192,
+      1207,
+      southeastHome,
+      this.player,
+      this.message
+    );
+    dialogueArea(170, 200, 616, 625, westHome, this.player, this.message);
+    dialogueArea(404, 440, 312, 322, northWestHome, this.player, this.message);
 
     if (
       this.player.y > 1490 &&
