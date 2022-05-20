@@ -9,6 +9,7 @@ import {
   interact,
   displayInventory,
   updateText,
+  dialogueArea,
 } from "../utils/helper";
 import { debugDraw } from "../utils/debug";
 import data from "../../public/tiles/hospital.json";
@@ -87,6 +88,15 @@ const dialogue = [
       },
     ],
     pongResult: true,
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value: `These people ain't right.`,
+      },
+    ],
     hasAppeared: false,
   },
 ];
@@ -259,6 +269,12 @@ export default class Game extends Phaser.Scene {
   }
 
   playDialogue() {
+    const comment = dialogue[5];
+
+    if (localStorage["Brain Scan"] === "CLEAR") {
+      dialogueArea(480, 624, 264, 322, comment, this.player, this.message);
+    }
+
     let dialogueSpot = isItClose(this.player, dialogue);
     if (dialogueSpot && !dialogueSpot.hasAppeared) {
       if (this.message.text) this.message.text = "";
