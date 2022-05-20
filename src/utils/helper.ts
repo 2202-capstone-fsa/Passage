@@ -22,8 +22,8 @@ export function isItClose(player, targets) {
 }
 
 export function updateText(player, target, message) {
-  message.x = player.x + 20;
-  message.y = player.y + 100;
+  message.x = player.x - 100;
+  message.y = player.y + 20;
   //
   if (target.properties) {
     for (let i = 0; i < target.properties.length; i++) {
@@ -136,8 +136,8 @@ export function displayInventory(message, player, inventory = localStorage) {
   if (message.text) {
     message.text = "";
   } else if (inventory) {
-    message.x = player.x + 20;
-    message.y = player.y + 100;
+    message.x = player.x - 100;
+    message.y = player.y + 50;
     let arr = [];
     Object.keys(inventory).forEach((x) => {
       arr.push(`${x}: ${inventory[x]}`);
