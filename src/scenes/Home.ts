@@ -55,13 +55,14 @@ const text = [
     x: 0,
     y: 0,
 
-    properties: [{
-      name: "message",
-      value:
-        ""
-    }]
-  }
-]
+    properties: [
+      {
+        name: "message",
+        value: "",
+      },
+    ],
+  },
+];
 
 export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -91,8 +92,9 @@ export default class Game extends Phaser.Scene {
     const interiorTileSet = map.addTilesetImage("interior", "interior");
     const furnitureTileSet = map.addTilesetImage("furniture", "furniture");
     const noteTileSet = map.addTilesetImage("note", "note");
-    const homeTileSets = [interiorTileSet, furnitureTileSet, noteTileSet];
-    //building layers
+    const homeTileSets = [interiorTileSet, furnitureTileSet];
+
+    //Building layers
     map.createLayer("ground", homeTileSets);
     const wallsLayer = map.createLayer("walls", homeTileSets);
     const furnitureLayer = map.createLayer("furniture", homeTileSets);
@@ -131,10 +133,9 @@ export default class Game extends Phaser.Scene {
     this.cursors.space.on("down", () => {
       console.log(data);
       interact(
-        console.log(this.player.x, this.player.y)
         this.message,
         this.player,
-        data.layers[3].objects,
+        data.layers[2].objects,
         this.sound.add("item")
       );
     }),
@@ -164,6 +165,7 @@ export default class Game extends Phaser.Scene {
     if (nextToTarget) {
       localStorage.setItem("from", `home`);
       this.scene.stop("home");
+      window.scrollTo(0, 0);
       this.scene.start(nextToTarget.name);
     }
   }

@@ -104,7 +104,11 @@ export default class Game extends Phaser.Scene {
 
   preload() {
     //Load graphics for maze and player
+<<<<<<< HEAD
     this.load.image("building", "tiles/RPGW_HousesAndInt_v1.1/interiors.png");
+=======
+    this.load.image("interior", "tiles/RPGW_HousesAndInt_v1.1/interiors.png");
+>>>>>>> 4364d01f5c3225ca13b319ea06217a7e983865eb
     this.load.image(
       "props",
       "tiles/RPGW_HousesAndInt_v1.1/decorative_props.png"
@@ -122,8 +126,8 @@ export default class Game extends Phaser.Scene {
   create() {
     //Create tile sets so that we can access Tiled data later on.
     const map = this.make.tilemap({ key: "maze" });
-    const buildingTileSet = map.addTilesetImage("Building", "building");
-    const mazeTileSet = map.addTilesetImage("house", "building");
+    const buildingTileSet = map.addTilesetImage("Building", "interior");
+    const mazeTileSet = map.addTilesetImage("house", "interior");
     const furnitureTileSet = map.addTilesetImage("Furniture", "furniture");
     const propsTileSet = map.addTilesetImage("props", "props");
     const allTileSets = [
@@ -186,7 +190,7 @@ export default class Game extends Phaser.Scene {
       interact(
         this.message,
         this.player,
-        data.layers[4].objects,
+        data.layers[3].objects,
         this.sound.add("item")
       );
     }),

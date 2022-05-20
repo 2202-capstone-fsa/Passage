@@ -1,21 +1,40 @@
 // checks if player is close any obj in target arr. Returns the obj
 export function isItClose(player, targets) {
-  let x = player.x;
-  let y = player.y;
+  let playerX = player.x;
+  let playerY = player.y;
 
-  // check if within 5% of door. If yes, return name.
+  // check if within 5% of obj. If yes, return name.
   for (let i = 0; i < targets.length; i++) {
-    let doorX = targets[i].x;
-    let doorY = targets[i].y;
-    // console.log(`doorX: ${doorX}`);
-    // console.log(`doorY: ${doorY}`);
-    // console.log("x=" + x);
-    // console.log("y = " + y);
-    let percentX = Math.abs((doorX - x) / doorX);
-    let percentY = Math.abs((doorY - y) / doorY);
-    // console.log(`percentX ${percentX}`);
-    // console.log(`percentY ${percentY}`);
-    if (percentX <= 0.05 && percentY <= 0.05) {
+    let closeObj = targets[i];
+
+    let closeObjLeft = closeObj.x; //Between this + Width
+    let closeObjTop = closeObj.y; //Between this + Height
+    let closeObjRight = closeObj.x + closeObj.width;
+    let closeObjBottom = closeObj.y + closeObj.height;
+    //XY are top left corner.
+
+    let percentLeft = Math.abs((closeObjLeft - playerX) / closeObjLeft);
+    let percentTop = Math.abs((closeObjTop - playerY) / closeObjTop);
+    let percentRight = Math.abs((closeObjRight - playerX) / closeObjRight);
+    let percentBottom = Math.abs((closeObjBottom - playerY) / closeObjBottom);
+
+    //Checks if close to top left corner.
+    if (percentLeft <= 0.05 && percentTop <= 0.05) {
+      return targets[i] || null; // returns target object
+    }
+
+    //Checks if close to bottom left corner.
+    if (percentBottom <= 0.05 && percentLeft <= 0.05) {
+      return targets[i] || null; // returns target object
+    }
+
+    //Checks if close to top right corner.
+    if (percentTop <= 0.05 && percentRight <= 0.05) {
+      return targets[i] || null; // returns target object
+    }
+
+    //Checks if close to bottom right corner.
+    if (percentBottom <= 0.05 && percentRight <= 0.05) {
       return targets[i] || null; // returns target object
     }
   }

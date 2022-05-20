@@ -115,7 +115,7 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-    this.cameras.main.setSize(475, 300);
+    this.cameras.main.setSize(475.5, 300.5);
 
     //Create tile sets so that we can access Tiled data later on.
     const map = this.make.tilemap({ key: "overworld" });
@@ -142,7 +142,6 @@ export default class Game extends Phaser.Scene {
     this.spawn();
     //Follow with camera and animate.
     setPlayer(this.player);
-    this.cameras.main.startFollow(this.player);
     createAnims(this.anims);
 
     //Create houses and walls in this world, over the Ground and Player.
@@ -199,6 +198,7 @@ export default class Game extends Phaser.Scene {
         displayInventory(this.message, this.player);
       });
     //debugDraw(wallsLayer, this);
+    this.cameras.main.startFollow(this.player);
   }
 
   update(t: number, dt: number) {
@@ -220,7 +220,7 @@ export default class Game extends Phaser.Scene {
     // movement
     let speed = this.message.text ? 0 : 120;
     if (localStorage["soda"] === "A yummy fizzy drink that doctors love!") {
-      speed = 180;
+      speed = this.message.text ? 0 : 180;
     }
     movePlayer(this.player, speed, this.cursors);
   }
