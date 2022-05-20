@@ -32,7 +32,7 @@ export default class ending extends Phaser.Scene {
   }
 
   create() {
-    this.cameras.main.centerOn(280, 150);
+    this.cameras.main.centerOn(280.5, 150.5);
 
     let inventory = localStorage;
     let heart = inventory.heart;

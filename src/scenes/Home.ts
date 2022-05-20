@@ -165,6 +165,7 @@ export default class Game extends Phaser.Scene {
     if (nextToTarget) {
       localStorage.setItem("from", `home`);
       this.scene.stop("home");
+      window.scrollTo(0, 0);
       this.scene.start(nextToTarget.name);
     }
   }
