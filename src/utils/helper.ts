@@ -35,6 +35,9 @@ export function updateText(player, target, message) {
 }
 
 export function movePlayer(player, speed, pressedKey) {
+  if (localStorage["soda"] === "A yummy fizzy drink that doctors love!") {
+    speed = 180;
+  }
   if (pressedKey.left?.isDown) {
     player.anims.play("player-walk-side", true);
     player.setVelocity(-speed, 0);
