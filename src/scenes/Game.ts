@@ -6,20 +6,80 @@ import {
   isItClose,
   setPlayer,
   movePlayer,
-  overworldExits,
-  overworldObjs,
   createAnims,
   interact,
   displayInventory,
   updateInventory,
   updateText,
+  dialogueArea,
 } from "../utils/helper";
+import { exit } from "process";
+
+export const overworldExits = [
+  { x: 320, y: 1140, name: "shop" },
+  { x: 1234, y: 465, name: "hospital" },
+  { x: 803, y: 216, name: "atlantis" },
+  { x: 788, y: 1015, name: "home" },
+  { x: 794, y: 1586, name: "ending" },
+  // {
+  //   x: 794,
+  //   y: 1500,
+  //   name: "nearEnd",
+  //   message: "You are near the end, no going back, are you sure?",
+  // },
+];
 
 const dialogue = [
   {
-    x: 0,
-    y: 0,
-    properties: [{ name: "message", value: "Hello World" }],
+    properties: [
+      {
+        name: "message",
+        value:
+          "The road ahead looks daunting. You feel as though if you step ahead of this path, the consequences of your actions will come flooding forward. Are you satisfied with your progress? If you are, the road implores you to step forward.",
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    x: 788,
+    y: 1101,
+    properties: [
+      {
+        name: "message",
+        value:
+          "I'm out! Finally. Now, about this pounding.. There's gotta be a hospital around here. Say.. what a nice town. Aren't there any people?",
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value:
+          "You hear a light snoring coming from inside, but no matter how much you knock nobody comes to the door.",
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value:
+          "There's a chatter in the distance, but it almost feels like it's coming from the yard than inside the house.",
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value:
+          "Nobody is home. A chill runs down your spine when you get close to the door.",
+      },
+    ],
     hasAppeared: false,
   },
   // {x: , y: , message: "", hasAppeared: false},
@@ -75,66 +135,14 @@ export default class Game extends Phaser.Scene {
     ];
 
     //Create ground layer first using tile set data.
-    // const overworld = map.addTilesetImage("overworld", "Ground");
     const groundLayer = map.createLayer("Ground", allTileSet);
     const groundDeluxeLayer = map.createLayer("GroundDeluxe", allTileSet);
-    /* Add Player sprite to the game.
-      In the sprite json file, for any png of sprites,
-      the first set of sprites is called "green"
-      the second set is called "teal"
-      the third set is called "brown"
-      and the fourth set is called "doc"
-    */
-    //map.create
-    if (localStorage.from === "hospital") {
-      localStorage.removeItem("from");
-      this.player = this.physics.add.sprite(
-        1250,
-        526,
-        "player",
-        "doc-walk-down-0"
-      );
-    } else if (localStorage.from === "shop") {
-      localStorage.removeItem("from");
-      this.player = this.physics.add.sprite(
-        322,
-        1240,
-        "player",
-        "doc-walk-down-0"
-      );
-    } else if (localStorage.from === "home") {
-      localStorage.removeItem("from");
-      this.player = this.physics.add.sprite(
-        788,
-        1101,
-        "player",
-        "doc-walk-down-0"
-      );
-    } else if (localStorage.from === "atlantis") {
-      localStorage.removeItem("from");
-      this.player = this.physics.add.sprite(
-        808,
-        240,
-        "player",
-        "doc-walk-down-0"
-      );
-    } else {
-      this.player = this.physics.add.sprite(
-        800,
-        800,
-        "player",
-        "doc-walk-down-0"
-      );
-    }
 
+    //Local helper function: if player is coming from the overworld, they appear at the entrance. If they are returning form the Brain Scan, they appear by the bed.
+    this.spawn();
+    //Follow with camera and animate.
     setPlayer(this.player);
     this.cameras.main.startFollow(this.player);
-
-    //adds and configs music
-
-    let item = this.sound.add("item");
-
-    //Create animations
     createAnims(this.anims);
 
     //Create houses and walls in this world, over the Ground and Player.
@@ -142,9 +150,6 @@ export default class Game extends Phaser.Scene {
     const waterfallLayer = map.createLayer("Waterfall", allTileSet);
     const wallsLayer = map.createLayer("Walls", allTileSet);
 
-    // this.cameras.main.startFollow(this.player, true);
-    // this.cameras.main.setBounds(0, 0, 1600, 1600);
-    // this.cameras.main.centerOn(600, 600);
     //Set walls and houses to collide with Player.
     wallsLayer.setCollisionByProperty({ collides: true });
     housesLayer.setCollisionByProperty({ collides: true });
@@ -155,6 +160,7 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.player, waterfallLayer);
     this.physics.add.collider(this.player, groundDeluxeLayer);
 
+    //Initialize message and item sound.
     this.message = this.add.text(400, 300, "", {
       color: "#FFF5EE",
       fontFamily: "Tahoma",
@@ -166,6 +172,7 @@ export default class Game extends Phaser.Scene {
       padding: 0,
       wordWrap: { width: 350 },
     });
+    let item = this.sound.add("item");
 
     this.warning = 0;
 
@@ -190,40 +197,21 @@ export default class Game extends Phaser.Scene {
       // Hit shift to view Inventory.
       this.cursors.shift.on("down", () => {
         displayInventory(this.message, this.player);
-      }),
-      debugDraw(wallsLayer, this);
+      });
+    //debugDraw(wallsLayer, this);
   }
+
   update(t: number, dt: number) {
     if (!this.cursors || !this.player) {
       return;
     }
 
+    this.playDialogue();
     this.message.x = this.player.x - 100;
     this.message.y = this.player.y + 50;
 
-    // Enter a scene when near
-    let nextToTarget = isItClose(this.player, overworldExits);
-
-    if (nextToTarget) {
-      localStorage.setItem("from", `overworld`);
-      //this.scene.sound.stop();
-      this.scene.start(nextToTarget.name);
-    }
-
-    let closeToDialogueObj = isItClose(this.player, dialogue);
-    if (closeToDialogueObj && !closeToDialogueObj.hasAppeared) {
-      console.log("close to obj");
-      if (this.message.text) this.message.text = "";
-      else {
-        console.log("updating");
-        updateText(this.player, closeToDialogueObj, this.message);
-        closeToDialogueObj.hasAppeared = true;
-        // let i = 1;
-        // localStorage.setItem(`taken${i}`, closeToDialogueObj);
-        // console.log(localStorage);
-        // i++;
-      }
-    }
+    // Enter a scene when near.
+    this.exits();
 
     // Camera that follows
     this.cameras.main.scrollX = this.player.x - 400;
@@ -231,6 +219,115 @@ export default class Game extends Phaser.Scene {
 
     // movement
     let speed = this.message.text ? 0 : 120;
+    if (localStorage["soda"] === "A yummy fizzy drink that doctors love!") {
+      speed = 180;
+    }
     movePlayer(this.player, speed, this.cursors);
+  }
+
+  spawn() {
+    /* Add Player sprite to the game.
+      In the sprite json file, for any png of sprites,
+      the first set of sprites is called "green"
+      the second set is called "teal"
+      the third set is called "brown"
+      and the fourth set is called "doc"
+    */
+    if (localStorage.from === "hospital") {
+      localStorage.removeItem("from");
+      this.player = this.physics.add.sprite(
+        1250,
+        526,
+        "player",
+        "doc-walk-down-0"
+      );
+    } else if (localStorage.from === "shop") {
+      localStorage.removeItem("from");
+      this.player = this.physics.add.sprite(
+        320,
+        1206,
+        "player",
+        "doc-walk-down-0"
+      );
+    } else if (localStorage.from === "home") {
+      localStorage.removeItem("from");
+      this.player = this.physics.add.sprite(
+        788,
+        1077,
+        "player",
+        "doc-walk-down-0"
+      );
+    } else if (localStorage.from === "atlantis") {
+      localStorage.removeItem("from");
+      this.player = this.physics.add.sprite(
+        808,
+        240,
+        "player",
+        "doc-walk-down-0"
+      );
+    } else {
+      this.player = this.physics.add.sprite(
+        800,
+        800,
+        "player",
+        "doc-walk-down-0"
+      );
+    }
+  }
+
+  playDialogue() {
+    const goToEnd = dialogue[0];
+    const southeastHome = dialogue[4];
+    const westHome = dialogue[3];
+    const northWestHome = dialogue[2];
+
+    if (goToEnd.hasAppeared && this.player.y < 1455) {
+      goToEnd.hasAppeared = false;
+    }
+
+    dialogueArea(
+      1290,
+      1340,
+      1192,
+      1207,
+      southeastHome,
+      this.player,
+      this.message
+    );
+    dialogueArea(170, 200, 616, 625, westHome, this.player, this.message);
+    dialogueArea(404, 440, 312, 322, northWestHome, this.player, this.message);
+
+    if (
+      this.player.y > 1490 &&
+      this.player.x > 749 &&
+      this.player.x < 842 &&
+      !goToEnd.hasAppeared
+    ) {
+      if (this.message.text) this.message.text = "";
+      updateText(this.player, dialogue[0], this.message);
+      dialogue[0].hasAppeared = true;
+    } else {
+      let dialogueSpot = isItClose(this.player, dialogue);
+      if (dialogueSpot && !dialogueSpot.hasAppeared) {
+        if (this.message.text) this.message.text = "";
+        updateText(this.player, dialogueSpot, this.message);
+        dialogueSpot.hasAppeared = true;
+      }
+    }
+  }
+
+  exits() {
+    if (this.player.x < 20 && this.player.y < 785 && this.player.y > 680)
+      this.player.setPosition(1575, 790);
+
+    if (this.player.x > 1585 && this.player.y > 745 && this.player.y < 840)
+      this.player.setPosition(25, 728);
+
+    let exit = isItClose(this.player, overworldExits);
+    if (exit) {
+      localStorage.setItem("from", `overworld`);
+      this.scene.stop("game");
+      this.scene.start(exit.name);
+    }
   }
 }
