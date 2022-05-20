@@ -115,7 +115,7 @@ export default class Game extends Phaser.Scene {
   preload() {
     //Load graphics for hospital map.
     this.load.image("items", "tiles/LabItems.png");
-    this.load.image("building", "tiles/ModernTiles.png");
+    this.load.image("hospitalFoundation", "tiles/ModernTiles.png");
     this.load.tilemapTiledJSON("hospital", "tiles/hospital.json");
 
     //Load sprite data for doctor and nurse characters.
@@ -134,7 +134,10 @@ export default class Game extends Phaser.Scene {
 
     //Create tile sets so that we can access Tiled data later on.
     const map = this.make.tilemap({ key: "hospital" });
-    const buildingTileSet = map.addTilesetImage("futurevibes", "building");
+    const buildingTileSet = map.addTilesetImage(
+      "futurevibes",
+      "hospitalFoundation"
+    );
     const labTileSet = map.addTilesetImage("labstuff", "items");
     const hospitalTilesets = [buildingTileSet, labTileSet];
 
