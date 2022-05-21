@@ -104,11 +104,7 @@ export default class Game extends Phaser.Scene {
 
   preload() {
     //Load graphics for maze and player
-<<<<<<< HEAD
-    this.load.image("building", "tiles/RPGW_HousesAndInt_v1.1/interiors.png");
-=======
     this.load.image("interior", "tiles/RPGW_HousesAndInt_v1.1/interiors.png");
->>>>>>> 4364d01f5c3225ca13b319ea06217a7e983865eb
     this.load.image(
       "props",
       "tiles/RPGW_HousesAndInt_v1.1/decorative_props.png"
