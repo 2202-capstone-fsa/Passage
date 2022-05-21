@@ -84,7 +84,7 @@ const dialogue = [
     properties: [
       {
         name: "message",
-        value: `"Beautiful job lying there and doing nothing! Well, from a quick look at these scans, I can tell you good news and bad news. The good news is that your head looks fine! The bad news is, well, your head looks fine. So we don't know what's wrong. Er, just trying resting up. ..Pain meds? Oh don't be dramatic. Now, out with you!"`,
+        value: `"Beautiful job lying there and doing nothing! From a quick look at these scans.. The good news is that your head looks fine! The bad news is, well, your head looks fine. So we don't know what's wrong with you. Er, just trying resting up. ..Pain meds? Oh don't be dramatic."`,
       },
     ],
     pongResult: true,
@@ -103,7 +103,25 @@ const dialogue = [
     properties: [
       {
         name: "message",
-        value: `The room at the end of the right hall? That's for one of our doctors, who isn't here today. No one is permitted access there except for him. If you want to ask him about it, I believe he takes visitors at his house in the center of town.`,
+        value: `"The room at the end of the right hall? That's for one of our doctors, who isn't here today. No one is permitted access there except for him. If you want to ask him about it, I believe he takes visitors at his house in the center of town."`,
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value: `What.. am I supposed to be here?`,
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value: `Oh my god! There's a human heart in here! Should I... take it? For science?`,
       },
     ],
     hasAppeared: false,
@@ -293,6 +311,8 @@ export default class Game extends Phaser.Scene {
     const success = dialogue[4];
     const comment = dialogue[5];
     const roomInfo = dialogue[6];
+    const enterLab = dialogue[7];
+    const garbageHeart = dialogue[8];
 
     if (localStorage["Brain Scan"] === "A beautiful mind.") {
       dialogueArea(480, 624, 264, 322, comment, this.player, this.message);
@@ -306,9 +326,10 @@ export default class Game extends Phaser.Scene {
     }
 
     dialogueArea(48, 150, 329, 359, intro, this.player, this.message);
-
     dialogueArea(270, 295, 216, 220, meetNurse, this.player, this.message);
     dialogueArea(400, 485, 70, 98, meetDoctor, this.player, this.message);
+    dialogueArea(530, 550, 455, 562, enterLab, this.player, this.message);
+    dialogueArea(495, 520, 472, 480, garbageHeart, this.player, this.message);
 
     // let dialogueSpot = isItClose(this.player, dialogue);
     // if (dialogueSpot && !dialogueSpot.hasAppeared) {

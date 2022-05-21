@@ -82,8 +82,16 @@ const dialogue = [
     ],
     hasAppeared: false,
   },
-  // {x: , y: , message: "", hasAppeared: false},
-  // {x: , y: , message: "", hasAppeared: false},
+  {
+    properties: [
+      {
+        name: "message",
+        value:
+          "Whew. I could use a drink... Maybe that doctor's drink I smuggled will do. Ooh... yes that's good. I feel more energized!",
+      },
+    ],
+    hasAppeared: false,
+  },
 ];
 
 export default class Game extends Phaser.Scene {
@@ -219,7 +227,7 @@ export default class Game extends Phaser.Scene {
 
     // movement
     let speed = this.message.text ? 0 : 120;
-    if (localStorage["soda"] === "A yummy fizzy drink that doctors love!") {
+    if (localStorage["Dr. Cola"] === "A yummy fizzy drink that doctors love!") {
       speed = this.message.text ? 0 : 180;
     }
     movePlayer(this.player, speed, this.cursors);
@@ -278,6 +286,7 @@ export default class Game extends Phaser.Scene {
 
   playDialogue() {
     const goToEnd = dialogue[0];
+    const hasSoda = dialogue[5];
     const southeastHome = dialogue[4];
     const westHome = dialogue[3];
     const northWestHome = dialogue[2];
@@ -297,6 +306,14 @@ export default class Game extends Phaser.Scene {
     );
     dialogueArea(170, 200, 616, 625, westHome, this.player, this.message);
     dialogueArea(404, 440, 312, 322, northWestHome, this.player, this.message);
+
+    if (
+      localStorage["Dr. Cola"] === "A yummy fizzy drink that doctors love!" &&
+      !hasSoda.hasAppeared
+    ) {
+      updateText(this.player, hasSoda, this.message);
+      hasSoda.hasAppeared = true;
+    }
 
     if (
       this.player.y > 1490 &&

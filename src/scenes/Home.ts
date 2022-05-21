@@ -50,20 +50,6 @@ const dialogue = [
   },
 ];
 
-const text = [
-  {
-    x: 0,
-    y: 0,
-
-    properties: [
-      {
-        name: "message",
-        value: "",
-      },
-    ],
-  },
-];
-
 export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private player!: Phaser.Physics.Arcade.Sprite;
