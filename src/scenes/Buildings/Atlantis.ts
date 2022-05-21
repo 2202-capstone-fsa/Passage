@@ -52,7 +52,7 @@ export default class Game extends Phaser.Scene {
   preload() {
     //Load graphics for atlantis map.
     this.load.image("icons", "tiles/icons/icons.png");
-    this.load.image("building", "tiles/cave/atlantis.png");
+    this.load.image("cave", "tiles/cave/atlantis.png");
     this.load.tilemapTiledJSON("atlantis", "tiles/atlantis.json");
 
     //Load keyboard for player to use.
@@ -64,7 +64,7 @@ export default class Game extends Phaser.Scene {
 
     //Create tile sets so that we can access Tiled data later on.
     const map = this.make.tilemap({ key: "atlantis" });
-    const buildingTileSet = map.addTilesetImage("Atlantis", "building");
+    const buildingTileSet = map.addTilesetImage("Atlantis", "cave");
     const iconsTileSet = map.addTilesetImage("Icons", "icons");
     const atlantisTilesets = [buildingTileSet, iconsTileSet];
 

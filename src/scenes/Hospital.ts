@@ -72,7 +72,7 @@ const dialogue = [
     properties: [
       {
         name: "message",
-        value: `"Argh, I told you to stay still! These photos are as blurry as a car crash! Lie down on that bed and try again. After the first beep, DON'T MOVE!"`,
+        value: `"Argh, I told you to stay still! These photos are as blurry as a car crash!!! Lie down on that bed and try again. After the first beep, DON'T MOVE!"`,
       },
     ],
     pongResult: true,
@@ -95,6 +95,15 @@ const dialogue = [
       {
         name: "message",
         value: `These people ain't right.`,
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value: `The room at the end of the right hall? That's for one of our doctors, who isn't here today. No one is permitted access there except for him. If you want to ask him about it, I believe he takes visitors at his house in the center of town.`,
       },
     ],
     hasAppeared: false,
@@ -169,7 +178,9 @@ export default class Game extends Phaser.Scene {
 
     //Add other charas.
     this.nurse = this.physics.add.sprite(283, 185, "modern", "nurse_front_1");
+    this.nurse.alpha = 0.5;
     this.doctor = this.physics.add.sprite(328, 86, "modern", "thedoc_right_1");
+    this.doctor.alpha = 0.5;
     this.doctor.setImmovable(true);
 
     this.physics.add.collider(this.player, lowObjLayer);
@@ -236,8 +247,9 @@ export default class Game extends Phaser.Scene {
     if (nextToTarget) {
       if (
         nextToTarget.name === "scan" &&
-        localStorage["Brain Scan"] === "CLEAR"
+        localStorage["Brain Scan"] === "A beautiful mind."
       ) {
+        return;
       } else {
         localStorage.setItem("from", `hospital`);
         this.scene.stop("hospital");
@@ -274,29 +286,47 @@ export default class Game extends Phaser.Scene {
   }
 
   playDialogue() {
+    const intro = dialogue[0];
+    const meetDoctor = dialogue[1];
+    const meetNurse = dialogue[2];
+    const fail = dialogue[3];
+    const success = dialogue[4];
     const comment = dialogue[5];
+    const roomInfo = dialogue[6];
 
-    if (localStorage["Brain Scan"] === "CLEAR") {
+    if (localStorage["Brain Scan"] === "A beautiful mind.") {
       dialogueArea(480, 624, 264, 322, comment, this.player, this.message);
+      dialogueArea(320, 400, 40, 100, success, this.player, this.message);
+      dialogueArea(270, 295, 216, 220, roomInfo, this.player, this.message);
+    } else if (
+      localStorage["Brain Scan"] ===
+      "Too blurry! The doctor can't interpret this."
+    ) {
+      dialogueArea(320, 400, 40, 100, fail, this.player, this.message);
     }
 
-    let dialogueSpot = isItClose(this.player, dialogue);
-    if (dialogueSpot && !dialogueSpot.hasAppeared) {
-      if (this.message.text) this.message.text = "";
-      if (dialogueSpot.pongResult) {
-        if (localStorage["Brain Scan"] === "CLEAR") {
-          updateText(this.player, dialogueSpot, this.message);
-          dialogueSpot.hasAppeared = true;
-          dialogue[4].hasAppeared = true;
-        } else {
-          updateText(this.player, dialogueSpot, this.message);
-          dialogueSpot.hasAppeared = true;
-        }
-      } else {
-        updateText(this.player, dialogueSpot, this.message);
-        dialogueSpot.hasAppeared = true;
-      }
-    }
+    dialogueArea(48, 150, 329, 359, intro, this.player, this.message);
+
+    dialogueArea(270, 295, 216, 220, meetNurse, this.player, this.message);
+    dialogueArea(400, 485, 70, 98, meetDoctor, this.player, this.message);
+
+    // let dialogueSpot = isItClose(this.player, dialogue);
+    // if (dialogueSpot && !dialogueSpot.hasAppeared) {
+    //   if (this.message.text) this.message.text = "";
+    //   if (dialogueSpot.pongResult) {
+    //     if (localStorage["Brain Scan"] === "CLEAR") {
+    //       updateText(this.player, dialogueSpot, this.message);
+    //       dialogueSpot.hasAppeared = true;
+    //       dialogue[4].hasAppeared = true;
+    //     } else {
+    //       updateText(this.player, dialogueSpot, this.message);
+    //       dialogueSpot.hasAppeared = true;
+    //     }
+    //   } else {
+    //     updateText(this.player, dialogueSpot, this.message);
+    //     dialogueSpot.hasAppeared = true;
+    //   }
+    // }
   }
 
   spawn() {
@@ -308,18 +338,23 @@ export default class Game extends Phaser.Scene {
         "player",
         "doc-walk-up-0"
       );
-    } else if (localStorage["Brain Scan"] === "CLEAR") {
+    } else if (localStorage["Brain Scan"] === "A beautiful mind.") {
+      localStorage.removeItem("from");
       this.player = this.physics.add.sprite(
         349,
         85,
         "player",
         "doc-walk-side-0"
       );
-      dialogue.forEach((textObj) => {
-        textObj.hasAppeared = true;
-      });
-      dialogue[4].hasAppeared = false;
-    } else if (localStorage["Brain Scan"] === "TOO BLURRY") {
+      // dialogue.forEach((textObj) => {
+      //   textObj.hasAppeared = true;
+      // });
+      // dialogue[4].hasAppeared = false;
+    } else if (
+      localStorage["Brain Scan"] ===
+      "Too blurry! The doctor can't interpret this."
+    ) {
+      localStorage.removeItem("from");
       this.player = this.physics.add.sprite(
         359.5,
         84,

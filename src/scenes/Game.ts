@@ -235,6 +235,7 @@ export default class Game extends Phaser.Scene {
     */
     if (localStorage.from === "hospital") {
       localStorage.removeItem("from");
+      localStorage.removeItem("Brain Scan");
       this.player = this.physics.add.sprite(
         1250,
         526,
