@@ -183,8 +183,8 @@ export default class Game extends Phaser.Scene {
 
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
-      console.log(data);
       interact(
+        0.03,
         this.message,
         this.player,
         data.layers[3].objects,
@@ -213,7 +213,7 @@ export default class Game extends Phaser.Scene {
   }
 
   exits() {
-    let nextToTarget = isItClose(this.player, mazeExits);
+    let nextToTarget = isItClose(0.03, this.player, mazeExits);
     if (nextToTarget) {
       if (this.player.y < 500) {
         localStorage.setItem("from", `mazeWin`);
@@ -250,7 +250,7 @@ export default class Game extends Phaser.Scene {
     dialogueArea(875, 940, 480, 660, enteringHouse, this.player, this.message);
     dialogueArea(494, 500, 72, 97, leavingMaze, this.player, this.message);
 
-    let dialogueSpot = isItClose(this.player, dialogue);
+    let dialogueSpot = isItClose(0.03, this.player, dialogue);
     if (dialogueSpot && !dialogueSpot.hasAppeared) {
       if (this.message.text) this.message.text = "";
       updateText(this.player, dialogueSpot, this.message);

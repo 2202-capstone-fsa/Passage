@@ -134,9 +134,7 @@ export default class Game extends Phaser.Scene {
 
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
-      console.log(data);
-      console.log(displayInventory);
-      interact(this.message, this.player, data.layers[3].objects, item);
+      interact(0.03, this.message, this.player, data.layers[3].objects, item);
     });
     // Hit shift to view Inventory.
     this.cursors.shift.on("down", () => {
@@ -181,7 +179,7 @@ export default class Game extends Phaser.Scene {
       midwayPoint.hasAppeared = true;
     }
 
-    let dialogueSpot = isItClose(this.player, dialogue);
+    let dialogueSpot = isItClose(0.03, this.player, dialogue);
     if (dialogueSpot && !dialogueSpot.hasAppeared) {
       if (this.message.text) this.message.text = "";
       updateText(this.player, dialogueSpot, this.message);

@@ -30,7 +30,6 @@ export default class TitleScreen extends Phaser.Scene {
 
   create() {
     const map = this.make.tilemap({ key: "titlescreen" });
-    console.log("In title");
 
     window.scrollTo(100, 100);
 
