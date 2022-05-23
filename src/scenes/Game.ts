@@ -190,7 +190,6 @@ export default class Game extends Phaser.Scene {
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
       console.log(data);
-
       interact(this.message, this.player, data.layers[5].objects, item);
     }),
       // Hit shift to view Inventory.
