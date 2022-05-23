@@ -11,7 +11,6 @@ import {
   updateText,
   dialogueArea,
 } from "../../utils/helper";
-import { debugDraw } from "../../utils/debug";
 import data from "../../../public/tiles/atlantis.json";
 
 //const atlantisExits = [{ x: 235, y: 449, name: "game" }];
@@ -63,6 +62,7 @@ export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private player!: Phaser.Physics.Arcade.Sprite;
   private message!: Phaser.GameObjects.Text;
+  private objLayer!: Phaser.Tilemaps.ObjectLayer;
 
   constructor() {
     super("atlantis");
@@ -119,7 +119,7 @@ export default class Game extends Phaser.Scene {
       wordWrap: { width: 350 },
     });
 
-    this.sound.add("item");
+    let item = this.sound.add("item");
     let waterfall = this.sound.add("waterfall");
     let musicConfig = {
       mute: false,
@@ -136,20 +136,13 @@ export default class Game extends Phaser.Scene {
     this.cursors.space.on("down", () => {
       console.log(data);
       console.log(displayInventory);
-      interact(
-        this.message,
-        this.player,
-        data.layers[3].objects,
-        this.sound.add("item")
-      );
+      interact(this.message, this.player, data.layers[3].objects, item);
     });
     // Hit shift to view Inventory.
     this.cursors.shift.on("down", () => {
       return displayInventory(this.message, this.player);
     }),
-      debugDraw(wallLayer, this);
-    debugDraw(groundLayer, this);
-    this.cameras.main.startFollow(this.player);
+      this.cameras.main.startFollow(this.player);
   }
 
   update(t: number, dt: number) {
