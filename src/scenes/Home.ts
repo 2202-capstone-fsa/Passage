@@ -127,7 +127,7 @@ export default class Game extends Phaser.Scene {
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
       console.log(data);
-
+      console.log(this.player);
       if (isItClose(this.player, [{ x: 205, y: 57, width: 10, height: 20 }])) {
         windowCount++;
         console.log("Window: " + windowCount);
@@ -229,15 +229,10 @@ export default class Game extends Phaser.Scene {
         207,
         255,
         "player",
-        "doc-walk-up-1"
+        "shady_front_1"
       );
     } else {
-      this.player = this.physics.add.sprite(
-        152,
-        57,
-        "player",
-        "doc-walk-down-0"
-      );
+      this.player = this.physics.add.sprite(152, 57, "player", "shady_front_1");
     }
   }
 }

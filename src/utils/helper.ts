@@ -55,14 +55,14 @@ export function updateText(player, target, message) {
 
 export function movePlayer(player, speed, pressedKey) {
   if (pressedKey.left?.isDown) {
-    player.anims.play("player-walk-side", true);
+    player.anims.play("player-walk-left", true);
     player.setVelocity(-speed, 0);
     player.scaleX = 1;
     player.body.offset.x = 5;
   } else if (pressedKey.right?.isDown) {
-    player.anims.play("player-walk-side", true);
+    player.anims.play("player-walk-right", true);
     player.setVelocity(speed, 0);
-    player.scaleX = -1;
+    player.scaleX = 1;
     player.body.offset.x = 10;
   } else if (pressedKey.down?.isDown) {
     player.anims.play("player-walk-down", true);
@@ -106,22 +106,26 @@ export function interact(message, player, objs = [], sound) {
 export function createAnims(anims) {
   anims.create({
     key: "player-idle-down",
-    frames: [{ key: "player", frame: "doc-walk-down-0" }],
+    frames: [{ key: "player", frame: "shady_front_1" }],
   });
   anims.create({
-    key: "player-idle-side",
-    frames: [{ key: "player", frame: "doc-walk-side-0" }],
+    key: "player-idle-right",
+    frames: [{ key: "player", frame: "shady_right_1" }],
+  });
+  anims.create({
+    key: "player-idle-left",
+    frames: [{ key: "player", frame: "shady_left_1" }],
   });
   anims.create({
     key: "player-idle-up",
-    frames: [{ key: "player", frame: "doc-walk-up-0" }],
+    frames: [{ key: "player", frame: "shady_back_1" }],
   });
   anims.create({
     key: "player-walk-down",
     frames: anims.generateFrameNames("player", {
-      start: 3,
-      end: 6,
-      prefix: "doc-walk-down-",
+      start: 1,
+      end: 3,
+      prefix: "shady_front_",
     }),
     repeat: -1,
     frameRate: 6,
@@ -130,20 +134,30 @@ export function createAnims(anims) {
   anims.create({
     key: "player-walk-up",
     frames: anims.generateFrameNames("player", {
-      start: 3,
-      end: 6,
-      prefix: "doc-walk-up-",
+      start: 1,
+      end: 3,
+      prefix: "shady_back_",
     }),
     repeat: -1,
     frameRate: 6,
   });
 
   anims.create({
-    key: "player-walk-side",
+    key: "player-walk-left",
     frames: anims.generateFrameNames("player", {
-      start: 3,
-      end: 6,
-      prefix: "doc-walk-side-",
+      start: 1,
+      end: 3,
+      prefix: "shady_left_",
+    }),
+    repeat: -1,
+    frameRate: 6,
+  });
+  anims.create({
+    key: "player-walk-right",
+    frames: anims.generateFrameNames("player", {
+      start: 1,
+      end: 3,
+      prefix: "shady_right_",
     }),
     repeat: -1,
     frameRate: 6,
