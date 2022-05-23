@@ -64,13 +64,13 @@ To install Passage, follow these steps:
 Fork and clone this repository to your local machine:
 
 ```bash
-git clone https://github.com/2202-capstone-fsa/Passage
+git clone git@github.com:2202-capstone-fsa/Passage.git
 ```
 
 This will create a folder named `Passage`. You can specify a different folder name like this:
 
 ```bash
-git clone https://github.com/2202-capstone-fsa/Passage
+git clone git@github.com:2202-capstone-fsa/Passage.git
 my-folder-name
 ```
 
@@ -91,10 +91,10 @@ npm run start
 
 Meet the people who created this project:
 
-- [Leo Rodriguez Github](https://github.com/ParryTu) 📖 [LinkedIn](http://linkedin.com/in/parryt/)
-- [Masaki Shibano Github](https://github.com/ParryTu) 📖 [LinkedIn](http://linkedin.com/in/parryt/)
-- [Cody Lester Github](https://github.com/ParryTu) 📖 [LinkedIn](http://linkedin.com/in/parryt/)
-- [Parry Tu Github](https://github.com/ParryTu) 📖 [LinkedIn](http://linkedin.com/in/parryt/)
+- [Leo Rodriguez Github](https://github.com/leorodriguez916) [LinkedIn](https://www.linkedin.com/in/leorubenrodriguez/)
+- [Masaki Shibano Github](https://github.com/mShibano) [LinkedIn](https://www.linkedin.com/in/masakishibano/)
+- [Cody Lester Github](https://github.com/krisco124) [LinkedIn](http://linkedin.com/in/parryt/)
+- [Parry Tu Github](https://github.com/ParryTu) [LinkedIn](http://linkedin.com/in/parryt/)
 
 <!-- You might want to consider using something like the [All Contributors](https://github.com/all-contributors/all-contributors) specification and its [emoji key](https://allcontributors.org/docs/en/emoji-key).
  -->
