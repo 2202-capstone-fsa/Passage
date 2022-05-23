@@ -238,6 +238,10 @@ export default class Game extends Phaser.Scene {
       });
     //debugDraw(wallsLayer, this);
     this.cameras.main.startFollow(this.player);
+
+    /*
+    Body obj: 160, 116. Width + Height 15.
+    */
   }
 
   update(t: number, dt: number) {
@@ -368,7 +372,7 @@ export default class Game extends Phaser.Scene {
     }
 
     if (localStorage["Soul"]) {
-      dialogueArea(404, 440, 312, 322, toSandbox, this.player, this.message);
+      dialogueArea(742, 866, 150, 280, toSandbox, this.player, this.message);
     }
 
     if (
@@ -404,7 +408,9 @@ export default class Game extends Phaser.Scene {
       }
       localStorage.setItem("from", `overworld`);
       this.scene.stop("game");
-      this.sound.play("door");
+      if (exit.name !== "atlantis") {
+        this.sound.play("door");
+      }
       this.scene.start(exit.name);
     }
   }

@@ -9,6 +9,7 @@ import {
   interact,
   displayInventory,
   updateText,
+  dialogueArea,
 } from "../../utils/helper";
 import { debugDraw } from "../../utils/debug";
 import data from "../../../public/tiles/atlantis.json";
@@ -34,6 +35,24 @@ const dialogue = [
         name: "message",
         value:
           "I could always go for a little treasure hunt. One dubloon in my pocket, and I'll be the richest man in the world! Normal man, at least.",
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value: `Her voice again: "This pearl necklace is all I have of him. As long as I have this, his spirit will always be with me."`,
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value: `Oh boy a shovel!"`,
       },
     ],
     hasAppeared: false,
@@ -136,6 +155,7 @@ export default class Game extends Phaser.Scene {
   update(t: number, dt: number) {
     this.exits();
     this.playDialogue();
+    this.grabItems();
 
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;
@@ -154,8 +174,13 @@ export default class Game extends Phaser.Scene {
 
   playDialogue() {
     const midwayPoint = dialogue[1];
+    const grabSoul = dialogue[2];
+    const grabShovel = dialogue[3];
 
     //Where is the shovel?
+
+    dialogueArea(192, 287, 9, 59, grabSoul, this.player, this.message);
+    dialogueArea(17, 143, 230, 337, grabShovel, this.player, this.message);
 
     if (this.player.y < 176 && !midwayPoint.hasAppeared) {
       if (this.message.text) this.message.text = "";
@@ -168,6 +193,27 @@ export default class Game extends Phaser.Scene {
       if (this.message.text) this.message.text = "";
       updateText(this.player, dialogueSpot, this.message);
       dialogueSpot.hasAppeared = true;
+    }
+  }
+
+  grabItems() {
+    if (
+      this.player.x > 192 &&
+      this.player.x < 287 &&
+      this.player.y < 50 &&
+      !localStorage["Soul"]
+    ) {
+      this.sound.play("item");
+      localStorage.setItem("Soul", `Apparently this is my soul.`);
+    }
+    if (
+      this.player.x > 17 &&
+      this.player.x < 143 &&
+      this.player.y > 230 &&
+      !localStorage["Shovel"]
+    ) {
+      this.sound.play("item");
+      localStorage.setItem("Shovel", "Memories of the beach.");
     }
   }
 }

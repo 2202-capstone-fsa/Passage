@@ -229,7 +229,7 @@ export default class Game extends Phaser.Scene {
         207,
         255,
         "player",
-        "doc-walk-up-0"
+        "doc-walk-up-1"
       );
     } else {
       this.player = this.physics.add.sprite(
