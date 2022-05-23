@@ -30,8 +30,7 @@ const dialogue = [
     properties: [
       {
         name: "message",
-        value:
-          "FINALLY! Whew! I'm finally out! Still no one in sight. Honestly, I'd rather not meet the guy who designed this place anyway. What a creepy memento I found.",
+        value: `FINALLY! Whew! I'm finally out! Still no one in sight. Honestly, I'd rather not meet the guy who designed this place anyway. What a creepy memento I found in that dark tunnel back here. A skull... the gent must like gothic things!`,
       },
     ],
     hasAppeared: false,
@@ -199,6 +198,12 @@ export default class Game extends Phaser.Scene {
   }
 
   playDialogue() {
+    const mazeSolved = dialogue[0];
+
+    if (localStorage.Skull === `What's it thinking?`) {
+      dialogueArea(81, 733, 100, 200, mazeSolved, this.player, this.message);
+    }
+
     let dialogueSpot = isItClose(0.03, this.player, dialogue);
     if (dialogueSpot && !dialogueSpot.hasAppeared) {
       if (this.message.text) this.message.text = "";

@@ -111,6 +111,7 @@ export default class Game extends Phaser.Scene {
     );
     this.load.image("furniture", "tiles/RPGW_HousesAndInt_v1.1/furniture.png");
     this.load.image("objects", "tiles/icons/icons.png");
+    this.load.image("skull", "tiles/icons/individual/icon006.png");
 
     //Load data (collisions, etc) for the map.
     this.load.tilemapTiledJSON("maze", "tiles/maze.json");
@@ -150,6 +151,8 @@ export default class Game extends Phaser.Scene {
     );
     setPlayer(this.player);
     createAnims(this.anims);
+
+    this.add.image(580, 80, "skull");
 
     wallsLayer.setCollisionByProperty({ collides: true });
     furnitureLayer.setCollisionByProperty({ collides: true });
@@ -217,7 +220,7 @@ export default class Game extends Phaser.Scene {
     if (nextToTarget) {
       if (this.player.y < 500) {
         localStorage.setItem("from", `mazeWin`);
-        localStorage.setItem("Mind", "What's it thinking?");
+        localStorage.setItem("Skull", "What's it thinking?");
       } else {
         localStorage.setItem("from", `mazeFail`);
       }

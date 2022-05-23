@@ -93,7 +93,7 @@ export default class Game extends Phaser.Scene {
     const objLayer = map.createLayer("Objects", atlantisTilesets);
 
     localStorage.removeItem("from");
-    this.player = this.physics.add.sprite(250, 400, "player", "shady_back_1");
+    this.player = this.physics.add.sprite(238, 400, "player", "shady_back_1");
 
     setPlayer(this.player);
     createAnims(this.anims);
@@ -156,7 +156,7 @@ export default class Game extends Phaser.Scene {
   }
 
   exits() {
-    if (this.player.y > 449) {
+    if (this.player.y > 428) {
       localStorage.setItem("from", `atlantis`);
       this.scene.stop("atlantis");
       this.scene.start("game");

@@ -49,7 +49,7 @@ const dialogue = [
       {
         name: "message",
         value:
-          "I'm out! Finally. Now, about this pounding.. There's gotta be a hospital around here. Say.. what a nice town. Aren't there any people?",
+          "I'm out! Finally. Now, about this noggin.. There's gotta be a hospital around here. Say.. what a nice town. Aren't there any people?",
       },
     ],
     hasAppeared: false,
@@ -89,7 +89,7 @@ const dialogue = [
       {
         name: "message",
         value:
-          "Whew. I could use a drink... Maybe that doctor's drink I smuggled will do. Ooh... yes that's good. I feel more energized!",
+          "Whew. I could use a drink... Maybe that doctor's drink I smuggled will do. Ooh... yes that's good. I feel like I'm in my twenties again!",
       },
     ],
     hasAppeared: false,
@@ -98,7 +98,7 @@ const dialogue = [
     properties: [
       {
         name: "message",
-        value: `A woman's voice: "That hospital on the Northeast side of town. He would never go. His heart paid the price."`,
+        value: `A lady's voice: "That hospital on the Northeast side of town. He would never go. His heart paid the price."`,
       },
     ],
     hasAppeared: false,
@@ -107,7 +107,7 @@ const dialogue = [
     properties: [
       {
         name: "message",
-        value: `A woman's voice: "A beautiful mind and a beautiful heart. He was so funny, too... Made me feel like myself when I was around him. What part of a person does that? Their soul?"`,
+        value: `A lady's voice: "A beautiful mind and a beautiful heart. He was so funny, too... Made me feel like myself when I was around him. What part of a person does that? Their soul?"`,
       },
     ],
     hasAppeared: false,
@@ -116,7 +116,7 @@ const dialogue = [
     properties: [
       {
         name: "message",
-        value: `A woman's voice: "That soul of his, I'm sure it's still here with me. It has to be. When I scattered his ashes at the beach, it felt like he... became part of the wind? Yes, the wind."`,
+        value: `A lady's voice: "That soul of his, I'm sure it's still here with me. It has to be. When I scattered his ashes at the beach, it felt like he... became part of the wind? Yes, the wind."`,
       },
     ],
     hasAppeared: false,
@@ -184,7 +184,7 @@ export default class Game extends Phaser.Scene {
     //Create houses and walls in this world, over the Ground and Player.
     const housesLayer = map.createLayer("Houses", allTileSet);
     const wallsLayer = map.createLayer("Walls", allTileSet);
-    if (localStorage["Mind"]) {
+    if (localStorage["Skull"]) {
       const waterfallLayer = map.createLayer("Waterfall", allTileSet);
       waterfallLayer.setCollisionByProperty({ collides: true });
       this.physics.add.collider(this.player, waterfallLayer);
@@ -348,7 +348,7 @@ export default class Game extends Phaser.Scene {
     );
     dialogueArea(170, 200, 616, 625, westHome, this.player, this.message);
     dialogueArea(404, 440, 312, 322, northWestHome, this.player, this.message);
-    dialogueArea(704, 890, 1163, 1337, toHospital, this.player, this.message);
+    dialogueArea(704, 890, 1111, 1337, toHospital, this.player, this.message);
 
     if (
       localStorage["Dr. Cola"] === "A yummy fizzy drink that doctors love!" &&
@@ -358,7 +358,7 @@ export default class Game extends Phaser.Scene {
       hasSoda.hasAppeared = true;
     }
 
-    if (localStorage["Mind"] === "What's it thinking?") {
+    if (localStorage["Skull"] === "What's it thinking?") {
       dialogueArea(
         270,
         380,
@@ -433,7 +433,7 @@ export default class Game extends Phaser.Scene {
         ],
       };
 
-      if (localStorage["Mind"] === "What's it thinking?") {
+      if (localStorage["Skull"] === "What's it thinking?") {
         this.player.setPosition(this.player.x, this.player.y + 5);
         updateText(this.player, access, this.message);
         waterfallLocked = false;
