@@ -44,11 +44,11 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-    this.scene.run("scan-background");
-    this.scene.sendToBack("scan-background");
+    // this.scene.run("scan-background");
+    // this.scene.sendToBack("scan-background");
     // Above lines equivalent to the next few:
-    // this.add.line(400, 250, 0, 0, 0, 500, this.white, 1).setLineWidth(2, 2);
-    // this.add.circle(400, 250, 25).setStrokeStyle(3, this.white, 1);
+    this.add.line(400, 250, 0, 0, 0, 500, this.white, 1).setLineWidth(2, 2);
+    this.add.circle(400, 250, 25).setStrokeStyle(3, this.white, 1);
 
     //Makes the ball go off the grid
 
@@ -109,6 +109,13 @@ export default class Game extends Phaser.Scene {
   }
 
   update() {
+    this.checkGameState();
+    this.processPlayerInput();
+    this.updateAI(3);
+    this.checkScore();
+  }
+
+  checkGameState() {
     if (this.gameState === GameState.PlayerLost) {
       console.log("Player lost.");
       this.gameState = GameState.Running;
@@ -116,7 +123,10 @@ export default class Game extends Phaser.Scene {
       this.rightScore = 0;
       this.scene.stop("scan");
       this.scene.stop("scan-background");
-      localStorage.setItem("Brain Scan", "TOO BLURRY");
+      localStorage.setItem(
+        "Brain Scan",
+        "Too blurry! The doctor can't interpret this."
+      );
       this.scene.start("hospital");
       //Start loss scene
     }
@@ -124,7 +134,7 @@ export default class Game extends Phaser.Scene {
       console.log("Player won!");
       this.scene.stop("scan");
       this.scene.stop("scan-background");
-      localStorage.setItem("Brain Scan", "CLEAR");
+      localStorage.setItem("Brain Scan", "A beautiful mind.");
       this.scene.start("hospital");
       //Start won scene
     }
@@ -145,7 +155,6 @@ export default class Game extends Phaser.Scene {
       ) {
         this.gameState = GameState.PlayerLost;
       }
-
       return;
     }
     if (
@@ -153,10 +162,6 @@ export default class Game extends Phaser.Scene {
       this.gameState !== GameState.Running
     )
       return;
-
-    this.processPlayerInput();
-    this.updateAI(3);
-    this.checkScore();
   }
 
   handleBallWorldBoundsCollision(body, up, down, left, right) {
@@ -281,7 +286,7 @@ export default class Game extends Phaser.Scene {
 
   resetBall(spd = 450) {
     if (this.gameState === GameState.Still) {
-      spd = 800;
+      spd = 1200;
     }
     //Resets location of ball to middle AND angle.
     this.ball.setPosition(400, 250);

@@ -188,6 +188,7 @@ export default class Game extends Phaser.Scene {
     let nextToTarget = isItClose(this.player, shopExits);
     if (nextToTarget) {
       if (nextToTarget.name === "dupedoor") {
+        this.sound.play("door");
         this.player.setPosition(242, 289);
         return;
       }
@@ -217,6 +218,7 @@ export default class Game extends Phaser.Scene {
 
   spawn() {
     if (localStorage["from"] === "mazeWin") {
+      localStorage.removeItem("from");
       let doors = [
         [416, 173],
         [192, 173],

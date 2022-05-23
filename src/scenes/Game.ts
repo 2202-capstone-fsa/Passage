@@ -16,11 +16,11 @@ import {
 import { exit } from "process";
 
 export const overworldExits = [
-  { x: 320, y: 1140, name: "shop" },
-  { x: 1234, y: 465, name: "hospital" },
-  { x: 803, y: 216, name: "atlantis" },
-  { x: 788, y: 1015, name: "home" },
-  { x: 794, y: 1586, name: "ending" },
+  { x: 320, y: 1170, name: "shop", scroll: { x: 200, y: 10 } },
+  { x: 1234, y: 465, name: "hospital", scroll: { x: 0, y: 0 } },
+  { x: 803, y: 216, name: "atlantis", scroll: { x: 0, y: 200 } },
+  { x: 788, y: 1060, name: "home", scroll: { x: 0, y: 100 } },
+  { x: 794, y: 1586, name: "ending", scroll: { x: 0, y: 0 } },
   // {
   //   x: 794,
   //   y: 1500,
@@ -28,6 +28,8 @@ export const overworldExits = [
   //   message: "You are near the end, no going back, are you sure?",
   // },
 ];
+
+let waterfallLocked = true;
 
 const dialogue = [
   {
@@ -82,8 +84,43 @@ const dialogue = [
     ],
     hasAppeared: false,
   },
-  // {x: , y: , message: "", hasAppeared: false},
-  // {x: , y: , message: "", hasAppeared: false},
+  {
+    properties: [
+      {
+        name: "message",
+        value:
+          "Whew. I could use a drink... Maybe that doctor's drink I smuggled will do. Ooh... yes that's good. I feel more energized!",
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value: `A woman's voice: "That hospital on the Northeast side of town. He would never go. His heart paid the price."`,
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value: `A woman's voice: "A beautiful mind and a beautiful heart. He was so funny, too... Made me feel like myself when I was around him. What part of a person does that? Their soul?"`,
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value: `A woman's voice: "That soul of his, I'm sure it's still here with me. It has to be. When I scattered his ashes at the beach, it felt like he... became part of the wind? Yes, the wind."`,
+      },
+    ],
+    hasAppeared: false,
+  },
 ];
 
 export default class Game extends Phaser.Scene {
@@ -146,17 +183,19 @@ export default class Game extends Phaser.Scene {
 
     //Create houses and walls in this world, over the Ground and Player.
     const housesLayer = map.createLayer("Houses", allTileSet);
-    const waterfallLayer = map.createLayer("Waterfall", allTileSet);
     const wallsLayer = map.createLayer("Walls", allTileSet);
+    if (localStorage["Mind"]) {
+      const waterfallLayer = map.createLayer("Waterfall", allTileSet);
+      waterfallLayer.setCollisionByProperty({ collides: true });
+      this.physics.add.collider(this.player, waterfallLayer);
+    }
 
     //Set walls and houses to collide with Player.
     wallsLayer.setCollisionByProperty({ collides: true });
     housesLayer.setCollisionByProperty({ collides: true });
-    waterfallLayer.setCollisionByProperty({ collides: true });
     groundDeluxeLayer.setCollisionByProperty({ collides: true });
     this.physics.add.collider(this.player, wallsLayer);
     this.physics.add.collider(this.player, housesLayer);
-    this.physics.add.collider(this.player, waterfallLayer);
     this.physics.add.collider(this.player, groundDeluxeLayer);
 
     //Initialize message and item sound.
@@ -199,6 +238,10 @@ export default class Game extends Phaser.Scene {
       });
     //debugDraw(wallsLayer, this);
     this.cameras.main.startFollow(this.player);
+
+    /*
+    Body obj: 160, 116. Width + Height 15.
+    */
   }
 
   update(t: number, dt: number) {
@@ -212,6 +255,12 @@ export default class Game extends Phaser.Scene {
 
     // Enter a scene when near.
     this.exits();
+    this.accessWaterfall();
+
+    //Empty inventory progressively.
+    if (localStorage["Keycard"] === `Dr. Pascal's keycard.`) {
+      localStorage.removeItem("Brain Scan");
+    }
 
     // Camera that follows
     this.cameras.main.scrollX = this.player.x - 400;
@@ -219,7 +268,7 @@ export default class Game extends Phaser.Scene {
 
     // movement
     let speed = this.message.text ? 0 : 120;
-    if (localStorage["soda"] === "A yummy fizzy drink that doctors love!") {
+    if (localStorage["Dr. Cola"] === "A yummy fizzy drink that doctors love!") {
       speed = this.message.text ? 0 : 180;
     }
     movePlayer(this.player, speed, this.cursors);
@@ -245,7 +294,7 @@ export default class Game extends Phaser.Scene {
       localStorage.removeItem("from");
       this.player = this.physics.add.sprite(
         320,
-        1206,
+        1220,
         "player",
         "doc-walk-down-0"
       );
@@ -253,7 +302,7 @@ export default class Game extends Phaser.Scene {
       localStorage.removeItem("from");
       this.player = this.physics.add.sprite(
         788,
-        1077,
+        1100,
         "player",
         "doc-walk-down-0"
       );
@@ -277,6 +326,10 @@ export default class Game extends Phaser.Scene {
 
   playDialogue() {
     const goToEnd = dialogue[0];
+    const toSandbox = dialogue[8];
+    const toWaterfall = dialogue[7];
+    const toHospital = dialogue[6];
+    const hasSoda = dialogue[5];
     const southeastHome = dialogue[4];
     const westHome = dialogue[3];
     const northWestHome = dialogue[2];
@@ -296,6 +349,31 @@ export default class Game extends Phaser.Scene {
     );
     dialogueArea(170, 200, 616, 625, westHome, this.player, this.message);
     dialogueArea(404, 440, 312, 322, northWestHome, this.player, this.message);
+    dialogueArea(704, 890, 1163, 1337, toHospital, this.player, this.message);
+
+    if (
+      localStorage["Dr. Cola"] === "A yummy fizzy drink that doctors love!" &&
+      !hasSoda.hasAppeared
+    ) {
+      updateText(this.player, hasSoda, this.message);
+      hasSoda.hasAppeared = true;
+    }
+
+    if (localStorage["Mind"] === "What's it thinking?") {
+      dialogueArea(
+        270,
+        380,
+        1190,
+        1340,
+        toWaterfall,
+        this.player,
+        this.message
+      );
+    }
+
+    if (localStorage["Soul"]) {
+      dialogueArea(742, 866, 150, 280, toSandbox, this.player, this.message);
+    }
 
     if (
       this.player.y > 1490 &&
@@ -325,9 +403,45 @@ export default class Game extends Phaser.Scene {
 
     let exit = isItClose(this.player, overworldExits);
     if (exit) {
+      if (exit.scroll) {
+        window.scroll(exit.scroll.x, exit.scroll.y);
+      }
       localStorage.setItem("from", `overworld`);
       this.scene.stop("game");
+      if (exit.name !== "atlantis") {
+        this.sound.play("door");
+      }
       this.scene.start(exit.name);
+    }
+  }
+
+  accessWaterfall() {
+    if (
+      waterfallLocked &&
+      ((this.player.x < 1182 && this.player.y < 656) || this.player.y < 380)
+    ) {
+      let access = {
+        properties: [
+          { name: "message", value: "Oh my. What's all that, over there?" },
+        ],
+      };
+      let noAccess = {
+        properties: [
+          {
+            name: "message",
+            value: `A voice calls: "I pray he finds guidance on his way."`,
+          },
+        ],
+      };
+
+      if (localStorage["Mind"] === "What's it thinking?") {
+        this.player.setPosition(this.player.x, this.player.y + 5);
+        updateText(this.player, access, this.message);
+        waterfallLocked = false;
+      } else {
+        this.player.setPosition(this.player.x, this.player.y + 5);
+        updateText(this.player, noAccess, this.message);
+      }
     }
   }
 }

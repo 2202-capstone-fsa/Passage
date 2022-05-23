@@ -14,6 +14,7 @@ import { debugDraw } from "../utils/debug";
 import data from "../../public/tiles/home.json";
 
 const homeExits = [{ x: 210, y: 278, name: "game" }];
+let windowCount = 0;
 
 const dialogue = [
   {
@@ -42,25 +43,10 @@ const dialogue = [
     properties: [
       {
         name: "message",
-        value:
-          "Empty plates, and no food around. I suppose I could stop at KFC before I head to the  doctor. Err, that doesn't sound right.",
+        value: "Empty plates, and no food around.",
       },
     ],
     hasAppeared: false,
-  },
-];
-
-const text = [
-  {
-    x: 0,
-    y: 0,
-
-    properties: [
-      {
-        name: "message",
-        value: "",
-      },
-    ],
   },
 ];
 
@@ -77,7 +63,8 @@ export default class Game extends Phaser.Scene {
     //loading building tilesets
     this.load.image("interior", "tiles/RPGW_HousesAndInt_v1.1/interiors.png");
     this.load.image("furniture", "tiles/RPGW_HousesAndInt_v1.1/furniture.png");
-    this.load.image("note", "tiles/icons/individual/icon384.png");
+    this.load.image("letter", "tiles/icons/individual/icon384.png");
+    this.load.image("items", "tiles/LabItems.png");
 
     //Load data (collisions, etc) for the map.
     this.load.tilemapTiledJSON("home", "tiles/home.json");
@@ -91,14 +78,22 @@ export default class Game extends Phaser.Scene {
     const map = this.make.tilemap({ key: "home" });
     const interiorTileSet = map.addTilesetImage("interior", "interior");
     const furnitureTileSet = map.addTilesetImage("furniture", "furniture");
-    const noteTileSet = map.addTilesetImage("note", "note");
+    const noteTileSet = map.addTilesetImage("note", "letter");
+    const itemTileSet = map.addTilesetImage("labstuff", "items");
     const homeTileSets = [interiorTileSet, furnitureTileSet];
 
     //Building layers
     map.createLayer("ground", homeTileSets);
     const wallsLayer = map.createLayer("walls", homeTileSets);
     const furnitureLayer = map.createLayer("furniture", homeTileSets);
-    //map.createLayer("object", noteTileSet);
+    const noteLayer = map.createLayer("note", noteTileSet);
+
+    if (localStorage["Brain Scan"] === "A beautiful mind.") {
+      const newItemsLayer = map.createLayer("newitems", [
+        noteTileSet,
+        itemTileSet,
+      ]);
+    }
 
     map.createFromObjects("object", { id: 1 });
 
@@ -132,10 +127,26 @@ export default class Game extends Phaser.Scene {
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
       console.log(data);
+
+      if (isItClose(this.player, [{ x: 205, y: 57, width: 10, height: 20 }])) {
+        windowCount++;
+        console.log("Window: " + windowCount);
+        this.sound.play("door");
+      }
+
+      if (
+        localStorage["Brain Scan"] !== "A beautiful mind." &&
+        this.player.x < 176 &&
+        this.player.y > 158
+      ) {
+        console.log("Not progressed enough.");
+        return;
+      }
+
       interact(
         this.message,
         this.player,
-        data.layers[2].objects,
+        data.layers[5].objects,
         this.sound.add("item")
       );
     }),
@@ -153,6 +164,12 @@ export default class Game extends Phaser.Scene {
     this.exits();
     this.playDialogue();
 
+    if (localStorage["Heart"]) {
+      dialogue.forEach((message) => {
+        message.hasAppeared = true;
+      });
+    }
+
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;
 
@@ -163,8 +180,14 @@ export default class Game extends Phaser.Scene {
   exits() {
     let nextToTarget = isItClose(this.player, homeExits);
     if (nextToTarget) {
+      if (nextToTarget.name === "game" && windowCount !== 2) {
+        this.player.setPosition(152, 57);
+        windowCount = 0;
+        return;
+      }
       localStorage.setItem("from", `home`);
       this.scene.stop("home");
+      this.sound.play("door");
       window.scrollTo(0, 0);
       this.scene.start(nextToTarget.name);
     }
@@ -206,7 +229,7 @@ export default class Game extends Phaser.Scene {
         207,
         255,
         "player",
-        "doc-walk-up-0"
+        "doc-walk-up-1"
       );
     } else {
       this.player = this.physics.add.sprite(

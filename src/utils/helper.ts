@@ -19,22 +19,22 @@ export function isItClose(player, targets) {
     let percentBottom = Math.abs((closeObjBottom - playerY) / closeObjBottom);
 
     //Checks if close to top left corner.
-    if (percentLeft <= 0.05 && percentTop <= 0.05) {
+    if (percentLeft <= 0.03 && percentTop <= 0.03) {
       return targets[i] || null; // returns target object
     }
 
     //Checks if close to bottom left corner.
-    if (percentBottom <= 0.05 && percentLeft <= 0.05) {
+    if (percentBottom <= 0.03 && percentLeft <= 0.03) {
       return targets[i] || null; // returns target object
     }
 
     //Checks if close to top right corner.
-    if (percentTop <= 0.05 && percentRight <= 0.05) {
+    if (percentTop <= 0.03 && percentRight <= 0.03) {
       return targets[i] || null; // returns target object
     }
 
     //Checks if close to bottom right corner.
-    if (percentBottom <= 0.05 && percentRight <= 0.05) {
+    if (percentBottom <= 0.03 && percentRight <= 0.03) {
       return targets[i] || null; // returns target object
     }
   }
@@ -166,7 +166,15 @@ export function displayInventory(message, player, inventory = localStorage) {
   }
 }
 
-let keyItems = ["keycard", "soul", "soda", "brain", "shovel", "helm", "heart"]; //only include key item names
+let keyItems = [
+  "Keycard",
+  "Soul",
+  "Dr. Cola",
+  "Brain",
+  "Shovel",
+  "Helm",
+  "Heart",
+]; //only include key item names
 
 export function updateInventory(item, message, player, sound) {
   if (!localStorage[item.name] && keyItems.includes(item.name)) {
