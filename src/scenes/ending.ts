@@ -32,6 +32,7 @@ export default class ending extends Phaser.Scene {
   }
 
   create() {
+    window.scrollTo(1500, 1500);
     this.cameras.main.centerOn(280.5, 150.5);
 
     let inventory = localStorage;

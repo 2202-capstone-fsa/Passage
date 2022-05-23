@@ -16,11 +16,11 @@ import {
 import { exit } from "process";
 
 export const overworldExits = [
-  { x: 320, y: 1170, name: "shop", scroll: { x: 200, y: 10 } },
+  { x: 320, y: 1170, name: "shop", scroll: { x: 700, y: 10 } },
   { x: 1234, y: 465, name: "hospital", scroll: { x: 0, y: 0 } },
   { x: 803, y: 216, name: "atlantis", scroll: { x: 0, y: 200 } },
   { x: 788, y: 1060, name: "home", scroll: { x: 0, y: 100 } },
-  { x: 794, y: 1586, name: "ending", scroll: { x: 0, y: 0 } },
+  { x: 794, y: 1586, name: "ending", scroll: { x: 500, y: 500 } },
   // {
   //   x: 794,
   //   y: 1500,
@@ -152,8 +152,8 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
+    window.scrollTo(0, 0);
     this.cameras.main.setSize(475.5, 300.5);
-
     //Create tile sets so that we can access Tiled data later on.
     const map = this.make.tilemap({ key: "overworld" });
     const townTileSet = map.addTilesetImage("Town", "outside");
@@ -211,11 +211,12 @@ export default class Game extends Phaser.Scene {
       wordWrap: { width: 350 },
     });
     let item = this.sound.add("item");
+    let door = this.sound.add("door");
 
     this.warning = 0;
 
     let wind = this.sound.add("wind");
-    let musicConfig = {
+    let windConfig = {
       mute: false,
       volume: 0.2,
       rate: 1,
@@ -224,7 +225,7 @@ export default class Game extends Phaser.Scene {
       loop: false,
       delay: 3,
     };
-    wind.play(musicConfig);
+    localStorage.Soul ? wind.play(windConfig) : null;
 
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {

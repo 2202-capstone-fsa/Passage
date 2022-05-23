@@ -114,7 +114,8 @@ export default class Game extends Phaser.Scene {
     const decoreLayer = map.createLayer("decore", shopTileSets);
     const decorationsLayer = map.createLayer("decorations", shopTileSets);
     //const decoreLayer = map.createLayer('decore', shopTileSet);
-
+    //this.cameras.main.setSize(475.5, 300.5);
+    // this.cameras.centerOn(this.player.x, 0);
     this.spawn();
     setPlayer(this.player);
     createAnims(this.anims);
