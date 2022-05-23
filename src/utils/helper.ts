@@ -58,12 +58,12 @@ export function movePlayer(player, speed, pressedKey) {
     player.anims.play("player-walk-left", true);
     player.setVelocity(-speed, 0);
     player.scaleX = 1;
-    player.body.offset.x = 5;
+    player.body.offset.x = 7;
   } else if (pressedKey.right?.isDown) {
     player.anims.play("player-walk-right", true);
     player.setVelocity(speed, 0);
     player.scaleX = 1;
-    player.body.offset.x = 10;
+    player.body.offset.x = 5;
   } else if (pressedKey.down?.isDown) {
     player.anims.play("player-walk-down", true);
     player.setVelocity(0, speed);

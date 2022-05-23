@@ -146,7 +146,7 @@ export default class Game extends Phaser.Scene {
       // 494, End of maze for dev.
       // 73,
       "player",
-      "doc-walk-side-0"
+      "shady_left_1"
     );
     setPlayer(this.player);
     createAnims(this.anims);

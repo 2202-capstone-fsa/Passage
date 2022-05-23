@@ -126,15 +126,9 @@ export default class Game extends Phaser.Scene {
 
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
-<<<<<<< HEAD
-      console.log(data);
-      console.log(this.player);
-      if (isItClose(this.player, [{ x: 205, y: 57, width: 10, height: 20 }])) {
-=======
       if (
-        isItClose(0.03, this.player, [{ x: 205, y: 57, width: 10, height: 20 }])
+        isItClose(0.05, this.player, [{ x: 205, y: 57, width: 10, height: 20 }])
       ) {
->>>>>>> abc7e1451c7b0d5d2a7e4fc7bb741583ee238b99
         windowCount++;
 
         this.sound.play("door");

@@ -23,10 +23,7 @@ import data from "../../public/tiles/hospital.json";
  *
  */
 
-const hospitalExits = [
-  { x: 422, y: 88, name: "scan" },
-  { x: 635, y: 52, name: "shop" },
-];
+const hospitalExits = [{ x: 422, y: 88, name: "scan" }];
 
 let roomLocked = true;
 
@@ -355,20 +352,10 @@ export default class Game extends Phaser.Scene {
   spawn() {
     if (localStorage["from"] === "overworld") {
       localStorage.removeItem("from");
-      this.player = this.physics.add.sprite(
-        105,
-        530,
-        "player",
-        "doc-walk-up-0"
-      );
+      this.player = this.physics.add.sprite(105, 530, "player", "shady_back_1");
     } else if (localStorage["Brain Scan"] === "A beautiful mind.") {
       localStorage.removeItem("from");
-      this.player = this.physics.add.sprite(
-        349,
-        85,
-        "player",
-        "doc-walk-side-0"
-      );
+      this.player = this.physics.add.sprite(349, 85, "player", "shady_left_1");
       // dialogue.forEach((textObj) => {
       //   textObj.hasAppeared = true;
       // });
@@ -382,7 +369,7 @@ export default class Game extends Phaser.Scene {
         359.5,
         84,
         "player",
-        "doc-walk-side-0"
+        "shady_left_1"
       );
     }
   }

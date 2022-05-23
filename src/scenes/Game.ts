@@ -286,7 +286,7 @@ export default class Game extends Phaser.Scene {
         1250,
         526,
         "player",
-        "doc-walk-down-0"
+        "shady_front_1"
       );
     } else if (localStorage.from === "shop") {
       localStorage.removeItem("from");
@@ -294,7 +294,7 @@ export default class Game extends Phaser.Scene {
         320,
         1220,
         "player",
-        "doc-walk-down-0"
+        "shady_front_1"
       );
     } else if (localStorage.from === "home") {
       localStorage.removeItem("from");
@@ -302,7 +302,7 @@ export default class Game extends Phaser.Scene {
         788,
         1100,
         "player",
-        "doc-walk-down-0"
+        "shady_front_1"
       );
     } else if (localStorage.from === "atlantis") {
       localStorage.removeItem("from");
@@ -310,7 +310,7 @@ export default class Game extends Phaser.Scene {
         808,
         240,
         "player",
-        "doc-walk-down-0"
+        "shady_front_1"
       );
     } else {
       localStorage.removeItem("from");
@@ -318,7 +318,7 @@ export default class Game extends Phaser.Scene {
         800,
         800,
         "player",
-        "doc-walk-down-0"
+        "shady_front_1"
       );
     }
   }

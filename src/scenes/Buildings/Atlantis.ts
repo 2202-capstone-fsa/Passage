@@ -93,7 +93,7 @@ export default class Game extends Phaser.Scene {
     const objLayer = map.createLayer("Objects", atlantisTilesets);
 
     localStorage.removeItem("from");
-    this.player = this.physics.add.sprite(250, 400, "player", "doc-walk-up-0");
+    this.player = this.physics.add.sprite(250, 400, "player", "shady_back_1");
 
     setPlayer(this.player);
     createAnims(this.anims);
