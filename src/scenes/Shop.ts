@@ -155,8 +155,8 @@ export default class Game extends Phaser.Scene {
 
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
-      console.log(data);
       interact(
+        0.03,
         this.message,
         this.player,
         data.layers[5].objects,
@@ -185,7 +185,7 @@ export default class Game extends Phaser.Scene {
   }
 
   exits() {
-    let nextToTarget = isItClose(this.player, shopExits);
+    let nextToTarget = isItClose(0.03, this.player, shopExits);
     if (nextToTarget) {
       if (nextToTarget.name === "dupedoor") {
         this.sound.play("door");
@@ -199,7 +199,7 @@ export default class Game extends Phaser.Scene {
   }
 
   playDialogue() {
-    let dialogueSpot = isItClose(this.player, dialogue);
+    let dialogueSpot = isItClose(0.03, this.player, dialogue);
     if (dialogueSpot && !dialogueSpot.hasAppeared) {
       if (this.message.text) this.message.text = "";
       if (dialogueSpot.mazeExit) {

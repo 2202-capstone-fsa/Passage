@@ -126,11 +126,17 @@ export default class Game extends Phaser.Scene {
 
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
+<<<<<<< HEAD
       console.log(data);
       console.log(this.player);
       if (isItClose(this.player, [{ x: 205, y: 57, width: 10, height: 20 }])) {
+=======
+      if (
+        isItClose(0.03, this.player, [{ x: 205, y: 57, width: 10, height: 20 }])
+      ) {
+>>>>>>> abc7e1451c7b0d5d2a7e4fc7bb741583ee238b99
         windowCount++;
-        console.log("Window: " + windowCount);
+
         this.sound.play("door");
       }
 
@@ -139,11 +145,11 @@ export default class Game extends Phaser.Scene {
         this.player.x < 176 &&
         this.player.y > 158
       ) {
-        console.log("Not progressed enough.");
         return;
       }
 
       interact(
+        0.15,
         this.message,
         this.player,
         data.layers[5].objects,
@@ -178,7 +184,7 @@ export default class Game extends Phaser.Scene {
   }
 
   exits() {
-    let nextToTarget = isItClose(this.player, homeExits);
+    let nextToTarget = isItClose(0.03, this.player, homeExits);
     if (nextToTarget) {
       if (nextToTarget.name === "game" && windowCount !== 2) {
         this.player.setPosition(152, 57);
@@ -214,7 +220,7 @@ export default class Game extends Phaser.Scene {
       hungies.hasAppeared = true;
     }
 
-    let dialogueSpot = isItClose(this.player, dialogue);
+    let dialogueSpot = isItClose(0.03, this.player, dialogue);
     if (dialogueSpot && !dialogueSpot.hasAppeared) {
       if (this.message.text) this.message.text = "";
       updateText(this.player, dialogueSpot, this.message);

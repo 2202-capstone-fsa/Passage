@@ -223,9 +223,8 @@ export default class Game extends Phaser.Scene {
 
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
-      console.log(data);
-      console.log(displayInventory);
       interact(
+        0.03,
         this.message,
         this.player,
         data.layers[4].objects,
@@ -261,7 +260,7 @@ export default class Game extends Phaser.Scene {
       this.scene.start("game");
     }
 
-    let nextToTarget = isItClose(this.player, hospitalExits);
+    let nextToTarget = isItClose(0.03, this.player, hospitalExits);
     if (nextToTarget) {
       if (nextToTarget.name === "scan") {
         window.scrollTo(130, 0);
@@ -334,7 +333,7 @@ export default class Game extends Phaser.Scene {
     dialogueArea(530, 550, 455, 562, enterLab, this.player, this.message);
     dialogueArea(495, 520, 472, 480, garbageHeart, this.player, this.message);
 
-    // let dialogueSpot = isItClose(this.player, dialogue);
+    // let dialogueSpot = isItClose(0.03, this.player, dialogue);
     // if (dialogueSpot && !dialogueSpot.hasAppeared) {
     //   if (this.message.text) this.message.text = "";
     //   if (dialogueSpot.pongResult) {

@@ -117,7 +117,6 @@ export default class Game extends Phaser.Scene {
 
   checkGameState() {
     if (this.gameState === GameState.PlayerLost) {
-      console.log("Player lost.");
       this.gameState = GameState.Running;
       this.leftScore = 0;
       this.rightScore = 0;
@@ -131,7 +130,6 @@ export default class Game extends Phaser.Scene {
       //Start loss scene
     }
     if (this.gameState === GameState.PlayerWon) {
-      console.log("Player won!");
       this.scene.stop("scan");
       this.scene.stop("scan-background");
       localStorage.setItem("Brain Scan", "A beautiful mind.");
@@ -247,7 +245,6 @@ export default class Game extends Phaser.Scene {
     }
 
     if (this.rightScore >= maxScore || this.leftScore >= maxScore) {
-      console.log("winner");
       this.gameState = GameState.PlayerWon;
       this.resetBall();
     }
@@ -273,14 +270,14 @@ export default class Game extends Phaser.Scene {
   incrementLeftScore() {
     this.leftScore += 1;
     this.leftScoreLabel.text = this.leftScore;
-    console.log(this.leftScore);
+
     this.sound.play("ding");
   }
 
   incrementRightScore() {
     this.rightScore += 1;
     this.rightScoreLabel.text = this.rightScore;
-    console.log(this.rightScore);
+
     this.sound.play("bling");
   }
 
