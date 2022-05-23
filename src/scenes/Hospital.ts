@@ -84,7 +84,7 @@ const dialogue = [
     properties: [
       {
         name: "message",
-        value: `"Beautiful job lying there and doing nothing! From a quick look at these scans.. The good news is that your head looks fine! The bad news is, well, your head looks fine. So we don't know what's wrong with you. Er, just trying resting up. ..Pain meds? Oh don't be dramatic."`,
+        value: `"Beautiful job lying there and doing nothing! Let me see. The good news is that your head looks fine! The bad news is, well, your head looks fine. So we don't know what's wrong with you. Er, try resting up. ...Pain meds? Oh don't be dramatic."`,
       },
     ],
     pongResult: true,
@@ -263,6 +263,9 @@ export default class Game extends Phaser.Scene {
 
     let nextToTarget = isItClose(this.player, hospitalExits);
     if (nextToTarget) {
+      if (nextToTarget.name === "scan") {
+        window.scrollTo(150, 0);
+      }
       if (
         nextToTarget.name === "scan" &&
         localStorage["Brain Scan"] === "A beautiful mind."
@@ -292,7 +295,7 @@ export default class Game extends Phaser.Scene {
         ],
       };
 
-      if (localStorage["keycard"]) {
+      if (localStorage["Keycard"] === "Dr. Pascal's keycard.") {
         this.player.setPosition(this.player.x, this.player.y + 5);
         updateText(this.player, goodMonitor, this.message);
         roomLocked = false;

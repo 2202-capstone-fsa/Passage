@@ -186,6 +186,7 @@ export default class Game extends Phaser.Scene {
     let nextToTarget = isItClose(this.player, shopExits);
     if (nextToTarget) {
       if (nextToTarget.name === "dupedoor") {
+        this.sound.play("door");
         this.player.setPosition(242, 289);
         return;
       }
