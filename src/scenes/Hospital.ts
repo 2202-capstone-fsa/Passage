@@ -134,6 +134,7 @@ export default class Game extends Phaser.Scene {
   private nurse!: Phaser.Physics.Arcade.Sprite;
   private doctor!: Phaser.Physics.Arcade.Sprite;
   private message!: Phaser.GameObjects.Text;
+  private lights!: Phaser.sound;
 
   constructor() {
     super("hospital");
@@ -158,6 +159,17 @@ export default class Game extends Phaser.Scene {
 
   create() {
     this.cameras.main.setSize(475.5, 300.5);
+    this.lights = this.sound.add("lights");
+    let lightsConfig = {
+      mute: false,
+      volume: 0.3,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: true,
+      delay: 1,
+    };
+    this.lights.play(lightsConfig);
 
     //Create tile sets so that we can access Tiled data later on.
     const map = this.make.tilemap({ key: "hospital" });
@@ -256,6 +268,7 @@ export default class Game extends Phaser.Scene {
   exits() {
     if (this.player.y > 575) {
       localStorage.setItem("from", `hospital`);
+      this.lights.stop();
       this.scene.stop("hospital");
       this.scene.start("game");
     }
@@ -272,6 +285,7 @@ export default class Game extends Phaser.Scene {
         return;
       } else {
         localStorage.setItem("from", `hospital`);
+        this.lights.stop();
         this.scene.stop("hospital");
         this.scene.start(nextToTarget.name);
       }
