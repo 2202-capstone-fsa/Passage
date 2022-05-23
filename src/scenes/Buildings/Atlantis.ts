@@ -63,6 +63,7 @@ export default class Game extends Phaser.Scene {
   private player!: Phaser.Physics.Arcade.Sprite;
   private message!: Phaser.GameObjects.Text;
   private objLayer!: Phaser.Tilemaps.ObjectLayer;
+  private waterfall!: Phaser.sound;
 
   constructor() {
     super("atlantis");
@@ -120,17 +121,17 @@ export default class Game extends Phaser.Scene {
     });
 
     let item = this.sound.add("item");
-    let waterfall = this.sound.add("waterfall");
+    this.waterfall = this.sound.add("waterfall");
     let musicConfig = {
       mute: false,
-      volume: 0.02,
+      volume: 0.1,
       rate: 1,
       detune: 0,
       seek: 0,
       loop: false,
-      delay: 1,
+      delay: 0,
     };
-    waterfall.play(musicConfig);
+    this.waterfall.play(musicConfig);
 
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
@@ -158,6 +159,7 @@ export default class Game extends Phaser.Scene {
   exits() {
     if (this.player.y > 449) {
       localStorage.setItem("from", `atlantis`);
+      this.waterfall.stop();
       this.scene.stop("atlantis");
       this.scene.start("game");
     }
