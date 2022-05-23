@@ -37,7 +37,7 @@ export default class ending extends Phaser.Scene {
 
     let inventory = localStorage;
     let heart = inventory.Heart;
-    let Mind = inventory.Mind;
+    let Skull = inventory.Skull;
     let soul = inventory.Soul;
 
     let text = "Place holder text";
@@ -69,10 +69,10 @@ export default class ending extends Phaser.Scene {
       });
     };
 
-    if (heart && soul && Mind) {
+    if (heart && soul && Skull) {
       text =
-        "The heart, the soul, the Mind. The body is not complete without the soul, and the soul without the body. Having recovered all 3 pieces you feel a strong force moving you forward. The world of the living begins to fade away, and you move towards your next step in your passage.";
-    } else if (heart || soul || Mind) {
+        "The heart, the soul, the Skull. The body is not complete without the soul, and the soul without the body. Having recovered all 3 pieces you feel a strong force moving you forward. The world of the living begins to fade away, and you move towards your next step in your passage.";
+    } else if (heart || soul || Skull) {
       text =
         "With only part of your being in your possession, you feel incomplete. You feel a heavy, overbearing weight draw you back towards the uninhabited town. Perhaps there is something unfinished? Your body, mind and soul, stuck in a strange disconnect between this world and the next, fractures and sheers. Then you awaken, wondering it it was all a dream..";
     } else {

@@ -12,8 +12,8 @@ export default class Preloader extends Phaser.Scene {
     //Load player sprite into game.
     this.load.atlas(
       "player",
-      "NPC_Characters_v1/Male4.png",
-      "NPC_Characters_v1/MaleSprites.json"
+      "NPC_Characters_v1/modernsprites.png",
+      "NPC_Characters_v1/modernsprites.json"
     );
     this.load.audio("music", ["audio/2.mp3"]);
     this.load.audio("item", ["audio/sounds/item.mp3"]);
@@ -26,7 +26,7 @@ export default class Preloader extends Phaser.Scene {
   }
 
   create() {
-    if (localStorage["Heart"]) {
+    if (localStorage["Dev"]) {
       window.scrollTo(250, 600);
       this.scene.start("home");
     } else {

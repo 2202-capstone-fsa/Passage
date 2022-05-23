@@ -30,8 +30,7 @@ const dialogue = [
     properties: [
       {
         name: "message",
-        value:
-          "FINALLY! Whew! I'm finally out! Still no one in sight. Honestly, I'd rather not meet the guy who designed this place anyway. What a creepy memento I found.",
+        value: `FINALLY! Whew! I'm finally out! Still no one in sight. Honestly, I'd rather not meet the guy who designed this place anyway. What a creepy memento I found in that dark tunnel back here. A skull... the gent must like gothic things!`,
       },
     ],
     hasAppeared: false,
@@ -200,6 +199,12 @@ export default class Game extends Phaser.Scene {
   }
 
   playDialogue() {
+    const mazeSolved = dialogue[0];
+
+    if (localStorage.Skull === `What's it thinking?`) {
+      dialogueArea(81, 733, 100, 200, mazeSolved, this.player, this.message);
+    }
+
     let dialogueSpot = isItClose(0.03, this.player, dialogue);
     if (dialogueSpot && !dialogueSpot.hasAppeared) {
       if (this.message.text) this.message.text = "";
@@ -230,7 +235,7 @@ export default class Game extends Phaser.Scene {
         chanceDoor[0],
         chanceDoor[1],
         "player",
-        "doc-walk-down-0"
+        "shady_front_1"
       );
     } else if (localStorage["from"] === "mazeFail") {
       localStorage.removeItem("from");
@@ -238,16 +243,11 @@ export default class Game extends Phaser.Scene {
         644,
         533,
         "player",
-        "doc-walk-side-0"
+        "shady_right_2"
       );
     } else {
       localStorage.removeItem("from");
-      this.player = this.physics.add.sprite(
-        350,
-        420,
-        "player",
-        "doc-walk-up-0"
-      );
+      this.player = this.physics.add.sprite(350, 420, "player", "shady_back_1");
     }
   }
 }
