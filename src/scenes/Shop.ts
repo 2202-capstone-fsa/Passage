@@ -216,6 +216,7 @@ export default class Game extends Phaser.Scene {
 
   spawn() {
     if (localStorage["from"] === "mazeWin") {
+      localStorage.removeItem("from");
       let doors = [
         [416, 173],
         [192, 173],

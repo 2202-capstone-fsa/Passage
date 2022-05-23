@@ -27,9 +27,9 @@ export default class Preloader extends Phaser.Scene {
 
   create() {
     if (localStorage["Heart"]) {
+      window.scrollTo(250, 600);
       this.scene.start("home");
     } else {
-      window.scrollTo(250, 600);
       this.scene.start("titlescreen");
     }
   }

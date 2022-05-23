@@ -264,7 +264,7 @@ export default class Game extends Phaser.Scene {
     let nextToTarget = isItClose(this.player, hospitalExits);
     if (nextToTarget) {
       if (nextToTarget.name === "scan") {
-        window.scrollTo(150, 0);
+        window.scrollTo(130, 0);
       }
       if (
         nextToTarget.name === "scan" &&

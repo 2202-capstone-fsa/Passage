@@ -139,6 +139,7 @@ export default class Game extends Phaser.Scene {
     const wallsLayer = map.createLayer("walls", allTileSets);
     const furnitureLayer = map.createLayer("furniture", allTileSets);
 
+    localStorage.removeItem("from");
     this.player = this.physics.add.sprite(
       130,
       1482,
@@ -214,6 +215,7 @@ export default class Game extends Phaser.Scene {
     if (nextToTarget) {
       if (this.player.y < 500) {
         localStorage.setItem("from", `mazeWin`);
+        localStorage.setItem("Mind", "What's it thinking?");
       } else {
         localStorage.setItem("from", `mazeFail`);
       }

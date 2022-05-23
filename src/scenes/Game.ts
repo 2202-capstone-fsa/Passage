@@ -16,7 +16,7 @@ import {
 import { exit } from "process";
 
 export const overworldExits = [
-  { x: 320, y: 1170, name: "shop", scroll: { x: 200, y: 0 } },
+  { x: 320, y: 1170, name: "shop", scroll: { x: 200, y: 10 } },
   { x: 1234, y: 465, name: "hospital", scroll: { x: 0, y: 0 } },
   { x: 803, y: 216, name: "atlantis", scroll: { x: 0, y: 200 } },
   { x: 788, y: 1060, name: "home", scroll: { x: 0, y: 100 } },
@@ -355,7 +355,7 @@ export default class Game extends Phaser.Scene {
       hasSoda.hasAppeared = true;
     }
 
-    if (localStorage["Mind"] === "An empty skull! Hmm, what's it thinking?") {
+    if (localStorage["Mind"] === "What's it thinking?") {
       dialogueArea(
         270,
         380,
@@ -428,7 +428,7 @@ export default class Game extends Phaser.Scene {
         ],
       };
 
-      if (localStorage["Mind"] === "An empty skull! Hmm, what's it thinking?") {
+      if (localStorage["Mind"] === "What's it thinking?") {
         this.player.setPosition(this.player.x, this.player.y + 5);
         updateText(this.player, access, this.message);
         waterfallLocked = false;
