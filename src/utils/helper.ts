@@ -1,5 +1,5 @@
 // checks if player is close any obj in target arr. Returns the obj
-export function isItClose(player, targets) {
+export function isItClose(prox, player, targets) {
   let playerX = player.x;
   let playerY = player.y;
 
@@ -19,22 +19,22 @@ export function isItClose(player, targets) {
     let percentBottom = Math.abs((closeObjBottom - playerY) / closeObjBottom);
 
     //Checks if close to top left corner.
-    if (percentLeft <= 0.03 && percentTop <= 0.03) {
+    if (percentLeft <= prox && percentTop <= prox) {
       return targets[i] || null; // returns target object
     }
 
     //Checks if close to bottom left corner.
-    if (percentBottom <= 0.03 && percentLeft <= 0.03) {
+    if (percentBottom <= prox && percentLeft <= prox) {
       return targets[i] || null; // returns target object
     }
 
     //Checks if close to top right corner.
-    if (percentTop <= 0.03 && percentRight <= 0.03) {
+    if (percentTop <= prox && percentRight <= prox) {
       return targets[i] || null; // returns target object
     }
 
     //Checks if close to bottom right corner.
-    if (percentBottom <= 0.03 && percentRight <= 0.03) {
+    if (percentBottom <= prox && percentRight <= prox) {
       return targets[i] || null; // returns target object
     }
   }
@@ -87,15 +87,14 @@ export function setPlayer(player) {
   player.setCollideWorldBounds(true);
 }
 
-export function interact(message, player, objs = [], sound) {
+export function interact(prox, message, player, objs = [], sound) {
   console.log(player.x);
   console.log(player.y);
   if (message.text) {
     message.text = "";
   } else {
-    let nextToTarget = isItClose(player, objs);
+    let nextToTarget = isItClose(prox, player, objs);
     if (nextToTarget) {
-      console.log(`im next to: ${nextToTarget.name}`);
       updateText(player, nextToTarget, message);
       updateInventory(nextToTarget, message, player, sound);
     }
@@ -151,7 +150,6 @@ export function createAnims(anims) {
 }
 
 export function displayInventory(message, player, inventory = localStorage) {
-  console.log(inventory);
   if (message.text) {
     message.text = "";
   } else if (inventory) {

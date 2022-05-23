@@ -228,8 +228,7 @@ export default class Game extends Phaser.Scene {
 
     // Hit spacebar to interact with objects.
     this.cursors.space.on("down", () => {
-      console.log(data);
-      interact(this.message, this.player, data.layers[5].objects, item);
+      interact(0.03, this.message, this.player, data.layers[5].objects, item);
     }),
       // Hit shift to view Inventory.
       this.cursors.shift.on("down", () => {
@@ -314,6 +313,7 @@ export default class Game extends Phaser.Scene {
         "doc-walk-down-0"
       );
     } else {
+      localStorage.removeItem("from");
       this.player = this.physics.add.sprite(
         800,
         800,
@@ -384,7 +384,7 @@ export default class Game extends Phaser.Scene {
       updateText(this.player, dialogue[0], this.message);
       dialogue[0].hasAppeared = true;
     } else {
-      let dialogueSpot = isItClose(this.player, dialogue);
+      let dialogueSpot = isItClose(0.03, this.player, dialogue);
       if (dialogueSpot && !dialogueSpot.hasAppeared) {
         if (this.message.text) this.message.text = "";
         updateText(this.player, dialogueSpot, this.message);
@@ -400,7 +400,7 @@ export default class Game extends Phaser.Scene {
     if (this.player.x > 1585 && this.player.y > 745 && this.player.y < 840)
       this.player.setPosition(25, 728);
 
-    let exit = isItClose(this.player, overworldExits);
+    let exit = isItClose(0.03, this.player, overworldExits);
     if (exit) {
       if (exit.scroll) {
         window.scroll(exit.scroll.x, exit.scroll.y);
