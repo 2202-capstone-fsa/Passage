@@ -14,19 +14,8 @@ import {
 import { debugDraw } from "../utils/debug";
 import data from "../../public/tiles/hospital.json";
 
-/**
- * Significant locations:
- * Upon entering: 105, 384
- * Entering the lab room: 550, 80
- * Monitor: 570, 472
- * By the desk: 280, 224
- *
- */
-
-const hospitalExits = [{ x: 422, y: 88, name: "scan" }];
-
 let roomLocked = true;
-
+const hospitalExits = [{ x: 422, y: 88, name: "scan" }];
 const dialogue = [
   {
     x: 105,
@@ -155,11 +144,12 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
+    //Create cameras and add sound for lighting.
     this.cameras.main.setSize(475.5, 300.5);
     this.lights = this.sound.add("lights");
     let lightsConfig = {
       mute: false,
-      volume: 0.3,
+      volume: 0.02,
       rate: 1,
       detune: 0,
       seek: 0,
@@ -186,7 +176,7 @@ export default class Game extends Phaser.Scene {
       hospitalTilesets
     );
 
-    //Don't know if I need this.
+    //Objects.
     map.createFromObjects("objects", { id: 10 });
     map.createFromObjects("objects", { id: 341 });
 
@@ -244,10 +234,6 @@ export default class Game extends Phaser.Scene {
       this.cursors.shift.on("down", () => {
         return displayInventory(this.message, this.player);
       });
-
-    // debugDraw(floorLayer, this);
-    // debugDraw(highObjLayer, this);
-    // debugDraw(lowObjLayer, this);
   }
 
   update(t: number, dt: number) {

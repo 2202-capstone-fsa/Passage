@@ -88,7 +88,10 @@ export default class Game extends Phaser.Scene {
     const furnitureLayer = map.createLayer("furniture", homeTileSets);
     const noteLayer = map.createLayer("note", noteTileSet);
 
-    if (localStorage["Brain Scan"] === "A beautiful mind.") {
+    if (
+      localStorage["Brain Scan"] === "A beautiful mind." ||
+      localStorage["Heart"] === `It's not beating.`
+    ) {
       const newItemsLayer = map.createLayer("newitems", [
         noteTileSet,
         itemTileSet,
@@ -136,6 +139,7 @@ export default class Game extends Phaser.Scene {
 
       if (
         localStorage["Brain Scan"] !== "A beautiful mind." &&
+        localStorage["Heart"] !== `It's not beating.` &&
         this.player.x < 176 &&
         this.player.y > 158
       ) {
@@ -183,6 +187,7 @@ export default class Game extends Phaser.Scene {
       if (nextToTarget.name === "game" && windowCount !== 2) {
         this.player.setPosition(152, 57);
         windowCount = 0;
+        this.sound.play("warp");
         return;
       }
       localStorage.setItem("from", `home`);
@@ -207,7 +212,7 @@ export default class Game extends Phaser.Scene {
       movingAround.hasAppeared = true;
     }
 
-    if (this.player.y > 217 && !hungies.hasAppeared) {
+    if (this.player.y > 217 && this.player.x > 210 && !hungies.hasAppeared) {
       if (this.message.text) this.message.text = "";
 
       updateText(this.player, hungies, this.message);

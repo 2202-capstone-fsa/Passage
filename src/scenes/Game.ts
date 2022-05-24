@@ -395,6 +395,7 @@ export default class Game extends Phaser.Scene {
   }
 
   exits() {
+    //Warps the player around the left and right ends of the map.
     if (this.player.x < 20 && this.player.y < 785 && this.player.y > 680)
       this.player.setPosition(1575, 790);
 
@@ -403,12 +404,19 @@ export default class Game extends Phaser.Scene {
 
     let exit = isItClose(0.03, this.player, overworldExits);
     if (exit) {
+      //Checks if hospital is complete in order to enter Shop.
+      if (exit.name === "shop" && localStorage.Heart !== `It's not beating.`) {
+        return;
+      }
+
       if (exit.scroll) {
         window.scroll(exit.scroll.x, exit.scroll.y);
       }
       localStorage.setItem("from", `overworld`);
       this.scene.stop("game");
-      if (exit.name !== "atlantis") {
+      if (exit.name === "atlantis") {
+        this.sound.play("splash");
+      } else {
         this.sound.play("door");
       }
       this.scene.start(exit.name);

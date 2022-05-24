@@ -50,7 +50,7 @@ export default class TitleScreen extends Phaser.Scene {
     let music = this.sound.add("music");
     let musicConfig = {
       mute: false,
-      volume: 0.5,
+      volume: 0.4,
       rate: 1,
       detune: 0,
       seek: 0,

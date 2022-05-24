@@ -101,21 +101,20 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-    //Create tile sets
+    //Create tile sets.
     const map = this.make.tilemap({ key: "craftsman" });
     const crafthouseTileSet = map.addTilesetImage("crafthouse", "shop");
     const decorationsTileSet = map.addTilesetImage("decorations", "decore");
     const propsTileSet = map.addTilesetImage("props", "props");
     const shopTileSets = [crafthouseTileSet, decorationsTileSet, propsTileSet];
-    //building layers
+
+    //Building layers.
     map.createLayer("black", crafthouseTileSet);
     map.createLayer("ground", crafthouseTileSet);
     const wallsLayer = map.createLayer("walls", shopTileSets);
     const decoreLayer = map.createLayer("decore", shopTileSets);
     const decorationsLayer = map.createLayer("decorations", shopTileSets);
-    //const decoreLayer = map.createLayer('decore', shopTileSet);
-    //this.cameras.main.setSize(475.5, 300.5);
-    // this.cameras.centerOn(this.player.x, 0);
+
     this.spawn();
     setPlayer(this.player);
     createAnims(this.anims);
@@ -127,18 +126,6 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.player, wallsLayer);
     this.physics.add.collider(this.player, decoreLayer);
     this.physics.add.collider(this.player, decorationsLayer);
-
-    // let music = this.sound.add("music");
-    // let musicConfig = {
-    //   mute: false,
-    //   volume: 0.5,
-    //   rate: 1,
-    //   detune: 0,
-    //   seek: 0,
-    //   loop: true,
-    //   delay: 0,
-    // };
-    // music.play(musicConfig);
 
     this.message = this.add.text(800, 750, "", {
       color: "#FFF5EE",
@@ -167,10 +154,6 @@ export default class Game extends Phaser.Scene {
       this.cursors.shift.on("down", () => {
         displayInventory(this.message, this.player);
       });
-
-    // debugDraw(wallsLayer, this);
-    // debugDraw(decoreLayer, this);
-    // debugDraw(decorationsLayer, this);
   }
 
   update(t: number, dt: number) {
@@ -189,7 +172,14 @@ export default class Game extends Phaser.Scene {
     if (nextToTarget) {
       if (nextToTarget.name === "dupedoor") {
         this.sound.play("door");
-        this.player.setPosition(242, 289);
+        let doors = [
+          [416, 173],
+          [192, 173],
+          [687, 173],
+        ];
+        let chanceDoor = doors[Math.floor(Math.random() * doors.length)];
+        this.player.setPosition(chanceDoor[0], chanceDoor[1]);
+        this.player.setFrame("shady_front_1");
         return;
       }
       localStorage.setItem("from", `shop`);

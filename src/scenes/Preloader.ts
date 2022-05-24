@@ -15,7 +15,7 @@ export default class Preloader extends Phaser.Scene {
       "NPC_Characters_v1/modernsprites.png",
       "NPC_Characters_v1/modernsprites.json"
     );
-    this.load.audio("music", ["audio/2.mp3"]);
+    this.load.audio("music", ["audio/HazyUniverse.mp3"]);
     this.load.audio("item", ["audio/sounds/item.mp3"]);
     this.load.audio("race", ["audio/Chopin-Maze.mp3"]);
     this.load.audio("wind", ["audio/sounds/wind2.mp3"]);
@@ -23,6 +23,8 @@ export default class Preloader extends Phaser.Scene {
     this.load.audio("lights", ["audio/sounds/lights.mp3"]);
     this.load.audio("menu", ["audio/sounds/menu.mp3"]);
     this.load.audio("door", ["audio/sounds/door.mp3"]);
+    this.load.audio("warp", ["audio/sounds/warp.wav"]);
+    this.load.audio("splash", ["audio/sounds/cannon_miss.ogg"]);
   }
 
   create() {
