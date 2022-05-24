@@ -24,7 +24,7 @@ const dialogue = [
       {
         name: "message",
         value:
-          "What on Earth? Whose voice was that just now? Ergh, I must have drank too much last night. Damn it! I'm so hungry too.",
+          "And I'm up! What on Earth... Whose voice was that just now? Ergh, I must have drank too much last night. Damn it! I'm so hungry, too.",
       },
     ],
     hasAppeared: false,
@@ -44,6 +44,15 @@ const dialogue = [
       {
         name: "message",
         value: "Empty plates, and no food around.",
+      },
+    ],
+    hasAppeared: false,
+  },
+  {
+    properties: [
+      {
+        name: "message",
+        value: "OH? I must be dizzier than I thought.",
       },
     ],
     hasAppeared: false,
@@ -88,7 +97,10 @@ export default class Game extends Phaser.Scene {
     const furnitureLayer = map.createLayer("furniture", homeTileSets);
     const noteLayer = map.createLayer("note", noteTileSet);
 
-    if (localStorage["Brain Scan"] === "A beautiful mind.") {
+    if (
+      localStorage["Brain Scan"] === "A beautiful mind." ||
+      localStorage["Heart"] === `It's not beating.`
+    ) {
       const newItemsLayer = map.createLayer("newitems", [
         noteTileSet,
         itemTileSet,
@@ -110,18 +122,18 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.player, furnitureLayer);
     //this.physics.add.collider(this.player, objectsLayer);
 
-    this.message = this.add.text(800, 750, "", {
-      color: "#FFF5EE",
-      fontFamily: "Tahoma",
-      backgroundColor: "#708090",
-      fontSize: "17px",
-      align: "center",
-      baselineX: 0,
-      baselineY: 0,
-      padding: 0,
-      wordWrap: { width: 350 },
-    });
-
+    this.message = this.add
+      .text(800, 750, "", {
+        color: "#FFF5EE",
+        fontFamily: "Tahoma",
+        backgroundColor: "#708090",
+        fontSize: "17px",
+        align: "center",
+        baselineX: 0,
+        baselineY: 0,
+        wordWrap: { width: 350 },
+      })
+      .setPadding(5, 5, 5, 5);
     this.sound.add("item");
 
     // Hit spacebar to interact with objects.
@@ -136,6 +148,7 @@ export default class Game extends Phaser.Scene {
 
       if (
         localStorage["Brain Scan"] !== "A beautiful mind." &&
+        localStorage["Heart"] !== `It's not beating.` &&
         this.player.x < 176 &&
         this.player.y > 158
       ) {
@@ -172,6 +185,7 @@ export default class Game extends Phaser.Scene {
 
     this.cameras.main.scrollX = this.player.x - 400;
     this.cameras.main.scrollY = this.player.y - 300;
+    this.cameras.main.zoom = 1.2;
 
     let speed = this.message.text ? 0 : 120;
     movePlayer(this.player, speed, this.cursors);
@@ -183,6 +197,9 @@ export default class Game extends Phaser.Scene {
       if (nextToTarget.name === "game" && windowCount !== 2) {
         this.player.setPosition(152, 57);
         windowCount = 0;
+        this.sound.play("warp");
+        updateText(this.player, dialogue[3], this.message);
+        dialogue[3].hasAppeared = true;
         return;
       }
       localStorage.setItem("from", `home`);
@@ -207,7 +224,7 @@ export default class Game extends Phaser.Scene {
       movingAround.hasAppeared = true;
     }
 
-    if (this.player.y > 217 && !hungies.hasAppeared) {
+    if (this.player.y > 217 && this.player.x > 210 && !hungies.hasAppeared) {
       if (this.message.text) this.message.text = "";
 
       updateText(this.player, hungies, this.message);

@@ -92,9 +92,11 @@ export function interact(prox, message, player, objs = [], sound) {
   console.log(player.y);
   if (message.text) {
     message.text = "";
+    message.setPadding(0, 0, 0, 0);
   } else {
     let nextToTarget = isItClose(prox, player, objs);
     if (nextToTarget) {
+      message.setPadding(5, 5, 5, 5);
       updateText(player, nextToTarget, message);
       updateInventory(nextToTarget, message, player, sound);
     }

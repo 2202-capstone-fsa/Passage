@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="5">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="12">
  <editorsettings>
   <export target="home.json" format="json"/>
  </editorsettings>
@@ -18417,6 +18417,26 @@
   <object id="4" name="note2" x="88.1659" y="193.303">
    <properties>
     <property name="message" value="This note reads, &quot;Seek your neighbor, out the door and turn to your right...&quot;"/>
+   </properties>
+  </object>
+  <object id="5" name="wardrobe" x="265.506" y="47.7202">
+   <properties>
+    <property name="message" value="The closet has scrubs and suits.  Is this my home?"/>
+   </properties>
+  </object>
+  <object id="8" name="wardrobe" x="102.877" y="49.5841">
+   <properties>
+    <property name="message" value="The closet has scrubs and suits.  Is this my home?"/>
+   </properties>
+  </object>
+  <object id="9" name="wardrobe" x="79.7708" y="101.441">
+   <properties>
+    <property name="message" value="The closet has scrubs and suits.  Is this my home?"/>
+   </properties>
+  </object>
+  <object id="11" name="nightdesk" x="137.423" y="40.5646" width="13.2456" height="13.2456">
+   <properties>
+    <property name="message" value="The night table is stocked with complicated-looking books."/>
    </properties>
   </object>
  </objectgroup>

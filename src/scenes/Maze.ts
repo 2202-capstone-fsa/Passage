@@ -90,8 +90,6 @@ const dialogue = [
   },
 ];
 
-const text = [];
-
 export default class Game extends Phaser.Scene {
   private parry!: "string";
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -140,6 +138,7 @@ export default class Game extends Phaser.Scene {
     const wallsLayer = map.createLayer("walls", allTileSets);
     const furnitureLayer = map.createLayer("furniture", allTileSets);
 
+    //Upon entering, remove token from overworld.
     localStorage.removeItem("from");
     this.player = this.physics.add.sprite(
       130,
@@ -152,16 +151,15 @@ export default class Game extends Phaser.Scene {
     setPlayer(this.player);
     createAnims(this.anims);
 
+    //Adds sprite for Skull object.
     this.add.image(580, 80, "skull");
 
     wallsLayer.setCollisionByProperty({ collides: true });
     furnitureLayer.setCollisionByProperty({ collides: true });
-
     this.physics.add.collider(this.player, wallsLayer);
     this.physics.add.collider(this.player, furnitureLayer);
 
     let music = this.sound.add("race");
-
     let musicConfig = {
       mute: false,
       volume: 0.1,
@@ -173,6 +171,7 @@ export default class Game extends Phaser.Scene {
     };
     // music.play(musicConfig);
 
+    //Message properties.
     this.message = this.add.text(800, 750, "", {
       color: "#FFF5EE",
       fontFamily: "Tahoma",
@@ -199,10 +198,6 @@ export default class Game extends Phaser.Scene {
       this.cursors.shift.on("down", () => {
         displayInventory(this.message, this.player);
       });
-
-    // debugDraw(wallsLayer, this);
-    // debugDraw(furnitureLayer, this);
-    // debugDraw(lowObjLayer, this);
   }
 
   update(t: number, dt: number) {

@@ -563,7 +563,7 @@
          "name":"object",
          "objects":[
                 {
-                 "height":35.9174521446664,
+                 "height":35.9175,
                  "id":2,
                  "name":"note",
                  "properties":[
@@ -575,9 +575,9 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":35.5022214840344,
-                 "x":220.166409427755,
-                 "y":207.717717850634
+                 "width":35.5022,
+                 "x":220.166,
+                 "y":207.718
                 }, 
                 {
                  "height":0,
@@ -593,8 +593,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":90.2355229935014,
-                 "y":265.739475971688
+                 "x":90.2355,
+                 "y":265.739
                 }, 
                 {
                  "height":0,
@@ -610,8 +610,76 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":88.1659009064945,
-                 "y":193.302702926446
+                 "x":88.1659,
+                 "y":193.303
+                }, 
+                {
+                 "height":0,
+                 "id":5,
+                 "name":"wardrobe",
+                 "properties":[
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"The closet has scrubs and suits.  Is this my home?"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":265.506253252034,
+                 "y":47.7202332241888
+                }, 
+                {
+                 "height":0,
+                 "id":8,
+                 "name":"wardrobe",
+                 "properties":[
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"The closet has scrubs and suits.  Is this my home?"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":102.877397240325,
+                 "y":49.5840500340964
+                }, 
+                {
+                 "height":0,
+                 "id":9,
+                 "name":"wardrobe",
+                 "properties":[
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"The closet has scrubs and suits.  Is this my home?"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":79.7708011986399,
+                 "y":101.441213569096
+                }, 
+                {
+                 "height":13.2455813568442,
+                 "id":11,
+                 "name":"nightdesk",
+                 "properties":[
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"The night table is stocked with complicated-looking books."
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":13.2455813568442,
+                 "x":137.422906577259,
+                 "y":40.5645929053355
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -620,7 +688,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":5,
+ "nextobjectid":12,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.4",

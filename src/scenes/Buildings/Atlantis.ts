@@ -13,8 +13,6 @@ import {
 } from "../../utils/helper";
 import data from "../../../public/tiles/atlantis.json";
 
-//const atlantisExits = [{ x: 235, y: 449, name: "game" }];
-
 const dialogue = [
   {
     x: 250,
@@ -93,21 +91,21 @@ export default class Game extends Phaser.Scene {
     const wallLayer = map.createLayer("Walls", atlantisTilesets);
     const objLayer = map.createLayer("Objects", atlantisTilesets);
 
+    //Remove token from the overworld and spawn player.
     localStorage.removeItem("from");
     this.player = this.physics.add.sprite(238, 400, "player", "shady_back_1");
-
     setPlayer(this.player);
     createAnims(this.anims);
 
-    //Collides
+    //Collides.
     wallLayer.setCollisionByProperty({ collides: true });
     objLayer.setCollisionByProperty({ collides: true });
     groundLayer.setCollisionByProperty({ collides: true });
-
     this.physics.add.collider(this.player, groundLayer);
     this.physics.add.collider(this.player, wallLayer);
     this.physics.add.collider(this.player, objLayer);
 
+    //Initialize message for this scene.
     this.message = this.add.text(800, 750, "", {
       color: "#FFF5EE",
       fontFamily: "Tahoma",
@@ -120,6 +118,7 @@ export default class Game extends Phaser.Scene {
       wordWrap: { width: 350 },
     });
 
+    //Create sounds.
     let item = this.sound.add("item");
     this.waterfall = this.sound.add("waterfall");
     let musicConfig = {
