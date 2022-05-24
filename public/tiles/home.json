@@ -621,7 +621,7 @@
                         {
                          "name":"message",
                          "type":"string",
-                         "value":"The closet has scrubs and suits.  Is this your home?"
+                         "value":"The closet has scrubs and suits.  Is this my home?"
                         }],
                  "rotation":0,
                  "type":"",
@@ -638,7 +638,7 @@
                         {
                          "name":"message",
                          "type":"string",
-                         "value":"The closet has scrubs and suits.  Is this your home?"
+                         "value":"The closet has scrubs and suits.  Is this my home?"
                         }],
                  "rotation":0,
                  "type":"",
@@ -655,7 +655,7 @@
                         {
                          "name":"message",
                          "type":"string",
-                         "value":"The closet has scrubs and suits.  Is this your home?"
+                         "value":"The closet has scrubs and suits.  Is this my home?"
                         }],
                  "rotation":0,
                  "type":"",

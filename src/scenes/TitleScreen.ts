@@ -31,7 +31,9 @@ export default class TitleScreen extends Phaser.Scene {
   create() {
     const map = this.make.tilemap({ key: "titlescreen" });
 
-    window.scrollTo(100, 100);
+    this.cameras.main.zoom = 1;
+    this.cameras.main.setPosition(50, 0);
+    window.scrollTo(0, 150);
 
     const titleTileSet = map.addTilesetImage("Atlantis", "atlantis");
 
@@ -62,6 +64,7 @@ export default class TitleScreen extends Phaser.Scene {
     this.add.text(240, 300, "Press Shift to Start", {}).setOrigin(0.5);
 
     this.input.keyboard.once(`keydown-SHIFT`, () => {
+      window.scrollTo(75, 150);
       this.scene.start("start");
     });
   }

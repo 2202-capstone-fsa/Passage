@@ -34,13 +34,14 @@ export default class start extends Phaser.Scene {
   create() {
     //this.cameras.main.centerOn(1000, 1000);
 
-    let text = `"How long do I have to wait?" "I wish they would come home." "Just walk in through that door." "It feels like it has been forever." "I've got dinner waiting." ...You awaken in a dim room... Oh man, what a splitting headache. Why do I not remember a thing? Where am I, what is going on? Did I fall or something? Maybe if I move around I can get my bearings.`;
+    let text = `How long do I have to wait? I wish he would come home. Just walk in through that door. It feels like it's been forever. I've got dinner waiting... ... >You awaken in a dim room. >It's daytime. Oh man, what a splitting \n headache... Why do I not remember \n a thing? Where am I... Did I take a tumble? Maybe if I move around \n I can get my bearings. Up I go.`;
 
     this.message = this.add
       .text(200, 200, "You hear a voice. \n \n (Press SPACE to continue)", {
-        color: "white",
+        color: "lightblue",
+        fontFamily: "Helvetica",
         backgroundColor: "black",
-        fontSize: "18px",
+        fontSize: "20px",
         align: "center",
         baselineX: 0,
         baselineY: 0,
@@ -68,7 +69,7 @@ export default class start extends Phaser.Scene {
     let counter = -1;
 
     let startHome = () => {
-      window.scrollTo(250, 600);
+      window.scrollTo(130, 110);
       this.scene.start("home");
     };
 

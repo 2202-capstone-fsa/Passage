@@ -98,7 +98,7 @@ const dialogue = [
     properties: [
       {
         name: "message",
-        value: `A lady's voice: "That hospital on the Northeast side of town. He would never go. His heart paid the price."`,
+        value: `A lady's voice: "That doctor on the Northeast side of town. He would never go. His heart paid the price."`,
       },
     ],
     hasAppeared: false,
@@ -199,17 +199,18 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.player, groundDeluxeLayer);
 
     //Initialize message and item sound.
-    this.message = this.add.text(400, 300, "", {
-      color: "#FFF5EE",
-      fontFamily: "Tahoma",
-      backgroundColor: "#708090",
-      fontSize: "17px",
-      align: "center",
-      baselineX: 0,
-      baselineY: 0,
-      padding: 0,
-      wordWrap: { width: 350 },
-    });
+    this.message = this.add
+      .text(400, 300, "", {
+        color: "#FFF5EE",
+        fontFamily: "Tahoma",
+        backgroundColor: "#708090",
+        fontSize: "17px",
+        align: "center",
+        baselineX: 0,
+        baselineY: 0,
+        wordWrap: { width: 350 },
+      })
+      .setPadding(5, 5, 5, 5);
     let item = this.sound.add("item");
     let door = this.sound.add("door");
 
@@ -237,6 +238,7 @@ export default class Game extends Phaser.Scene {
       });
     //debugDraw(wallsLayer, this);
     this.cameras.main.startFollow(this.player);
+    this.cameras.main.zoom = 1.1;
 
     /*
     Body obj: 160, 116. Width + Height 15.
@@ -244,6 +246,10 @@ export default class Game extends Phaser.Scene {
   }
 
   update(t: number, dt: number) {
+    if (this.message.text === "") {
+      this.message.setPadding(0, 0, 0, 0);
+    }
+
     if (!this.cursors || !this.player) {
       return;
     }

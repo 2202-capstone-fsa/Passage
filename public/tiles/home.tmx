@@ -18421,17 +18421,17 @@
   </object>
   <object id="5" name="wardrobe" x="265.506" y="47.7202">
    <properties>
-    <property name="message" value="The closet has scrubs and suits.  Is this your home?"/>
+    <property name="message" value="The closet has scrubs and suits.  Is this my home?"/>
    </properties>
   </object>
   <object id="8" name="wardrobe" x="102.877" y="49.5841">
    <properties>
-    <property name="message" value="The closet has scrubs and suits.  Is this your home?"/>
+    <property name="message" value="The closet has scrubs and suits.  Is this my home?"/>
    </properties>
   </object>
   <object id="9" name="wardrobe" x="79.7708" y="101.441">
    <properties>
-    <property name="message" value="The closet has scrubs and suits.  Is this your home?"/>
+    <property name="message" value="The closet has scrubs and suits.  Is this my home?"/>
    </properties>
   </object>
   <object id="11" name="nightdesk" x="137.423" y="40.5646" width="13.2456" height="13.2456">
