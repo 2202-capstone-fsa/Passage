@@ -31,6 +31,7 @@
     "typescript": "^4.6.4"
   },
   "dependencies": {
+    "parcel": "^2.6.0",
     "phaser": "^3.55.2",
     "tiles": "^0.8.0",
     "webfontloader": "^1.6.28"
