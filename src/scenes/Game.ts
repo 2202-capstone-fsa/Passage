@@ -15,11 +15,11 @@ import {
 } from "../utils/helper";
 import { exit } from "process";
 
-export const overworldExits = [
-  { x: 320, y: 1170, name: "shop", scroll: { x: 700, y: 10 } },
+const overworldExits = [
+  { x: 320, y: 1170, name: "shop", scroll: { x: 700, y: 300 } },
   { x: 1234, y: 465, name: "hospital", scroll: { x: 0, y: 0 } },
   { x: 803, y: 216, name: "atlantis", scroll: { x: 0, y: 200 } },
-  { x: 788, y: 1060, name: "home", scroll: { x: 0, y: 100 } },
+  { x: 788, y: 1060, name: "home", scroll: { x: 200, y: 100 } },
   { x: 794, y: 1586, name: "ending", scroll: { x: 500, y: 500 } },
   // {
   //   x: 794,
@@ -98,7 +98,7 @@ const dialogue = [
     properties: [
       {
         name: "message",
-        value: `A lady's voice: "That doctor on the Northeast side of town. He would never go. His heart paid the price."`,
+        value: `A lady's voice: "That doctor on the Northeast side of town. He would never go... His heart paid the price."`,
       },
     ],
     hasAppeared: false,
@@ -121,7 +121,26 @@ const dialogue = [
     ],
     hasAppeared: false,
   },
+  {
+    properties: [
+      {
+        name: "message",
+        value: `A lady's voice whispers: "I wish he went to the doctor sooner."`,
+      },
+    ],
+    hasAppeared: false,
+  },
 ];
+
+const goToEnd = dialogue[0];
+const toSandbox = dialogue[8];
+const toWaterfall = dialogue[7];
+const toHospital = dialogue[6];
+const hasSoda = dialogue[5];
+const southeastHome = dialogue[4];
+const westHome = dialogue[3];
+const northWestHome = dialogue[2];
+const shopLock = dialogue[9];
 
 export default class Game extends Phaser.Scene {
   private parry!: "string";
@@ -152,8 +171,8 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-    window.scrollTo(0, 0);
-    this.cameras.main.setSize(475.5, 300.5);
+    window.scrollTo(200, 200);
+    this.cameras.main.setSize(625.5, 400.5);
     //Create tile sets so that we can access Tiled data later on.
     const map = this.make.tilemap({ key: "overworld" });
     const townTileSet = map.addTilesetImage("Town", "outside");
@@ -331,17 +350,12 @@ export default class Game extends Phaser.Scene {
   }
 
   playDialogue() {
-    const goToEnd = dialogue[0];
-    const toSandbox = dialogue[8];
-    const toWaterfall = dialogue[7];
-    const toHospital = dialogue[6];
-    const hasSoda = dialogue[5];
-    const southeastHome = dialogue[4];
-    const westHome = dialogue[3];
-    const northWestHome = dialogue[2];
-
     if (goToEnd.hasAppeared && this.player.y < 1455) {
       goToEnd.hasAppeared = false;
+    }
+
+    if (localStorage.Heart !== `It's not beating.` && this.player.x > 430) {
+      shopLock.hasAppeared = false;
     }
 
     dialogueArea(
@@ -351,11 +365,35 @@ export default class Game extends Phaser.Scene {
       1207,
       southeastHome,
       this.player,
-      this.message
+       this.message)
     );
-    dialogueArea(170, 200, 616, 625, westHome, this.player, this.message);
-    dialogueArea(404, 440, 312, 322, northWestHome, this.player, this.message);
-    dialogueArea(704, 890, 1111, 1337, toHospital, this.player, this.message);
+    dialogueArea(
+      170,
+      200,
+      616,
+      625,
+      westHome,
+      this.player,
+       this.message)
+    );
+    dialogueArea(
+      404,
+      440,
+      312,
+      322,
+      northWestHome,
+      this.player,
+       this.message)
+    );
+    dialogueArea(
+      704,
+      890,
+      1111,
+      1337,
+      toHospital,
+      this.player,
+       this.message)
+    );
 
     if (
       localStorage["Dr. Cola"] === "A yummy fizzy drink that doctors love!" &&
@@ -412,6 +450,7 @@ export default class Game extends Phaser.Scene {
     if (exit) {
       //Checks if hospital is complete in order to enter Shop.
       if (exit.name === "shop" && localStorage.Heart !== `It's not beating.`) {
+        dialogueArea(300, 350, 1150, 1200, shopLock, this.player, this.message);
         return;
       }
 

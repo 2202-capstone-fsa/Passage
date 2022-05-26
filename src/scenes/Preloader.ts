@@ -25,6 +25,11 @@ export default class Preloader extends Phaser.Scene {
     this.load.audio("door", ["audio/sounds/door.mp3"]);
     this.load.audio("warp", ["audio/sounds/warp.wav"]);
     this.load.audio("splash", ["audio/sounds/cannon_miss.ogg"]);
+    this.load.audio("error", ["audio/sounds/error.wav"]);
+    this.load.audio("complete", ["audio/sounds/complete.wav"]);
+    this.load.audio("knock", ["audio/sounds/knock.wav"]);
+    this.load.audio("fanfare", ["audio/sounds/fanfare.wav"]);
+    this.load.audio("poing", ["audio/sounds/poing.wav"]);
   }
 
   create() {

@@ -106,6 +106,9 @@ export default class Game extends Phaser.Scene {
     this.time.delayedCall(500, () => {
       this.resetBall();
     });
+
+    this.cameras.main.zoom = 0.75;
+    window.scrollTo(600, 600);
   }
 
   update() {
