@@ -233,15 +233,7 @@ export default class Game extends Phaser.Scene {
     const enteringHouse = dialogue[5];
     const leavingMaze = dialogue[6];
 
-    dialogueArea(
-      130,
-      190,
-      0,
-      1160,
-      firstWrongTurn,
-      this.player,
-       this.message)
-    );
+    dialogueArea(130, 190, 0, 1160, firstWrongTurn, this.player, this.message);
     dialogueArea(
       800,
       930,
@@ -249,44 +241,12 @@ export default class Game extends Phaser.Scene {
       1041,
       secondWrongTurn,
       this.player,
-       this.message)
+      this.message
     );
-    dialogueArea(
-      550,
-      687,
-      625,
-      700,
-      thirdWrongTurn,
-      this.player,
-       this.message)
-    );
-    dialogueArea(
-      495,
-      615,
-      1399,
-      1410,
-      choicePath,
-      this.player,
-       this.message)
-    );
-    dialogueArea(
-      875,
-      940,
-      480,
-      660,
-      enteringHouse,
-      this.player,
-       this.message)
-    );
-    dialogueArea(
-      494,
-      500,
-      72,
-      97,
-      leavingMaze,
-      this.player,
-       this.message)
-    );
+    dialogueArea(550, 687, 625, 700, thirdWrongTurn, this.player, this.message);
+    dialogueArea(495, 615, 1399, 1410, choicePath, this.player, this.message);
+    dialogueArea(875, 940, 480, 660, enteringHouse, this.player, this.message);
+    dialogueArea(494, 500, 72, 97, leavingMaze, this.player, this.message);
 
     let dialogueSpot = isItClose(0.03, this.player, dialogue);
     if (dialogueSpot && !dialogueSpot.hasAppeared) {
