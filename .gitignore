@@ -4,3 +4,7 @@
 /package-lock.json
 .DS_Store
 /src/scenes/.DS_Store
+.parcel-cache/data.mdb
+.parcel-cache/
+.parcel-cache
+src/.DS_Store
