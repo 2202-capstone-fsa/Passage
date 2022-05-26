@@ -216,7 +216,6 @@ export default class Game extends Phaser.Scene {
       align: "center",
       baselineX: 0,
       baselineY: 0,
-      padding: 0,
       wordWrap: { width: 350 },
     });
     this.sound.add("item");
@@ -327,51 +326,11 @@ export default class Game extends Phaser.Scene {
       dialogueArea(320, 400, 40, 100, fail, this.player, this.message);
     }
 
-    dialogueArea(
-      48,
-      150,
-      329,
-      359,
-      intro,
-      this.player,
-       this.message)
-    );
-    dialogueArea(
-      270,
-      295,
-      216,
-      220,
-      meetNurse,
-      this.player,
-       this.message)
-    );
-    dialogueArea(
-      400,
-      485,
-      70,
-      98,
-      meetDoctor,
-      this.player,
-       this.message)
-    );
-    dialogueArea(
-      530,
-      550,
-      455,
-      562,
-      enterLab,
-      this.player,
-       this.message)
-    );
-    dialogueArea(
-      495,
-      520,
-      472,
-      480,
-      garbageHeart,
-      this.player,
-       this.message)
-    );
+    dialogueArea(48, 150, 329, 359, intro, this.player, this.message);
+    dialogueArea(270, 295, 216, 220, meetNurse, this.player, this.message);
+    dialogueArea(400, 485, 70, 98, meetDoctor, this.player, this.message);
+    dialogueArea(530, 550, 455, 562, enterLab, this.player, this.message);
+    dialogueArea(495, 520, 472, 480, garbageHeart, this.player, this.message);
   }
 
   spawn() {

@@ -365,35 +365,11 @@ export default class Game extends Phaser.Scene {
       1207,
       southeastHome,
       this.player,
-       this.message)
+      this.message
     );
-    dialogueArea(
-      170,
-      200,
-      616,
-      625,
-      westHome,
-      this.player,
-       this.message)
-    );
-    dialogueArea(
-      404,
-      440,
-      312,
-      322,
-      northWestHome,
-      this.player,
-       this.message)
-    );
-    dialogueArea(
-      704,
-      890,
-      1111,
-      1337,
-      toHospital,
-      this.player,
-       this.message)
-    );
+    dialogueArea(170, 200, 616, 625, westHome, this.player, this.message);
+    dialogueArea(404, 440, 312, 322, northWestHome, this.player, this.message);
+    dialogueArea(704, 890, 1111, 1337, toHospital, this.player, this.message);
 
     if (
       localStorage["Dr. Cola"] === "A yummy fizzy drink that doctors love!" &&

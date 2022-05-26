@@ -180,7 +180,6 @@ export default class Game extends Phaser.Scene {
       align: "center",
       baselineX: 0,
       baselineY: 0,
-      padding: 0,
       wordWrap: { width: 350 },
     });
 

@@ -171,15 +171,7 @@ export default class Game extends Phaser.Scene {
     //Where is the shovel?
 
     dialogueArea(192, 287, 9, 59, grabSoul, this.player, this.message);
-    dialogueArea(
-      96,
-      142,
-      302,
-      337,
-      grabShovel,
-      this.player,
-       this.message)
-    );
+    dialogueArea(96, 142, 302, 337, grabShovel, this.player, this.message);
 
     if (this.player.y < 176 && !midwayPoint.hasAppeared) {
       if (this.message.text) this.message.text = "";
