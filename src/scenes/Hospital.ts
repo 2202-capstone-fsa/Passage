@@ -36,7 +36,7 @@ const dialogue = [
     properties: [
       {
         name: "message",
-        value: `"Hello. I’ve heard a little about your situation. What’s your name? ..You don't remember? Well, I'll administer some tests. Lie down on that bed, and once you hear the first loud beep, don't make a move! After about 7 passes, I'll let you know it's fine to get up."`,
+        value: `"Hello. I’ve heard a little about your situation. What’s your name? ..You don't remember? Well, I'll administer some tests. Lie down on that bed, and once you hear the first loud beep and see a red flash, don't make a move! After about 7 passes, I'll let you know it's fine to get up."`,
       },
     ],
     hasAppeared: false,
@@ -58,7 +58,7 @@ const dialogue = [
     properties: [
       {
         name: "message",
-        value: `"Argh, I told you to stay still! These photos are as blurry as a car crash!!! Lie down on that bed and try again. After the first beep, DON'T MOVE!"`,
+        value: `"Argh, I told you to stay still! These photos are as blurry as a car crash!!! Lie down on that bed and try again. After the first beep and red flash, DON'T MOVE!"`,
       },
     ],
     pongResult: true,
@@ -145,7 +145,7 @@ export default class Game extends Phaser.Scene {
 
   create() {
     //Create cameras and add sound for lighting.
-    this.cameras.main.setSize(475.5, 300.5);
+    this.cameras.main.setSize(575.5, 300.5);
     this.lights = this.sound.add("lights");
     let lightsConfig = {
       mute: false,
@@ -157,6 +157,7 @@ export default class Game extends Phaser.Scene {
       delay: 1,
     };
     this.lights.play(lightsConfig);
+    window.scrollTo(0, 0);
 
     //Create tile sets so that we can access Tiled data later on.
     const map = this.make.tilemap({ key: "hospital" });
@@ -215,7 +216,6 @@ export default class Game extends Phaser.Scene {
       align: "center",
       baselineX: 0,
       baselineY: 0,
-      padding: 0,
       wordWrap: { width: 350 },
     });
     this.sound.add("item");
@@ -294,6 +294,7 @@ export default class Game extends Phaser.Scene {
       if (localStorage["Keycard"] === "Dr. Pascal's keycard.") {
         this.player.setPosition(this.player.x, this.player.y + 5);
         updateText(this.player, goodMonitor, this.message);
+        this.sound.play("complete");
         roomLocked = false;
       } else {
         this.player.setPosition(this.player.x, this.player.y - 5);
@@ -314,6 +315,7 @@ export default class Game extends Phaser.Scene {
     const garbageHeart = dialogue[8];
 
     if (localStorage["Brain Scan"] === "A beautiful mind.") {
+      meetNurse.hasAppeared = true;
       dialogueArea(480, 624, 264, 322, comment, this.player, this.message);
       dialogueArea(320, 400, 40, 100, success, this.player, this.message);
       dialogueArea(270, 295, 216, 220, roomInfo, this.player, this.message);
@@ -329,24 +331,6 @@ export default class Game extends Phaser.Scene {
     dialogueArea(400, 485, 70, 98, meetDoctor, this.player, this.message);
     dialogueArea(530, 550, 455, 562, enterLab, this.player, this.message);
     dialogueArea(495, 520, 472, 480, garbageHeart, this.player, this.message);
-
-    // let dialogueSpot = isItClose(0.03, this.player, dialogue);
-    // if (dialogueSpot && !dialogueSpot.hasAppeared) {
-    //   if (this.message.text) this.message.text = "";
-    //   if (dialogueSpot.pongResult) {
-    //     if (localStorage["Brain Scan"] === "CLEAR") {
-    //       updateText(this.player, dialogueSpot, this.message);
-    //       dialogueSpot.hasAppeared = true;
-    //       dialogue[4].hasAppeared = true;
-    //     } else {
-    //       updateText(this.player, dialogueSpot, this.message);
-    //       dialogueSpot.hasAppeared = true;
-    //     }
-    //   } else {
-    //     updateText(this.player, dialogueSpot, this.message);
-    //     dialogueSpot.hasAppeared = true;
-    //   }
-    // }
   }
 
   spawn() {

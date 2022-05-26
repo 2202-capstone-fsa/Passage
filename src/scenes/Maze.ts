@@ -180,7 +180,6 @@ export default class Game extends Phaser.Scene {
       align: "center",
       baselineX: 0,
       baselineY: 0,
-      padding: 0,
       wordWrap: { width: 350 },
     });
 
@@ -220,7 +219,7 @@ export default class Game extends Phaser.Scene {
       } else {
         localStorage.setItem("from", `mazeFail`);
       }
-
+      window.scrollTo(700, 300);
       this.scene.stop("maze");
       this.scene.start(nextToTarget.name);
     }

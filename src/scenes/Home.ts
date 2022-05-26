@@ -99,7 +99,8 @@ export default class Game extends Phaser.Scene {
 
     if (
       localStorage["Brain Scan"] === "A beautiful mind." ||
-      localStorage["Heart"] === `It's not beating.`
+      localStorage["Keycard"] === `Dr. Pascal's keycard.` ||
+      localStorage["Heart"] === `It's not beating`
     ) {
       const newItemsLayer = map.createLayer("newitems", [
         noteTileSet,
@@ -143,7 +144,7 @@ export default class Game extends Phaser.Scene {
       ) {
         windowCount++;
 
-        this.sound.play("door");
+        this.sound.play("knock");
       }
 
       if (
@@ -205,7 +206,7 @@ export default class Game extends Phaser.Scene {
       localStorage.setItem("from", `home`);
       this.scene.stop("home");
       this.sound.play("door");
-      window.scrollTo(0, 0);
+      window.scrollTo(250, 0);
       this.scene.start(nextToTarget.name);
     }
   }
@@ -216,10 +217,7 @@ export default class Game extends Phaser.Scene {
 
     if (this.player.y > 87 && !movingAround.hasAppeared) {
       if (this.message.text) this.message.text = "";
-
-      //***
-      //CRACKLING sound effect, and screen shake if possible.
-
+      this.sound.play("error");
       updateText(this.player, movingAround, this.message);
       movingAround.hasAppeared = true;
     }
@@ -242,12 +240,7 @@ export default class Game extends Phaser.Scene {
   spawn() {
     if (localStorage["from"] === "overworld") {
       localStorage.removeItem("from");
-      this.player = this.physics.add.sprite(
-        207,
-        255,
-        "player",
-        "shady_front_1"
-      );
+      this.player = this.physics.add.sprite(207, 255, "player", "shady_back_1");
     } else {
       this.player = this.physics.add.sprite(152, 57, "player", "shady_front_1");
     }

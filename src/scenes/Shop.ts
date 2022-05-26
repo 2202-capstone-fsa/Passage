@@ -101,6 +101,8 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
+    window.scrollTo(400, 400);
+
     //Create tile sets.
     const map = this.make.tilemap({ key: "craftsman" });
     const crafthouseTileSet = map.addTilesetImage("crafthouse", "shop");
@@ -227,6 +229,7 @@ export default class Game extends Phaser.Scene {
         "player",
         "shady_front_1"
       );
+      this.sound.play("fanfare");
     } else if (localStorage["from"] === "mazeFail") {
       localStorage.removeItem("from");
       this.player = this.physics.add.sprite(

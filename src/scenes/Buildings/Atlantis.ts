@@ -78,7 +78,7 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-    this.cameras.main.setSize(475.5, 300.5);
+    this.cameras.main.setSize(575.5, 550.5);
 
     //Create tile sets so that we can access Tiled data later on.
     const map = this.make.tilemap({ key: "atlantis" });
@@ -114,7 +114,6 @@ export default class Game extends Phaser.Scene {
       align: "center",
       baselineX: 0,
       baselineY: 0,
-      padding: 0,
       wordWrap: { width: 350 },
     });
 
@@ -172,7 +171,7 @@ export default class Game extends Phaser.Scene {
     //Where is the shovel?
 
     dialogueArea(192, 287, 9, 59, grabSoul, this.player, this.message);
-    dialogueArea(17, 143, 230, 337, grabShovel, this.player, this.message);
+    dialogueArea(96, 142, 302, 337, grabShovel, this.player, this.message);
 
     if (this.player.y < 176 && !midwayPoint.hasAppeared) {
       if (this.message.text) this.message.text = "";
@@ -199,9 +198,9 @@ export default class Game extends Phaser.Scene {
       localStorage.setItem("Soul", `Apparently this is my soul.`);
     }
     if (
-      this.player.x > 17 &&
-      this.player.x < 143 &&
-      this.player.y > 230 &&
+      this.player.x > 96 &&
+      this.player.x < 142 &&
+      this.player.y > 302 &&
       !localStorage["Shovel"]
     ) {
       this.sound.play("item");
