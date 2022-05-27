@@ -3,7 +3,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "newLine": "LF",
-    "outDir": "./lib/",
+    "outDir": "./dist/",
     "target": "es5",
     "sourceMap": true,
     "declaration": true,
