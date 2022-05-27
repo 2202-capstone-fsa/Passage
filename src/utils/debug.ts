@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-const debugDraw = (layer: Phaser.Tilemaps., scene: Phaser.Scene) => {
+const debugDraw = (layer: any, scene: Phaser.Scene) => {
   const debugGraphics = scene.add.graphics().setAlpha(0.7);
 
   layer.renderDebug(debugGraphics, {
@@ -10,6 +10,4 @@ const debugDraw = (layer: Phaser.Tilemaps., scene: Phaser.Scene) => {
   });
 };
 
-export {
-  debugDraw
-}
+export { debugDraw };
