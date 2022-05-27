@@ -8,7 +8,8 @@
     "start": "parcel src/index.html -p 8000",
     "build": "parcel build index.html",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postbundle": "copyfiles -u 1 public/*"
+    "postbundle": "copyfiles -u 1 public/*",
+    "bundle": "tsc"
   },
   "author": "Passengers",
   "license": "MIT",
