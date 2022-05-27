@@ -7,7 +7,7 @@ import Hospital from "./scenes/Hospital";
 import Maze from "./scenes/Maze";
 import Shop from "./scenes/Shop";
 import Home from "./scenes/Home";
-import Scan from "./scenes/Puzzles/Scan";
+import Scan from "./scenes/puzzles/Scan";
 import Atlantis from "./scenes/Buildings/Atlantis";
 import ScanBackground from "./scenes/puzzles/ScanBackground";
 import TitleScreen from "./scenes/TitleScreen";
