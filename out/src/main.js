@@ -1,12 +1,13 @@
 "use strict";
-import { createRequire } from "node:module";
-const require = createRequire(import.meta.url);
+// import { createRequire } from "node:module";
+// const require = createRequire(import.meta.url);
 var __importDefault =
   (this && this.__importDefault) ||
   function (mod) {
     return mod && mod.__esModule ? mod : { default: mod };
   };
 Object.defineProperty(exports, "__esModule", { value: true });
+
 var phaser_1 = __importDefault(require("phaser"));
 //import Preloader from "./scenes/Preloader";
 var Game_1 = __importDefault(require("./scenes/Game"));
