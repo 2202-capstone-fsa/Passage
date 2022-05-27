@@ -24,7 +24,7 @@ Passage tells the story of awakening alone in an eerie and apparently uninhabite
 \_</b> <img src="./public/images/screenshot1.png" alt="Logo" ><img src="./public/images/screenshot2.png" alt="Logo" ><img src="./public/images/hospital.png" alt="Logo" > </b> Watch the Passage Gameplay and Summary!
 
 <p align=‘center’/>
-<p align='center'><a href="https://www.loom.com/share/04d6c8482c7341fb9b423d10f0bea30b"> <img style="max-width:300px" src="https://cdn.loom.com/sessions/thumbnails/04d6c8482c7341fb9b423d10f0bea30b-with-play.gif"> </br> <p align='center'> Passage Gameplay and Summary</p> </a> </p>
+<p align='center'><a href="https://youtu.be/Wjf7gqf6Jmw"> <img style="max-width:300px" src="https://cdn.loom.com/sessions/thumbnails/04d6c8482c7341fb9b423d10f0bea30b-with-play.gif"> </br> <p align='center'> Passage Gameplay and Summary</p> </a> </p>
 
 ## Deployed Site Passage:
 
@@ -93,7 +93,7 @@ Meet the people who created this project:
 
 - [Leo Rodriguez Github](https://github.com/leorodriguez916) [LinkedIn](https://www.linkedin.com/in/leorubenrodriguez/)
 - [Masaki Shibano Github](https://github.com/mShibano) [LinkedIn](https://www.linkedin.com/in/masakishibano/)
-- [Cody Lester Github](https://github.com/krisco124) [LinkedIn](http://linkedin.com/in/parryt/)
+- [Cody Lester Github](https://github.com/krisco124)
 - [Parry Tu Github](https://github.com/ParryTu) [LinkedIn](http://linkedin.com/in/parryt/)
 
 <!-- You might want to consider using something like the [All Contributors](https://github.com/all-contributors/all-contributors) specification and its [emoji key](https://allcontributors.org/docs/en/emoji-key).
